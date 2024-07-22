@@ -2,7 +2,8 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 import mujoco
-from utils.urdf_utils import load_meshes
+import mujoco.viewer
+from dexrobot_urdf.utils.mujoco_utils import load_meshes
 
 class MujocoJointController(Node):
     def __init__(self):
@@ -20,7 +21,7 @@ class MujocoJointController(Node):
         mesh_dir = 'dexrobot_urdf/meshes'
         self.model = mujoco.MjModel.from_xml_path(model_path, load_meshes(mesh_dir))
         self.data = mujoco.MjData(self.model)
-        self.sim = mujoco.MjSim(self.model)
+        self.viewer = mujoco.viewer.launch_passive(self.model, self.data)
 
         self.joint_names = [self.model.joint(j).name for j in range(self.model.njnt)]
         self.get_logger().info('Mujoco Joint Controller Node has been started.')
@@ -35,6 +36,9 @@ class MujocoJointController(Node):
 
         # Step the simulation to apply the control
         mujoco.mj_step(self.model, self.data)
+
+        # Update the viewer
+        self.viewer.sync()
 
 def main(args=None):
     rclpy.init(args=args)
