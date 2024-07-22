@@ -17,7 +17,6 @@ class TestPublisher(Node):
     def timer_callback(self):
         current_time = time.time() - self.start_time
         sine_wave_position = -(1 + math.sin(current_time)) * np.pi / 4
-        sine_wave_position = -np.pi / 2
 
         msg = JointState()
         msg.header.stamp = self.get_clock().now().to_msg()

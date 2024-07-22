@@ -23,16 +23,18 @@ class MujocoJointController(Node):
         self.data = mujoco.MjData(self.model)
         self.viewer = mujoco.viewer.launch_passive(self.model, self.data)
 
-        self.joint_names = [self.model.joint(j).name for j in range(self.model.njnt)]
+        self.num_actuators = len(self.model.actuator_actnum)
+        self.actuator_names = [self.model.actuator(j).name for j in range(self.num_actuators)]
         self.get_logger().info('Mujoco Joint Controller Node has been started.')
 
     def joint_state_callback(self, msg: JointState):
         self.get_logger().info(f'Received Joint States: {msg}')
 
         for i, name in enumerate(msg.name):
-            if name in self.joint_names:
-                joint_index = self.joint_names.index(name)
-                self.data.ctrl[joint_index] = msg.position[i]
+            act_name = f'act_{name}'
+            if act_name in self.actuator_names:
+                actuator_index = self.actuator_names.index(act_name)
+                self.data.ctrl[actuator_index] = msg.position[i]
 
         # Step the simulation to apply the control
         mujoco.mj_step(self.model, self.data)
