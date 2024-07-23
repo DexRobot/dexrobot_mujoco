@@ -16,12 +16,13 @@ class TestPublisher(Node):
 
     def timer_callback(self):
         current_time = time.time() - self.start_time
-        sine_wave_position = -(1 + math.sin(current_time)) * np.pi / 4
+        sine_wave_position_1 = -(1 + math.sin(current_time)) * np.pi / 4
+        sine_wave_position_2 = -(1 + math.sin(current_time + np.pi / 2)) * np.pi / 4
 
         msg = JointState()
         msg.header.stamp = self.get_clock().now().to_msg()
-        msg.name = ['r_f_joint3_2']  # Add more joint names as needed
-        msg.position = [sine_wave_position]  # Sine wave position
+        msg.name = ['r_f_joint3_2', 'r_f_joint4_2', 'r_f_joint3_4', 'r_f_joint4_4']  # Add more joint names as needed
+        msg.position = [sine_wave_position_1, sine_wave_position_2, sine_wave_position_2, sine_wave_position_1]  # Sine wave position
         msg.velocity = []
         msg.effort = []
 
