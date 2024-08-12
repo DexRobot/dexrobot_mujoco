@@ -71,8 +71,6 @@ class MujocoJointController(Node):
     def forward_sim(self):
         current_time = time.time() - self.start_time
         # Step the simulation to apply the control
-        self.mj.data.ctrl[:] = 0.1* np.sin(current_time)
-        self.mj.data.ctrl[:3] = 2 * np.sin(current_time)
         self.mj.step(until=current_time)
 
     def forward_replay(self):
@@ -94,8 +92,9 @@ class MujocoJointController(Node):
         if verbose:
             self.get_logger().info(f"pos={position_raw}, rpy={rpy}")
         #TODO: magic numbers to adjust the tracker pose (in reality) to the hand pose (in mujoco)
-        position = 1.2 * (position_raw + np.array([0.65, -0.05, -0.15]))
+        position = 1.2 * (position_raw)
         # send control
+        # rpy = np.zeros(3)
         self.mj.send_control("A_ARTx", position[0])
         self.mj.send_control("A_ARTy", position[1])
         self.mj.send_control("A_ARTz", position[2])
