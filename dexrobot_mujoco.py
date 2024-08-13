@@ -18,18 +18,19 @@ parser = argparse.ArgumentParser()
 parser.add_argument('model_path', type=str, help='Path to the Mujoco model XML file')
 parser.add_argument('--config-yaml', type=str, help='Path to the YAML file containing the configuration', required=False)
 parser.add_argument('--replay-csv', default=None, type=str, help='Path to the CSV file to replay. The CSV file should contain joint names as column headers and joint positions as rows.')
+parser.add_argument('--hand-pose-topic', default=None, type=str, help='Topic name for hand pose. When left blank, this node will subscribe to joint positions from the topic "joint_states". When set, this node will subscribe to hand pose from the specified topic and try to set the hand pose using 6 DoF arbitrary joint in the model (skipping IK).')
 args = parser.parse_args()
 
 app = Flask(__name__)
 
 class MujocoJointController(Node):
-    def __init__(self, enable_dynamics=True, enable_vr=False):
+    def __init__(self, enable_vr=False):
         super().__init__('mujoco_joint_controller')
         self.get_logger().info('Mujoco Joint Controller Node has been started.')
 
         # Load Mujoco model
         model_path = args.model_path  # Replace with the path to your Mujoco model
-        self.mj = MJControlVRWrapper(os.path.join(os.getcwd(), model_path), enable_dynamics=enable_dynamics, enable_vr=enable_vr)
+        self.mj = MJControlVRWrapper(os.path.join(os.getcwd(), model_path), enable_vr=enable_vr)
         # Enable infinite rotation for the actuator
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
 
@@ -37,7 +38,7 @@ class MujocoJointController(Node):
         if args.config_yaml is not None:
             self.mj.parse_yaml(args.config_yaml)
         self.mj.launch_viewer("passive")
-        
+
         # timer for simulation
         self.start_time = time.time()
         self.sim_timer = self.create_timer(0.01, self.forward_sim)
@@ -50,19 +51,22 @@ class MujocoJointController(Node):
             self.flask_thread.start()
 
         if args.replay_csv is None:
-            self.subscription = self.create_subscription(
+            self.joint_state_subscription = self.create_subscription(
                 JointState,
                 'joint_states',
                 self.joint_state_callback,
                 10
             )
-            # hand pose subscription
-            self.hand_pose_subscription = self.create_subscription(Pose, 'manus_tracker_right', self.hand_pose_callback, 10)
+            if args.hand_pose_topic is not None:
+                self.hand_pose_subscription = self.create_subscription(Pose, args.hand_pose_topic, self.hand_pose_callback, 10)
+            else:
+                self.hand_pose_subscription = None
 
             self.replay_csv = None
             self.replay_timer = None
         else:
-            self.subscription = None
+            self.joint_state_subscription = None
+            self.hand_pose_subscription = None
             import pandas as pd
             self.replay_csv = pd.read_csv(args.replay_csv)
             self.replay_timer = self.create_timer(0.1, self.forward_replay)
@@ -85,23 +89,21 @@ class MujocoJointController(Node):
             self.joint_step_counter += 1
 
     def hand_pose_callback(self, msg:Pose, verbose=True):
-        position_raw = np.array([msg.position.x, msg.position.y, msg.position.z])
+        position = np.array([msg.position.x, msg.position.y, msg.position.z])
         orientation = np.array([msg.orientation.w, msg.orientation.x, msg.orientation.y, msg.orientation.z])
-        rpy = R.from_quat(orientation, scalar_first=True).as_euler("xyz", degrees=False)
 
         if verbose:
-            self.get_logger().info(f"pos={position_raw}, rpy={rpy}")
-        #TODO: magic numbers to adjust the tracker pose (in reality) to the hand pose (in mujoco)
-        position = 1.2 * (position_raw)
+            self.get_logger().info(f"target_pos={position}, target_orientation={orientation}")
+
         # send control
-        # rpy = np.zeros(3)
-        self.mj.send_control("A_ARTx", position[0])
-        self.mj.send_control("A_ARTy", position[1])
-        self.mj.send_control("A_ARTz", position[2])
-        self.mj.send_control("A_ARRx", rpy[0])
-        self.mj.send_control("A_ARRy", rpy[1])
-        self.mj.send_control("A_ARRz", rpy[2])
-        
+        rpy = R.from_quat(orientation, scalar_first=True).as_euler('xyz')
+        self.mj.send_control("act_ARTx", position[0])
+        self.mj.send_control("act_ARTy", position[1])
+        self.mj.send_control("act_ARTz", position[2])
+        self.mj.send_control("act_ARRx", rpy[0])
+        self.mj.send_control("act_ARRy", rpy[1])
+        self.mj.send_control("act_ARRz", rpy[2])
+
     def joint_state_callback(self, msg: JointState, verbose=False):
         if verbose:
             self.get_logger().info(f'Received Joint States: {msg}')
@@ -130,7 +132,7 @@ def video():
 
 def main(args=None):
     rclpy.init(args=args)
-    global node 
+    global node
     node = MujocoJointController()
     try:
         rclpy.spin(node)
