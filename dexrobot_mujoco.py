@@ -12,13 +12,15 @@ from threading import Thread
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 
-
+def float_list(x):
+    return np.array(list(map(float, x.split(','))))
 
 parser = argparse.ArgumentParser()
 parser.add_argument('model_path', type=str, help='Path to the Mujoco model XML file')
 parser.add_argument('--config-yaml', type=str, help='Path to the YAML file containing the configuration', required=False)
 parser.add_argument('--replay-csv', default=None, type=str, help='Path to the CSV file to replay. The CSV file should contain joint names as column headers and joint positions as rows.')
 parser.add_argument('--hand-pose-topic', default=None, type=str, help='Topic name for hand pose. When left blank, this node will subscribe to joint positions from the topic "joint_states". When set, this node will subscribe to hand pose from the specified topic and try to set the hand pose using 6 DoF arbitrary joint in the model (skipping IK).')
+parser.add_argument('--position-magnifiers', type=float_list, default=[2.5, 2., .8], help='Position magnifiers for the hand pose control')
 args = parser.parse_args()
 
 app = Flask(__name__)
@@ -72,6 +74,8 @@ class MujocoJointController(Node):
             self.replay_timer = self.create_timer(0.1, self.forward_replay)
             self.joint_step_counter = 0
 
+        self.hand_position_offset = None
+
     def forward_sim(self):
         current_time = time.time() - self.start_time
         # Step the simulation to apply the control
@@ -89,8 +93,15 @@ class MujocoJointController(Node):
             self.joint_step_counter += 1
 
     def hand_pose_callback(self, msg:Pose, verbose=True):
-        position = np.array([msg.position.x, msg.position.y, msg.position.z])
+        raw_position = np.array([msg.position.x, msg.position.y, msg.position.z])
         orientation = np.array([msg.orientation.w, msg.orientation.x, msg.orientation.y, msg.orientation.z])
+
+        if self.hand_position_offset is None:
+            if time.time() - self.start_time < 2.:
+                return
+            self.hand_position_offset = raw_position
+
+        position = args.position_magnifiers * (raw_position - self.hand_position_offset)
 
         if verbose:
             self.get_logger().info(f"target_pos={position}, target_orientation={orientation}")
