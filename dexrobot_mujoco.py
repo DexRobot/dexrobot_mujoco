@@ -7,6 +7,7 @@ import time, os
 import argparse
 import numpy as np
 import yaml
+import subprocess
 from scipy.spatial.transform import Rotation as R
 from flask import Flask, Response
 from threading import Thread
@@ -26,6 +27,8 @@ class MujocoJointController(Node):
         position_magnifiers=[2.5, 2.0, 0.8],
         output_formats=['ros'],
         output_csv_path=None,
+        output_bag_path=None,
+        additional_bag_topics=[],
         enable_vr=False
     ):
         """
@@ -45,6 +48,8 @@ class MujocoJointController(Node):
             output_formats (list of str): List of output formats. Supported formats are 'ros' and 'csv'. When 'csv'
                 is included, `output_csv_path` must be specified.
             output_csv_path (str): Path to the output CSV file. Must be specified when 'csv' is included in `output_formats`.
+            output_bag_path (str): Path to the output bag file.
+            additional_bag_topics (list of str): Additional topics to record in the bag file (other than those related to Mujoco itself).
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
         """
@@ -149,6 +154,13 @@ class MujocoJointController(Node):
         else:
             self.csv_buffer = None
             self.csv_path = None
+        if 'ros' in output_formats and output_bag_path is not None:
+            topics = ["joint_states", "joint_states_actual", "body_poses_actual"] + additional_bag_topics
+            command = f'ros2 bag record -o {output_bag_path} {" ".join(topics)}'
+            self.rosbag_process = subprocess.Popen(command, shell=True)
+            self.get_logger().info(f"Recording to bag file: {output_bag_path}")
+        else:
+            self.rosbag_process = None
 
     def forward_sim(self):
         """Forward the simulator until the current time."""
@@ -266,6 +278,8 @@ class MujocoJointController(Node):
     def on_shutdown(self):
         """Clean up the node."""
         self.mj_control_vr.stop_simulation()
+        if self.rosbag_process is not None:
+            os.killpg(os.getpgid(self.rosbag_process.pid), signal.SIGINT)
         self.get_logger().info('Simulation stopped.')
 
 def main():
@@ -277,6 +291,8 @@ def main():
     parser.add_argument('--position-magnifiers', type=float_list, default=[2.5, 2., .8], help='Position magnifiers for the hand pose control')
     parser.add_argument('--output-formats', type=str, nargs='+', default=['ros'], help='Output formats.')
     parser.add_argument('--output-csv-path', type=str, default=None, help='Path to the output CSV file.')
+    parser.add_argument('--output-bag-path', type=str, default=None, help='Path to the output bag file.')
+    parser.add_argument('--additional-bag-topics', type=str, nargs='+', default=[], help='Additional topics to record in the bag file (other than those related to mujoco itself).')
     parser.add_argument('--enable-vr', action='store_true', help='Enable VR mode')
     args = parser.parse_args()
 
@@ -290,6 +306,8 @@ def main():
         position_magnifiers=args.position_magnifiers,
         output_formats=args.output_formats,
         output_csv_path=args.output_csv_path,
+        output_bag_path=args.output_bag_path,
+        additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
     )
 
