@@ -11,6 +11,8 @@ import subprocess
 from scipy.spatial.transform import Rotation as R
 from flask import Flask, Response
 from threading import Thread
+import mujoco
+import cv2
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 
@@ -28,6 +30,7 @@ class MujocoJointController(Node):
         output_formats=['ros'],
         output_csv_path=None,
         output_bag_path=None,
+        output_mp4_path=None,
         additional_bag_topics=[],
         enable_vr=False
     ):
@@ -45,18 +48,18 @@ class MujocoJointController(Node):
                 specified topic and try to set the hand pose using 6 DoF arbitrary joint in the model (skipping IK).
             position_magnifiers (list of float): Position magnifiers for the hand pose control. These factors will scale
                 the hand pose coordinates received from the `hand_pose_topic`.
-            output_formats (list of str): List of output formats. Supported formats are 'ros' and 'csv'. When 'csv'
-                is included, `output_csv_path` must be specified.
+            output_formats (list of str): List of output formats. Supported formats: 'ros', 'csv', 'mp4'. When 'csv' is included, `output_csv_path` must be specified. When 'mp4' is included, `output_mp4_path` must be specified.
             output_csv_path (str): Path to the output CSV file. Must be specified when 'csv' is included in `output_formats`.
             output_bag_path (str): Path to the output bag file.
             additional_bag_topics (list of str): Additional topics to record in the bag file (other than those related to Mujoco itself).
+            output_mp4_path (str): Path to the output MP4 file. Must be specified when 'mp4' is included in `output_formats`.
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
         """
         super().__init__('mujoco_joint_controller')
         self.get_logger().info('Mujoco Joint Controller Node has been started.')
 
-        self.app = Flask(__name__)  # Flask app is now local to the class
+        self.app = Flask(__name__)
         self.model_path = model_path
         self.config_yaml = config_yaml
         self.replay_csv = replay_csv
@@ -67,7 +70,10 @@ class MujocoJointController(Node):
         self.enable_vr = enable_vr
 
         # Load Mujoco model
-        self.mj = MJControlVRWrapper(os.path.join(os.getcwd(), self.model_path), enable_vr=self.enable_vr)
+        self.mj = MJControlVRWrapper(
+            os.path.join(os.getcwd(), self.model_path), enable_vr=self.enable_vr,
+            renderer_dimension=(640, 480) if 'mp4' in self.output_formats else None,
+        )
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
 
         # adjust initial pos and camera pose
@@ -154,6 +160,7 @@ class MujocoJointController(Node):
         else:
             self.csv_buffer = None
             self.csv_path = None
+
         if 'ros' in output_formats and output_bag_path is not None:
             topics = ["joint_states", "joint_states_actual", "body_poses_actual"] + additional_bag_topics
             command = f'ros2 bag record -o {output_bag_path} {" ".join(topics)}'
@@ -161,6 +168,16 @@ class MujocoJointController(Node):
             self.get_logger().info(f"Recording to bag file: {output_bag_path}")
         else:
             self.rosbag_process = None
+
+        if 'mp4' in output_formats:
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            self.fps = 20.0
+            self.last_video_frame_time = time.time()
+            self.video_writer = cv2.VideoWriter(output_mp4_path, fourcc, self.fps, self.mj.renderer_dimension)
+        else:
+            self.fps = None
+            self.last_video_frame_time = None
+            self.video_writer = None
 
     def forward_sim(self):
         """Forward the simulator until the current time."""
@@ -264,6 +281,13 @@ class MujocoJointController(Node):
                         f.write(','.join(map(str, row)) + '\n')
                 self.csv_buffer.clear()
 
+        if 'mp4' in self.output_formats:
+            if time.time() - self.last_video_frame_time >= 1. / self.fps:
+                frame = self.mj.render_frame()
+                frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                self.video_writer.write(frame_bgr)
+                self.last_video_frame_time = time.time()
+
     def run_flask(self):
         """Run the Flask server for video streaming."""
         @self.app.route("/video")
@@ -280,6 +304,8 @@ class MujocoJointController(Node):
         self.mj_control_vr.stop_simulation()
         if self.rosbag_process is not None:
             os.killpg(os.getpgid(self.rosbag_process.pid), signal.SIGINT)
+        if self.video_writer is not None:
+            self.video_writer.release()
         self.get_logger().info('Simulation stopped.')
 
 def main():
@@ -292,6 +318,7 @@ def main():
     parser.add_argument('--output-formats', type=str, nargs='+', default=['ros'], help='Output formats.')
     parser.add_argument('--output-csv-path', type=str, default=None, help='Path to the output CSV file.')
     parser.add_argument('--output-bag-path', type=str, default=None, help='Path to the output bag file.')
+    parser.add_argument('--output-mp4-path', type=str, default=None, help='Path to the output MP4 file.')
     parser.add_argument('--additional-bag-topics', type=str, nargs='+', default=[], help='Additional topics to record in the bag file (other than those related to mujoco itself).')
     parser.add_argument('--enable-vr', action='store_true', help='Enable VR mode')
     args = parser.parse_args()
@@ -307,6 +334,7 @@ def main():
         output_formats=args.output_formats,
         output_csv_path=args.output_csv_path,
         output_bag_path=args.output_bag_path,
+        output_mp4_path=args.output_mp4_path,
         additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
     )
