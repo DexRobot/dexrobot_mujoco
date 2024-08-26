@@ -2,7 +2,7 @@ import numpy as np
 
 def adjust_angles(current_angles, previous_angles):
     """
-    Adjusts an array of current angles based on previous angles to ensure continuity.
+    Adjusts an array of current angles based on previous angles using numpy's unwrap function to ensure continuity.
 
     Parameters:
         current_angles (np.ndarray): The current angles measurement in radians.
@@ -11,11 +11,11 @@ def adjust_angles(current_angles, previous_angles):
     Returns:
         np.ndarray: Adjusted angles in radians that are continuous with the previous measurements.
     """
-    # Concatenate the previous and current angles to use them for unwrapping
-    concatenated_angles = np.concatenate(([previous_angles[-1]], current_angles))
+    # Concatenate the previous and current angles to handle them together
+    concatenated_angles = np.vstack((previous_angles, current_angles))
 
-    # Unwrap the concatenated angles to correct discontinuities
-    unwrapped_angles = np.unwrap(concatenated_angles)
+    # Apply unwrap along the column axis
+    unwrapped_angles = np.unwrap(concatenated_angles, axis=0)
 
-    # The first angle is from the previous data, so we start from the second element
-    return unwrapped_angles[1:]
+    # Return only the second row which corresponds to the adjusted current angles
+    return unwrapped_angles[1]
