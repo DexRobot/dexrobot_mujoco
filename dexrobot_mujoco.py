@@ -10,6 +10,7 @@ import yaml
 import subprocess
 from scipy.spatial.transform import Rotation as R
 from flask import Flask, Response
+import requests
 from threading import Thread
 import mujoco
 import cv2
@@ -297,15 +298,24 @@ class MujocoJointController(Node):
                 mimetype="multipart/x-mixed-replace; boundary=frame",
             )
 
+
+        @app.route('/shutdown', methods=['POST'])
+        def shutdown():
+            func = request.environ.get('werkzeug.server.shutdown')
+            if func is None:
+                raise RuntimeError('Not running with the Werkzeug Server')
+            func()
+            return 'Server shutting down'
+
         self.app.run(host="0.0.0.0", port=5000, threaded=True)
 
     def on_shutdown(self):
         """Clean up the node."""
-        self.mj_control_vr.stop_simulation()
         if self.rosbag_process is not None:
             os.killpg(os.getpgid(self.rosbag_process.pid), signal.SIGINT)
         if self.video_writer is not None:
             self.video_writer.release()
+        requests.post('http://localhost:5000/shutdown')
         self.get_logger().info('Simulation stopped.')
 
 def main():
@@ -315,7 +325,7 @@ def main():
     parser.add_argument('--replay-csv', default=None, type=str, help='Path to the CSV file to replay.')
     parser.add_argument('--hand-pose-topic', default=None, type=str, help='Topic name for hand pose.')
     parser.add_argument('--position-magnifiers', type=float_list, default=[2.5, 2., .8], help='Position magnifiers for the hand pose control')
-    parser.add_argument('--output-formats', type=str, nargs='+', default=['ros'], help='Output formats.')
+    parser.add_argument('--output-formats', type=str, nargs='*', default=['ros'], help='Output formats.')
     parser.add_argument('--output-csv-path', type=str, default=None, help='Path to the output CSV file.')
     parser.add_argument('--output-bag-path', type=str, default=None, help='Path to the output bag file.')
     parser.add_argument('--output-mp4-path', type=str, default=None, help='Path to the output MP4 file.')
