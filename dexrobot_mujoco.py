@@ -214,7 +214,7 @@ class MujocoJointController(Node):
             self.hand_position_offset = raw_position_ref
 
         position_ref = self.position_magnifiers * (raw_position_ref - self.hand_position_offset)
-        rpy_ref = R.from_quat(orientation_ref, scalar_first=True).as_euler('xyz')
+        rpy_ref = R.from_quat(orientation_ref, scalar_first=True).as_euler('XYZ')
         rpy_ref = adjust_angles(rpy_ref, self.rpy_prev)
         self.rpy_prev = rpy_ref
 
