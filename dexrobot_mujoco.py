@@ -9,7 +9,7 @@ import numpy as np
 import yaml
 import subprocess
 from scipy.spatial.transform import Rotation as R
-from flask import Flask, Response
+from flask import Flask, Response, request
 import requests
 from threading import Thread
 import mujoco
@@ -299,7 +299,7 @@ class MujocoJointController(Node):
             )
 
 
-        @app.route('/shutdown', methods=['POST'])
+        @self.app.route('/shutdown', methods=['POST'])
         def shutdown():
             func = request.environ.get('werkzeug.server.shutdown')
             if func is None:
