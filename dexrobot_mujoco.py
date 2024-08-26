@@ -16,6 +16,7 @@ import mujoco
 import cv2
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
+from utils.angle_utils import adjust_angles
 
 def float_list(x):
     return np.array(list(map(float, x.split(','))))
@@ -76,6 +77,7 @@ class MujocoJointController(Node):
             renderer_dimension=(640, 480) if 'mp4' in self.output_formats else None,
         )
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
+        self.mj.enable_infinite_rotation("act_(ART|ARR)[xyz]")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -180,6 +182,9 @@ class MujocoJointController(Node):
             self.last_video_frame_time = None
             self.video_writer = None
 
+        # save previous angle measurements
+        self.rpy_prev = np.zeros(3)
+
     def forward_sim(self):
         """Forward the simulator until the current time."""
         current_time = time.time() - self.start_time
@@ -210,6 +215,8 @@ class MujocoJointController(Node):
 
         position_ref = self.position_magnifiers * (raw_position_ref - self.hand_position_offset)
         rpy_ref = R.from_quat(orientation_ref, scalar_first=True).as_euler('xyz')
+        rpy_ref = adjust_angles(rpy_ref, self.rpy_prev)
+        self.rpy_prev = rpy_ref
 
         if verbose:
             self.get_logger().info(f"target_pos={position_ref}, target_orientation={orientation_ref}")
