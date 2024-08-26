@@ -5,13 +5,13 @@ from geometry_msgs.msg import Pose, PoseArray
 
 import time, os
 import argparse
+from loguru import logger
 import numpy as np
 import yaml
 import subprocess
 from scipy.spatial.transform import Rotation as R
 from flask import Flask, Response
 from threading import Thread
-import mujoco
 import cv2
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
@@ -120,9 +120,10 @@ class MujocoJointController(Node):
         if self.config_yaml is not None:
             with open(self.config_yaml, 'r') as f:
                 config = yaml.safe_load(f)
-            joint_names_to_track = config['tracked_joints']
+            joint_names_to_track = [item for sublist in config['tracked_joints'] for item in sublist]
+            logger.warning(f"Tracked joints: {joint_names_to_track}")
             self.tracked_joint_names = [name for name in joint_names_to_track if self.mj.get_joint_id(name) != -1]
-            body_names_to_track = config['tracked_bodies']
+            body_names_to_track = [item for sublist in config['tracked_bodies'] for item in sublist]
             self.tracked_body_names = [name for name in body_names_to_track if self.mj.get_link_id(name) != -1]
         else:
             self.tracked_joint_names = []
@@ -342,7 +343,7 @@ def main():
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        pass
+        logger.error('KeyboardInterrupt, shutting down MujocoJointController...')
     finally:
         node.destroy_node()
         rclpy.shutdown()
