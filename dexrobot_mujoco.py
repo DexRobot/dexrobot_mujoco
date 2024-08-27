@@ -171,7 +171,7 @@ class MujocoJointController(Node):
         if 'ros' in output_formats and output_bag_path is not None:
             topics = ["joint_states", "joint_states_actual", "body_poses_actual"] + additional_bag_topics
             command = f'ros2 bag record -o {output_bag_path} {" ".join(topics)}'
-            self.rosbag_process = subprocess.Popen(command, shell=True)
+            self.rosbag_process = subprocess.Popen(command, shell=True, preexec_fn=os.setpgrp)
             self.get_logger().info(f"Recording to bag file: {output_bag_path}")
         else:
             self.rosbag_process = None
