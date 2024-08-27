@@ -9,13 +9,16 @@ from loguru import logger
 import numpy as np
 import yaml
 import subprocess
+import pandas as pd
 from scipy.spatial.transform import Rotation as R
-from flask import Flask, Response
-import requests, signal
+from flask import Flask, Response, request
+import requests
+import signal
 from threading import Thread
 import cv2
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
+from utils.angle_utils import adjust_angles
 
 
 def float_list(x):
@@ -81,6 +84,7 @@ class MujocoJointController(Node):
             seed=seed,
         )
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
+        self.mj.enable_infinite_rotation("act_(ART|ARR)[xyz]")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -114,8 +118,6 @@ class MujocoJointController(Node):
         else:
             self.joint_state_subscription = None
             self.hand_pose_subscription = None
-            import pandas as pd
-
             self.replay_csv = pd.read_csv(self.replay_csv)
             self.replay_timer = self.create_timer(0.1, self.forward_replay)
             self.joint_step_counter = 0
@@ -169,25 +171,24 @@ class MujocoJointController(Node):
             self.body_pose_publisher = None
         if "csv" in self.output_formats:
             if self.output_csv_path is not None:
-                self.csv_buffer = []
+                self.csv_columns = [
+                    'timestamp',
+                    *[f'{name}_pos' for name in self.tracked_joint_names],
+                    *[f'{name}_vel' for name in self.tracked_joint_names],
+                    *[f'{name}_pos' for name in self.tracked_body_names],
+                    *[f'{name}_quat' for name in self.tracked_body_names],
+                ]
+                self.csv_data_count = 0
+                self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
                 self.csv_path = self.output_csv_path
-                with open(self.csv_path, "w") as f:
-                    f.write(
-                        ",".join(
-                            ["timestamp"]
-                            + [f"{name}_pos" for name in self.tracked_joint_names]
-                            + [f"{name}_vel" for name in self.tracked_joint_names]
-                            + [f"{name}_pos" for name in self.tracked_body_names]
-                            + [f"{name}_quat" for name in self.tracked_body_names]
-                        )
-                        + "\n"
-                    )
             else:
                 self.get_logger().error(
                     'Output CSV path must be specified when "csv" is included in the output formats.'
                 )
                 exit(1)
         else:
+            self.csv_columns = None
+            self.csv_data_count = 0
             self.csv_buffer = None
             self.csv_path = None
 
@@ -214,6 +215,9 @@ class MujocoJointController(Node):
             self.fps = None
             self.last_video_frame_time = None
             self.video_writer = None
+
+        # save previous angle measurements
+        self.rpy_prev = np.zeros(3)
 
     def forward_sim(self):
         """Forward the simulator until the current time."""
@@ -248,10 +252,10 @@ class MujocoJointController(Node):
                 return
             self.hand_position_offset = raw_position_ref
 
-        position_ref = self.position_magnifiers * (
-            raw_position_ref - self.hand_position_offset
-        )
-        rpy_ref = R.from_quat(orientation_ref, scalar_first=True).as_euler("xyz")
+        position_ref = self.position_magnifiers * (raw_position_ref - self.hand_position_offset)
+        rpy_ref = R.from_quat(orientation_ref, scalar_first=True).as_euler('XYZ')
+        rpy_ref = adjust_angles(rpy_ref, self.rpy_prev)
+        self.rpy_prev = rpy_ref
 
         if verbose:
             self.get_logger().info(
@@ -323,21 +327,9 @@ class MujocoJointController(Node):
                 body_pose_msg.poses.append(pose)
             self.body_pose_publisher.publish(body_pose_msg)
 
-        if "csv" in self.output_formats:
-            self.csv_buffer.append(
-                [
-                    self.get_clock().now().nanoseconds,
-                    *joint_pos,
-                    *joint_vel,
-                    *body_pos,
-                    *body_quat,
-                ]
-            )
-            if len(self.csv_buffer) >= 100:
-                with open(self.csv_path, "a") as f:
-                    for row in self.csv_buffer:
-                        f.write(",".join(map(str, row)) + "\n")
-                self.csv_buffer.clear()
+        if 'csv' in self.output_formats:
+            self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat]
+            self.csv_data_count += 1
 
         if "mp4" in self.output_formats:
             if time.time() - self.last_video_frame_time >= 1.0 / self.fps:
@@ -350,7 +342,6 @@ class MujocoJointController(Node):
 
     def run_flask(self):
         """Run the Flask server for video streaming."""
-        return
         @self.app.route("/video")
         def video():
             return Response(
@@ -360,23 +351,29 @@ class MujocoJointController(Node):
 
         @self.app.route("/shutdown", methods=["POST"])
         def shutdown():
-            func = requests.environ.get("werkzeug.server.shutdown")
-            if func is None:
+            shutdown_server = request.environ.get("werkzeug.server.shutdown")
+            if shutdown_server is None:
                 raise RuntimeError("Not running with the Werkzeug Server")
-            func()
-            return "Server shutting down"
+            shutdown_server()
+            return "Server shutting down..."
 
         self.app.run(host="0.0.0.0", port=5000, threaded=True)
 
     def on_shutdown(self):
         """Clean up the node."""
+        if self.csv_buffer is not None:
+            self.csv_buffer.to_csv(self.csv_path)
+            self.get_logger().info(f"Saved data to {self.csv_path}")
         if self.rosbag_process is not None:
             os.killpg(os.getpgid(self.rosbag_process.pid), signal.SIGINT)
+            self.get_logger().info("Stopped recording to bag file.")
         if self.video_writer is not None:
             self.video_writer.release()
-        requests.post("http://localhost:5000/shutdown")
-        self.get_logger().info("Simulation stopped.")
-
+            self.get_logger().info(f"Saved video to {self.output_mp4_path}")
+        if self.enable_vr:
+            requests.post("http://127.0.0.1:5000/shutdown")
+            self.get_logger().info("Stopped the Flask server.")
+        self.get_logger().info('Simulation stopped.')
 
 def main():
     parser = argparse.ArgumentParser()
@@ -446,6 +443,7 @@ def main():
     except KeyboardInterrupt:
         logger.error("KeyboardInterrupt, shutting down MujocoJointController...")
     finally:
+        node.on_shutdown()
         node.destroy_node()
         rclpy.shutdown()
 
