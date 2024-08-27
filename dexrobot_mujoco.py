@@ -20,8 +20,10 @@ from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 from utils.angle_utils import adjust_angles
 
+
 def float_list(x):
-    return np.array(list(map(float, x.split(','))))
+    return np.array(list(map(float, x.split(","))))
+
 
 class MujocoJointController(Node):
     def __init__(
@@ -36,7 +38,8 @@ class MujocoJointController(Node):
         output_bag_path=None,
         output_mp4_path=None,
         additional_bag_topics=[],
-        enable_vr=False
+        enable_vr=False,
+        seed=0,
     ):
         """
         Node for controlling the joints of a Mujoco model using ROS2 messages.
@@ -60,8 +63,8 @@ class MujocoJointController(Node):
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
         """
-        super().__init__('mujoco_joint_controller')
-        self.get_logger().info('Mujoco Joint Controller Node has been started.')
+        super().__init__("mujoco_joint_controller")
+        self.get_logger().info("Mujoco Joint Controller Node has been started.")
 
         self.app = Flask(__name__)
         self.model_path = model_path
@@ -75,8 +78,10 @@ class MujocoJointController(Node):
 
         # Load Mujoco model
         self.mj = MJControlVRWrapper(
-            os.path.join(os.getcwd(), self.model_path), enable_vr=self.enable_vr,
-            renderer_dimension=(640, 480) if 'mp4' in self.output_formats else None,
+            os.path.join(os.getcwd(), self.model_path),
+            enable_vr=self.enable_vr,
+            renderer_dimension=(640, 480) if "mp4" in self.output_formats else None,
+            seed=seed,
         )
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
         self.mj.enable_infinite_rotation("act_(ART|ARR)[xyz]")
@@ -99,13 +104,12 @@ class MujocoJointController(Node):
 
         if self.replay_csv is None:
             self.joint_state_subscription = self.create_subscription(
-                JointState,
-                'joint_states',
-                self.joint_state_callback,
-                10
+                JointState, "joint_states", self.joint_state_callback, 10
             )
             if self.hand_pose_topic is not None:
-                self.hand_pose_subscription = self.create_subscription(Pose, self.hand_pose_topic, self.hand_pose_callback, 10)
+                self.hand_pose_subscription = self.create_subscription(
+                    Pose, self.hand_pose_topic, self.hand_pose_callback, 10
+                )
             else:
                 self.hand_pose_subscription = None
 
@@ -122,32 +126,50 @@ class MujocoJointController(Node):
 
         # joints/bodies names/ids to output, and buffer for the joint states reference
         if self.config_yaml is not None:
-            with open(self.config_yaml, 'r') as f:
+            with open(self.config_yaml, "r") as f:
                 config = yaml.safe_load(f)
-            joint_names_to_track = [item for sublist in config['tracked_joints'] for item in sublist]
+            joint_names_to_track = [
+                item for sublist in config["tracked_joints"] for item in sublist
+            ]
             logger.warning(f"Tracked joints: {joint_names_to_track}")
-            self.tracked_joint_names = [name for name in joint_names_to_track if self.mj.get_joint_id(name) != -1]
-            body_names_to_track = [item for sublist in config['tracked_bodies'] for item in sublist]
-            self.tracked_body_names = [name for name in body_names_to_track if self.mj.get_link_id(name) != -1]
+            self.tracked_joint_names = [
+                name
+                for name in joint_names_to_track
+                if self.mj.get_joint_id(name) != -1
+            ]
+            body_names_to_track = [
+                item for sublist in config["tracked_bodies"] for item in sublist
+            ]
+            self.tracked_body_names = [
+                name for name in body_names_to_track if self.mj.get_link_id(name) != -1
+            ]
         else:
             self.tracked_joint_names = []
             self.tracked_body_names = []
-        self.tracked_joint_ids = [self.mj.get_joint_id(name) for name in self.tracked_joint_names]
-        self.tracked_body_ids = [self.mj.get_link_id(name) for name in self.tracked_body_names]
-        self.tracked_joint_states_ref = {name: 0. for name in self.tracked_joint_names}
+        self.tracked_joint_ids = [
+            self.mj.get_joint_id(name) for name in self.tracked_joint_names
+        ]
+        self.tracked_body_ids = [
+            self.mj.get_link_id(name) for name in self.tracked_body_names
+        ]
+        self.tracked_joint_states_ref = {name: 0.0 for name in self.tracked_joint_names}
 
         # timer, publisher and buffer for publishing / logging data
         if self.output_formats:
             self.output_timer = self.create_timer(0.01, self.output_data)
         else:
             self.output_timer = None
-        if 'ros' in self.output_formats:
-            self.joint_state_publisher = self.create_publisher(JointState, 'joint_states_actual', 10)
-            self.body_pose_publisher = self.create_publisher(PoseArray, 'body_poses_actual', 10)
+        if "ros" in self.output_formats:
+            self.joint_state_publisher = self.create_publisher(
+                JointState, "joint_states_actual", 10
+            )
+            self.body_pose_publisher = self.create_publisher(
+                PoseArray, "body_poses_actual", 10
+            )
         else:
             self.joint_state_publisher = None
             self.body_pose_publisher = None
-        if 'csv' in self.output_formats:
+        if "csv" in self.output_formats:
             if self.output_csv_path is not None:
                 self.csv_columns = [
                     'timestamp',
@@ -160,7 +182,9 @@ class MujocoJointController(Node):
                 self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
                 self.csv_path = self.output_csv_path
             else:
-                self.get_logger().error('Output CSV path must be specified when "csv" is included in the output formats.')
+                self.get_logger().error(
+                    'Output CSV path must be specified when "csv" is included in the output formats.'
+                )
                 exit(1)
         else:
             self.csv_columns = None
@@ -168,19 +192,25 @@ class MujocoJointController(Node):
             self.csv_buffer = None
             self.csv_path = None
 
-        if 'ros' in output_formats and output_bag_path is not None:
-            topics = ["joint_states", "joint_states_actual", "body_poses_actual"] + additional_bag_topics
+        if "ros" in output_formats and output_bag_path is not None:
+            topics = [
+                "joint_states",
+                "joint_states_actual",
+                "body_poses_actual",
+            ] + additional_bag_topics
             command = f'ros2 bag record -o {output_bag_path} {" ".join(topics)}'
-            self.rosbag_process = subprocess.Popen(command, shell=True)
+            self.rosbag_process = subprocess.Popen(command, shell=True, preexec_fn=os.setpgrp)
             self.get_logger().info(f"Recording to bag file: {output_bag_path}")
         else:
             self.rosbag_process = None
 
-        if 'mp4' in output_formats:
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        if "mp4" in output_formats:
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
             self.fps = 20.0
             self.last_video_frame_time = time.time()
-            self.video_writer = cv2.VideoWriter(output_mp4_path, fourcc, self.fps, self.mj.renderer_dimension)
+            self.video_writer = cv2.VideoWriter(
+                output_mp4_path, fourcc, self.fps, self.mj.renderer_dimension
+            )
         else:
             self.fps = None
             self.last_video_frame_time = None
@@ -199,21 +229,26 @@ class MujocoJointController(Node):
         """Forward the simulation using the replay CSV file."""
         if self.replay_csv is not None:
             for act_name in self.mj.actuator_names:
-                joint_name = act_name.replace('act_', '')
+                joint_name = act_name.replace("act_", "")
                 if joint_name in self.replay_csv.columns:
                     if self.joint_step_counter < len(self.replay_csv):
-                        self.mj.send_control(act_name, self.replay_csv[joint_name][self.joint_step_counter])
+                        self.mj.send_control(
+                            act_name,
+                            self.replay_csv[joint_name][self.joint_step_counter],
+                        )
                     else:
                         exit(0)
             self.joint_step_counter += 1
 
-    def hand_pose_callback(self, msg:Pose, verbose=True):
+    def hand_pose_callback(self, msg: Pose, verbose=True):
         """Callback function for the hand pose subscriber."""
         raw_position_ref = np.array([msg.position.x, msg.position.y, msg.position.z])
-        orientation_ref = np.array([msg.orientation.w, msg.orientation.x, msg.orientation.y, msg.orientation.z])
+        orientation_ref = np.array(
+            [msg.orientation.w, msg.orientation.x, msg.orientation.y, msg.orientation.z]
+        )
 
         if self.hand_position_offset is None:
-            if time.time() - self.start_time < 2.:
+            if time.time() - self.start_time < 2.0:
                 return
             self.hand_position_offset = raw_position_ref
 
@@ -223,7 +258,9 @@ class MujocoJointController(Node):
         self.rpy_prev = rpy_ref
 
         if verbose:
-            self.get_logger().info(f"target_pos={position_ref}, target_orientation={orientation_ref}")
+            self.get_logger().info(
+                f"target_pos={position_ref}, target_orientation={orientation_ref}"
+            )
 
         # send control
         self.mj.send_control("act_ARTx", position_ref[0])
@@ -234,27 +271,27 @@ class MujocoJointController(Node):
         self.mj.send_control("act_ARRz", rpy_ref[2])
 
         # save to buffer
-        if 'ARTx' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARTx'] = position_ref[0]
-        if 'ARTy' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARTy'] = position_ref[1]
-        if 'ARTz' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARTz'] = position_ref[2]
-        if 'ARRx' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARRx'] = rpy_ref[0]
-        if 'ARRy' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARRy'] = rpy_ref[1]
-        if 'ARRz' in self.tracked_joint_states_ref:
-            self.tracked_joint_states_ref['ARRz'] = rpy_ref[2]
+        if "ARTx" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARTx"] = position_ref[0]
+        if "ARTy" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARTy"] = position_ref[1]
+        if "ARTz" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARTz"] = position_ref[2]
+        if "ARRx" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARRx"] = rpy_ref[0]
+        if "ARRy" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARRy"] = rpy_ref[1]
+        if "ARRz" in self.tracked_joint_states_ref:
+            self.tracked_joint_states_ref["ARRz"] = rpy_ref[2]
 
     def joint_state_callback(self, msg: JointState, verbose=False):
         """Callback function for the joint state subscriber."""
         if verbose:
-            self.get_logger().info(f'Received Joint States: {msg}')
+            self.get_logger().info(f"Received Joint States: {msg}")
 
         for name, pos in zip(msg.name, msg.position):
             # send control
-            act_name = f'act_{name}'
+            act_name = f"act_{name}"
             if act_name in self.mj.actuator_names:
                 self.mj.send_control(act_name, pos)
             # save to buffer
@@ -268,7 +305,7 @@ class MujocoJointController(Node):
         body_pos = self.mj.data.xpos[self.tracked_body_ids]
         body_quat = self.mj.data.xquat[self.tracked_body_ids]
 
-        if 'ros' in self.output_formats:
+        if "ros" in self.output_formats:
             joint_state_msg = JointState()
             joint_state_msg.header.stamp = self.get_clock().now().to_msg()
             joint_state_msg.name = self.tracked_joint_names
@@ -281,7 +318,12 @@ class MujocoJointController(Node):
             for pos, quat in zip(body_pos, body_quat):
                 pose = Pose()
                 pose.position.x, pose.position.y, pose.position.z = pos
-                pose.orientation.w, pose.orientation.x, pose.orientation.y, pose.orientation.z = quat
+                (
+                    pose.orientation.w,
+                    pose.orientation.x,
+                    pose.orientation.y,
+                    pose.orientation.z,
+                ) = quat
                 body_pose_msg.poses.append(pose)
             self.body_pose_publisher.publish(body_pose_msg)
 
@@ -289,12 +331,14 @@ class MujocoJointController(Node):
             self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat]
             self.csv_data_count += 1
 
-        if 'mp4' in self.output_formats:
-            if time.time() - self.last_video_frame_time >= 1. / self.fps:
+        if "mp4" in self.output_formats:
+            if time.time() - self.last_video_frame_time >= 1.0 / self.fps:
                 frame = self.mj.render_frame()
                 frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
                 self.video_writer.write(frame_bgr)
                 self.last_video_frame_time = time.time()
+
+
 
     def run_flask(self):
         """Run the Flask server for video streaming."""
@@ -333,17 +377,48 @@ class MujocoJointController(Node):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('model_path', type=str, help='Path to the Mujoco model XML file')
-    parser.add_argument('--config-yaml', type=str, help='Path to the YAML file containing the configuration', required=False)
-    parser.add_argument('--replay-csv', default=None, type=str, help='Path to the CSV file to replay.')
-    parser.add_argument('--hand-pose-topic', default=None, type=str, help='Topic name for hand pose.')
-    parser.add_argument('--position-magnifiers', type=float_list, default=[2.5, 2., .8], help='Position magnifiers for the hand pose control')
-    parser.add_argument('--output-formats', type=str, nargs='*', default=['ros'], help='Output formats.')
-    parser.add_argument('--output-csv-path', type=str, default=None, help='Path to the output CSV file.')
-    parser.add_argument('--output-bag-path', type=str, default=None, help='Path to the output bag file.')
-    parser.add_argument('--output-mp4-path', type=str, default=None, help='Path to the output MP4 file.')
-    parser.add_argument('--additional-bag-topics', type=str, nargs='+', default=[], help='Additional topics to record in the bag file (other than those related to mujoco itself).')
-    parser.add_argument('--enable-vr', action='store_true', help='Enable VR mode')
+    parser.add_argument(
+        "model_path", type=str, help="Path to the Mujoco model XML file"
+    )
+    parser.add_argument(
+        "--config-yaml",
+        type=str,
+        help="Path to the YAML file containing the configuration",
+        required=False,
+    )
+    parser.add_argument(
+        "--replay-csv", default=None, type=str, help="Path to the CSV file to replay."
+    )
+    parser.add_argument(
+        "--hand-pose-topic", default=None, type=str, help="Topic name for hand pose."
+    )
+    parser.add_argument(
+        "--position-magnifiers",
+        type=float_list,
+        default=[2.5, 2.0, 0.8],
+        help="Position magnifiers for the hand pose control",
+    )
+    parser.add_argument(
+        "--output-formats", type=str, nargs="*", default=["ros"], help="Output formats."
+    )
+    parser.add_argument(
+        "--output-csv-path", type=str, default=None, help="Path to the output CSV file."
+    )
+    parser.add_argument(
+        "--output-bag-path", type=str, default=None, help="Path to the output bag file."
+    )
+    parser.add_argument(
+        "--output-mp4-path", type=str, default=None, help="Path to the output MP4 file."
+    )
+    parser.add_argument(
+        "--additional-bag-topics",
+        type=str,
+        nargs="+",
+        default=[],
+        help="Additional topics to record in the bag file (other than those related to mujoco itself).",
+    )
+    parser.add_argument("--enable-vr", action="store_true", help="Enable VR mode")
+    parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
     args = parser.parse_args()
 
     rclpy.init()
@@ -360,16 +435,18 @@ def main():
         output_mp4_path=args.output_mp4_path,
         additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
+        seed=args.seed,
     )
 
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        logger.error('KeyboardInterrupt, shutting down MujocoJointController...')
+        logger.error("KeyboardInterrupt, shutting down MujocoJointController...")
     finally:
         node.on_shutdown()
         node.destroy_node()
         rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
