@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
-from geometry_msgs.msg import Wrench
+from std_msgs.msg import Float32MultiArray
 
 import time, os
 import argparse
@@ -64,6 +64,7 @@ class MujocoJointController(Node):
             output_mp4_path (str): Path to the output MP4 file. Must be specified when 'mp4' is included in `output_formats`.
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
+            enable_record_force (bool): Whether to enable recording force sensor data.
         """
         super().__init__("mujoco_joint_controller")
         self.get_logger().info("Mujoco Joint Controller Node has been started.")
@@ -76,6 +77,8 @@ class MujocoJointController(Node):
         self.position_magnifiers = position_magnifiers
         self.output_formats = output_formats
         self.output_csv_path = output_csv_path
+        self.output_mp4_path = output_mp4_path
+        self.output_bag_path = output_bag_path
         self.enable_vr = enable_vr
         self.enable_record_force = enable_record_force
 
@@ -107,7 +110,7 @@ class MujocoJointController(Node):
 
         if self.enable_record_force:
             self.force_sensor_publisher = self.create_publisher(
-                Wrench, "force_sensor_actual", 10
+                Float32MultiArray, "force_sensor_actual", 10
             )
 
         if self.replay_csv is None:
@@ -202,6 +205,7 @@ class MujocoJointController(Node):
 
         if "ros" in output_formats and output_bag_path is not None:
             topics = [
+                "force_sensor_actual",
                 "joint_states",
                 "joint_states_actual",
                 "body_poses_actual",
@@ -337,14 +341,22 @@ class MujocoJointController(Node):
 
             if self.enable_record_force:
                 force_sensor_data = self.mj.get_force_sensor_data()
-                for sensor_name in force_sensor_data:
-                    force_msg = Wrench()
-                    force_msg.header.stamp = self.get_clock().now().to_msg()
-                    force_msg.force.x = force_sensor_data[sensor_name][0]
-                    force_msg.force.y = force_sensor_data[sensor_name][1]
-                    force_msg.force.z = force_sensor_data[sensor_name][2]
-                    self.force_sensor_publisher.publish(force_msg)
-                    
+                force_wrench_array = Float32MultiArray()
+                data = []
+                for force_sensor_name in force_sensor_data:
+                    parts = force_sensor_name.split('_')
+                    for part in parts:
+                        if 'link' in part:
+                            link_number_str = part.replace('link', '')
+                            try:
+                                link_number = float(link_number_str)
+                            except ValueError:
+                                logger.error(f"无法转换为float: {link_number_str}")
+
+                    data.append(link_number)
+                    data.extend(force_sensor_data[force_sensor_name])
+                force_wrench_array.data = data
+                self.force_sensor_publisher.publish(force_wrench_array)
 
         if 'csv' in self.output_formats:
             self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat]
@@ -437,7 +449,7 @@ def main():
         help="Additional topics to record in the bag file (other than those related to mujoco itself).",
     )
     parser.add_argument("--enable-vr", action="store_true", help="Enable VR mode")
-    parser.add_argument("--enable-force", action="store_true", help="Enable recording force sensor data")
+    parser.add_argument("--record-force", action="store_true", help="Enable recording force sensor data")
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
     args = parser.parse_args()
 
@@ -455,7 +467,7 @@ def main():
         output_mp4_path=args.output_mp4_path,
         additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
-        enable_record_force=args.enable_force,
+        enable_record_force=args.record_force,
         seed=args.seed,
     )
 
