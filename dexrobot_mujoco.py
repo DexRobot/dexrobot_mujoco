@@ -21,14 +21,6 @@ from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 from utils.angle_utils import adjust_angles
 
-touch_sensor=[
-    "touch_r_f_link1_3", 
-    "touch_r_f_link2_4", 
-    "touch_r_f_link3_4", 
-    "touch_r_f_link4_4", 
-    "touch_r_f_link5_4", 
-]
-
 def float_list(x):
     return np.array(list(map(float, x.split(","))))
 
@@ -348,6 +340,13 @@ class MujocoJointController(Node):
             if self.enable_record_touch:
                 touch_data_array = Float32MultiArray()
                 data = []
+                touch_sensor=[
+                    "touch_r_f_link1_3", 
+                    "touch_r_f_link2_4", 
+                    "touch_r_f_link3_4", 
+                    "touch_r_f_link4_4", 
+                    "touch_r_f_link5_4", 
+                ]
                 for touch_sensor_name in touch_sensor:
                     touch_sensor_name_data = self.mj.data.sensor(touch_sensor_name).data.astype(np.double)
                     data.extend(touch_sensor_name_data)
