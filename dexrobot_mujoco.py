@@ -21,6 +21,13 @@ from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 from utils.angle_utils import adjust_angles
 
+touch_sensor=[
+    "touch_r_f_link1_3", 
+    "touch_r_f_link2_4", 
+    "touch_r_f_link3_4", 
+    "touch_r_f_link4_4", 
+    "touch_r_f_link5_4", 
+]
 
 def float_list(x):
     return np.array(list(map(float, x.split(","))))
@@ -40,7 +47,7 @@ class MujocoJointController(Node):
         output_mp4_path=None,
         additional_bag_topics=[],
         enable_vr=False,
-        enable_record_force=False,
+        enable_record_touch=False,
         seed=0,
     ):
         """
@@ -64,7 +71,7 @@ class MujocoJointController(Node):
             output_mp4_path (str): Path to the output MP4 file. Must be specified when 'mp4' is included in `output_formats`.
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
-            enable_record_force (bool): Whether to enable recording force sensor data.
+            enable_record_touch (bool): Whether to enable recording touch sensor data.
         """
         super().__init__("mujoco_joint_controller")
         self.get_logger().info("Mujoco Joint Controller Node has been started.")
@@ -80,7 +87,7 @@ class MujocoJointController(Node):
         self.output_mp4_path = output_mp4_path
         self.output_bag_path = output_bag_path
         self.enable_vr = enable_vr
-        self.enable_record_force = enable_record_force
+        self.enable_record_touch = enable_record_touch
 
         # Load Mujoco model
         self.mj = MJControlVRWrapper(
@@ -108,9 +115,9 @@ class MujocoJointController(Node):
             self.flask_thread = Thread(target=self.run_flask)
             self.flask_thread.start()
 
-        if self.enable_record_force:
-            self.force_sensor_publisher = self.create_publisher(
-                Float32MultiArray, "force_sensor_actual", 10
+        if self.enable_record_touch:
+            self.touch_sensor_publisher = self.create_publisher(
+                Float32MultiArray, "touch_sensor_actual", 10
             )
 
         if self.replay_csv is None:
@@ -205,7 +212,6 @@ class MujocoJointController(Node):
 
         if "ros" in output_formats and output_bag_path is not None:
             topics = [
-                "force_sensor_actual",
                 "joint_states",
                 "joint_states_actual",
                 "body_poses_actual",
@@ -339,24 +345,14 @@ class MujocoJointController(Node):
                 body_pose_msg.poses.append(pose)
             self.body_pose_publisher.publish(body_pose_msg)
 
-            if self.enable_record_force:
-                force_sensor_data = self.mj.get_force_sensor_data()
-                force_wrench_array = Float32MultiArray()
+            if self.enable_record_touch:
+                touch_data_array = Float32MultiArray()
                 data = []
-                for force_sensor_name in force_sensor_data:
-                    parts = force_sensor_name.split('_')
-                    for part in parts:
-                        if 'link' in part:
-                            link_number_str = part.replace('link', '')
-                            try:
-                                link_number = float(link_number_str)
-                            except ValueError:
-                                logger.error(f"无法转换为float: {link_number_str}")
-
-                    data.append(link_number)
-                    data.extend(force_sensor_data[force_sensor_name])
-                force_wrench_array.data = data
-                self.force_sensor_publisher.publish(force_wrench_array)
+                for touch_sensor_name in touch_sensor:
+                    touch_sensor_name_data = self.mj.data.sensor(touch_sensor_name).data.astype(np.double)
+                    data.extend(touch_sensor_name_data)
+                touch_data_array.data = data
+                self.touch_sensor_publisher.publish(touch_data_array)
 
         if 'csv' in self.output_formats:
             self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat]
@@ -382,7 +378,7 @@ class MujocoJointController(Node):
 
         @self.app.route("/shutdown", methods=["POST"])
         def shutdown():
-            shutdown_server = request.environ.get("werkzeug.server.shutdown")
+            shutdown_server = request.environ.get("werkzeug.server.shutdown")     
             if shutdown_server is None:
                 raise RuntimeError("Not running with the Werkzeug Server")
             shutdown_server()
@@ -449,7 +445,7 @@ def main():
         help="Additional topics to record in the bag file (other than those related to mujoco itself).",
     )
     parser.add_argument("--enable-vr", action="store_true", help="Enable VR mode")
-    parser.add_argument("--record-force", action="store_true", help="Enable recording force sensor data")
+    parser.add_argument("--record-touch", action="store_true", help="Enable recording touch sensor data")
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
     args = parser.parse_args()
 
@@ -467,7 +463,7 @@ def main():
         output_mp4_path=args.output_mp4_path,
         additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
-        enable_record_force=args.record_force,
+        enable_record_touch=args.record_touch,
         seed=args.seed,
     )
 
