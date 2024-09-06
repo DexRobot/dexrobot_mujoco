@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
+from std_msgs.msg import Float32MultiArray
 
 import time, os
 import argparse
@@ -19,7 +20,6 @@ import cv2
 from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
 from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
 from utils.angle_utils import adjust_angles
-
 
 def float_list(x):
     return np.array(list(map(float, x.split(","))))
@@ -74,6 +74,8 @@ class MujocoJointController(Node):
         self.position_magnifiers = position_magnifiers
         self.output_formats = output_formats
         self.output_csv_path = output_csv_path
+        self.output_mp4_path = output_mp4_path
+        self.output_bag_path = output_bag_path
         self.enable_vr = enable_vr
 
         # Load Mujoco model
@@ -101,6 +103,7 @@ class MujocoJointController(Node):
             # Start Flask server thread
             self.flask_thread = Thread(target=self.run_flask)
             self.flask_thread.start()
+
 
         if self.replay_csv is None:
             self.joint_state_subscription = self.create_subscription(
@@ -143,9 +146,14 @@ class MujocoJointController(Node):
             self.tracked_body_names = [
                 name for name in body_names_to_track if self.mj.get_link_id(name) != -1
             ]
+            sensor_names_to_track = [
+                item for sublist in config["tracked_sensors"] for item in sublist
+            ]
+            self.tracked_sensor_names = sensor_names_to_track
         else:
             self.tracked_joint_names = []
             self.tracked_body_names = []
+            self.tracked_sensor_names = []
         self.tracked_joint_ids = [
             self.mj.get_joint_id(name) for name in self.tracked_joint_names
         ]
@@ -166,9 +174,13 @@ class MujocoJointController(Node):
             self.body_pose_publisher = self.create_publisher(
                 PoseArray, "body_poses_actual", 10
             )
+            self.touch_sensor_publisher = self.create_publisher(
+                Float32MultiArray, "touch_sensor_actual", 10
+            )
         else:
             self.joint_state_publisher = None
             self.body_pose_publisher = None
+            self.touch_sensor_publisher = None
         if "csv" in self.output_formats:
             if self.output_csv_path is not None:
                 self.csv_columns = [
@@ -177,6 +189,7 @@ class MujocoJointController(Node):
                     *[f'{name}_vel' for name in self.tracked_joint_names],
                     *[f'{name}_pos' for name in self.tracked_body_names],
                     *[f'{name}_quat' for name in self.tracked_body_names],
+                    *[f'{name}' for name in self.tracked_sensor_names],
                 ]
                 self.csv_data_count = 0
                 self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
@@ -304,6 +317,10 @@ class MujocoJointController(Node):
         joint_vel = self.mj.data.qvel[self.tracked_joint_ids]
         body_pos = self.mj.data.xpos[self.tracked_body_ids]
         body_quat = self.mj.data.xquat[self.tracked_body_ids]
+        all_sensor_data = []
+        for sensor_name in self.tracked_sensor_names:
+            sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
+            all_sensor_data.extend(sensor_data)
 
         if "ros" in self.output_formats:
             joint_state_msg = JointState()
@@ -327,8 +344,12 @@ class MujocoJointController(Node):
                 body_pose_msg.poses.append(pose)
             self.body_pose_publisher.publish(body_pose_msg)
 
+            touch_data_array = Float32MultiArray()
+            touch_data_array.data = all_sensor_data
+            self.touch_sensor_publisher.publish(touch_data_array)
+
         if 'csv' in self.output_formats:
-            self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat]
+            self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
             self.csv_data_count += 1
 
         if "mp4" in self.output_formats:
