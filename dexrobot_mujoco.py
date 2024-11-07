@@ -3,6 +3,8 @@ from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
 from std_msgs.msg import Float32MultiArray
+from std_srvs.srv import Trigger
+import cv2
 
 import time, os
 import argparse
@@ -39,6 +41,7 @@ class MujocoJointController(Node):
         output_mp4_path=None,
         additional_bag_topics=[],
         enable_vr=False,
+        renderer_dimension=None,
         seed=0,
     ):
         """
@@ -62,6 +65,7 @@ class MujocoJointController(Node):
             output_mp4_path (str): Path to the output MP4 file. Must be specified when 'mp4' is included in `output_formats`.
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
+            renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
         """
         super().__init__("mujoco_joint_controller")
         self.get_logger().info("Mujoco Joint Controller Node has been started.")
@@ -82,7 +86,7 @@ class MujocoJointController(Node):
         self.mj = MJControlVRWrapper(
             os.path.join(os.getcwd(), self.model_path),
             enable_vr=self.enable_vr,
-            renderer_dimension=(640, 480) if "mp4" in self.output_formats else None,
+            renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,
         )
         self.mj.enable_infinite_rotation("act_r_a_joint\d+")
@@ -104,6 +108,10 @@ class MujocoJointController(Node):
             self.flask_thread = Thread(target=self.run_flask)
             self.flask_thread.start()
 
+        # Add screenshot service
+        self.screenshot_service = self.create_service(
+            Trigger, 'save_screenshot', self.save_screenshot_callback
+        )
 
         if self.replay_csv is None:
             self.joint_state_subscription = self.create_subscription(
@@ -132,7 +140,7 @@ class MujocoJointController(Node):
             with open(self.config_yaml, "r") as f:
                 config = yaml.safe_load(f)
             joint_names_to_track = [
-                item for sublist in config["tracked_joints"] for item in sublist
+                item for sublist in config.get("tracked_joints", []) for item in sublist
             ]
             logger.warning(f"Tracked joints: {joint_names_to_track}")
             self.tracked_joint_names = [
@@ -141,13 +149,13 @@ class MujocoJointController(Node):
                 if self.mj.get_joint_id(name) != -1
             ]
             body_names_to_track = [
-                item for sublist in config["tracked_bodies"] for item in sublist
+                item for sublist in config.get("tracked_bodies", []) for item in sublist
             ]
             self.tracked_body_names = [
                 name for name in body_names_to_track if self.mj.get_link_id(name) != -1
             ]
             sensor_names_to_track = [
-                item for sublist in config["tracked_sensors"] for item in sublist
+                item for sublist in config.get("tracked_sensors", []) for item in sublist
             ]
             self.tracked_sensor_names = sensor_names_to_track
         else:
@@ -359,7 +367,22 @@ class MujocoJointController(Node):
                 self.video_writer.write(frame_bgr)
                 self.last_video_frame_time = time.time()
 
+    def save_screenshot_callback(self, request, response):
+        """Service callback to save the current viewer frame as an image."""
+        try:
+            frame = self.mj.render_frame()
+            frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+            timestamp = self.get_clock().now().nanoseconds
+            filename = f"mujoco_screenshot_{timestamp}.png"
+            cv2.imwrite(filename, frame_bgr)
 
+            response.success = True
+            response.message = f"Screenshot saved as {filename}"
+        except Exception as e:
+            response.success = False
+            response.message = f"Failed to save screenshot: {str(e)}"
+
+        return response
 
     def run_flask(self):
         """Run the Flask server for video streaming."""
@@ -439,10 +462,19 @@ def main():
         help="Additional topics to record in the bag file (other than those related to mujoco itself).",
     )
     parser.add_argument("--enable-vr", action="store_true", help="Enable VR mode")
+    parser.add_argument(
+        "--renderer-dimension",
+        type=float_list,
+        default=None,
+        help="Renderer dimension as width,height (e.g. 640,480)",
+    )
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
     args = parser.parse_args()
 
     rclpy.init()
+
+    # Convert renderer dimension string to tuple or None
+    renderer_dim = tuple(map(int, args.renderer_dimension)) if args.renderer_dimension is not None else None
 
     node = MujocoJointController(
         model_path=args.model_path,
@@ -456,6 +488,7 @@ def main():
         output_mp4_path=args.output_mp4_path,
         additional_bag_topics=args.additional_bag_topics,
         enable_vr=args.enable_vr,
+        renderer_dimension=renderer_dim,
         seed=args.seed,
     )
 
