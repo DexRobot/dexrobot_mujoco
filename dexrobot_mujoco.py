@@ -19,8 +19,7 @@ import requests
 import signal
 from threading import Thread
 import cv2
-from dexrobot_urdf.utils.mj_control_utils import MJControlWrapper
-from dexrobot_urdf.utils.mj_control_vr_utils import MJControlVRWrapper
+from utils.mj_control_vr_utils import MJControlVRWrapper
 from utils.angle_utils import adjust_angles
 
 def float_list(x):
