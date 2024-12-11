@@ -18,7 +18,7 @@
             <include
                 file="furniture_sim/simpleTable/simpleMarbleTable_body.xml" />
         </body>
-        <body name="box" pos="0 0 0.9">
+        <body name="box" pos="0 0 0.82">
             <inertial pos="0 0 0" mass="0.03" diaginertia="0.00002 0.00002 0.00002" />
             <geom type="box" size="0.03 0.03 0.03" pos="0 0 0" euler="0. 0. 0."
                 rgba="0.49803922 0.72156863 0.87058824 1" />

@@ -88,8 +88,6 @@ class MujocoJointController(Node):
             renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,
         )
-        self.mj.enable_infinite_rotation("act_r_a_joint\d+")
-        self.mj.enable_infinite_rotation("act_(ART|ARR)[xyz]")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -141,7 +139,7 @@ class MujocoJointController(Node):
             joint_names_to_track = [
                 item for sublist in config.get("tracked_joints", []) for item in sublist
             ]
-            logger.warning(f"Tracked joints: {joint_names_to_track}")
+            logger.info(f"Tracked joints: {joint_names_to_track}")
             self.tracked_joint_names = [
                 name
                 for name in joint_names_to_track

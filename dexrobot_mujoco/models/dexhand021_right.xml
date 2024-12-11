@@ -6,7 +6,7 @@
   <option gravity="0 0 -9.81" iterations="100" solver="Newton" integrator="implicit" timestep="0.001"/>
   <default>
     <joint damping="1"/>
-    <geom condim="3" solref="0.02 1" solimp="0.9 0.95 0.001"/>
+    <geom condim="3" solref="0.02 1" solimp="0.9 0.95 0.001" friction="2 2 2"/>
   </default>
   <size njmax="1000" nconmax="1000"/>
   <compiler angle="radian" meshdir="../meshes/"/>
