@@ -30,15 +30,12 @@ def convert_hand_urdf(urdf_path=None, output_dir=None):
         raise FileNotFoundError(f"URDF file not found: {urdf_path}")
 
     # Set up output paths
-    output_dir = current_dir / "../dexrobot_mujoco/models/mjcf"
+    output_dir = current_dir / "../dexrobot_mujoco/models"
     output_dir.mkdir(exist_ok=True)
     output_path = output_dir / f"{urdf_path.stem}.xml"
 
     # Convert URDF to MJCF
     urdf2mjcf(str(urdf_path), str(output_dir))
-
-    # Add a base body to wrap everything else
-    add_trunk_body(str(output_path), "right_hand_base")
 
     # Add options and defaults
     apply_defaults(
@@ -110,6 +107,9 @@ def convert_hand_urdf(urdf_path=None, output_dir=None):
         f"touch_{link}": {"site": f"site_{link}"} for link in sensor_sites.keys()
     }
     add_touch_sensors(str(output_path), sensor_info)
+
+    # Add a base body to wrap everything else
+    add_trunk_body(str(output_path), f"{handedness}_hand_base")
 
     # Exclude unwanted collision pairs
     fingertip_re = r"[lr]_f_link\d_4"  # Matches r_f_link1_4, r_f_link2_4, etc.

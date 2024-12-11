@@ -1,4 +1,4 @@
-<mujoco>
+<mujocoinclude>
     <visual>
         <global offwidth="1920" offheight="1080" />
     </visual>
@@ -9,4 +9,4 @@
     </default>
     <size njmax='1000' nconmax='1000'/>
     <compiler angle="radian" meshdir="../meshes/"/>
-</mujoco>
+</mujocoinclude>

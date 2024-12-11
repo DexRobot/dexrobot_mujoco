@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujoco model="dexhand021_left">
-  <option timestep="0.001" integrator="implicit"/>
+  <visual>
+    <global offwidth="1920" offheight="1080"/>
+  </visual>
+  <option gravity="0 0 -9.81" iterations="100" solver="Newton" integrator="implicit" timestep="0.001"/>
   <default>
     <joint damping="1"/>
+    <geom condim="3" solref="0.02 1" solimp="0.9 0.95 0.001"/>
   </default>
+  <size njmax="1000" nconmax="1000"/>
+  <compiler angle="radian" meshdir="../meshes/"/>
   <compiler angle="radian" meshdir="../meshes/"/>
   <asset>
     <mesh name="l_p_link0" file="l_p_link0.STL"/>
@@ -65,7 +71,7 @@
     <mesh name="l_p_link6" file="l_p_link6.STL"/>
   </asset>
   <worldbody>
-    <body name="right_hand_base" pos="0 0 0" quat="1 0 0 0">
+    <body name="left_hand_base" pos="0 0 0" quat="1 0 0 0">
       <geom pos="0 0 -0.17" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_p_link0"/>
       <geom pos="0 0 -0.17" type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_p_link0"/>
       <geom pos="-0.023855 -0.031204 0.10607" quat="0.12629 -0.0753006 -0.00961464 -0.989085" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_p_link1"/>
@@ -296,26 +302,26 @@
     <touch name="touch_l_f_link5_4" site="site_l_f_link5_4"/>
   </sensor>
   <contact>
-    <exclude body1="right_hand_base" body2="l_f_link1_1"/>
-    <exclude body1="right_hand_base" body2="l_f_link1_2"/>
-    <exclude body1="right_hand_base" body2="l_f_link1_3"/>
-    <exclude body1="right_hand_base" body2="l_f_link1_4"/>
-    <exclude body1="right_hand_base" body2="l_f_link2_1"/>
-    <exclude body1="right_hand_base" body2="l_f_link2_2"/>
-    <exclude body1="right_hand_base" body2="l_f_link2_3"/>
-    <exclude body1="right_hand_base" body2="l_f_link2_4"/>
-    <exclude body1="right_hand_base" body2="l_f_link3_1"/>
-    <exclude body1="right_hand_base" body2="l_f_link3_2"/>
-    <exclude body1="right_hand_base" body2="l_f_link3_3"/>
-    <exclude body1="right_hand_base" body2="l_f_link3_4"/>
-    <exclude body1="right_hand_base" body2="l_f_link4_1"/>
-    <exclude body1="right_hand_base" body2="l_f_link4_2"/>
-    <exclude body1="right_hand_base" body2="l_f_link4_3"/>
-    <exclude body1="right_hand_base" body2="l_f_link4_4"/>
-    <exclude body1="right_hand_base" body2="l_f_link5_1"/>
-    <exclude body1="right_hand_base" body2="l_f_link5_2"/>
-    <exclude body1="right_hand_base" body2="l_f_link5_3"/>
-    <exclude body1="right_hand_base" body2="l_f_link5_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_4"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_4"/>
