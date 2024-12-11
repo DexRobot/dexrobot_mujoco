@@ -22,18 +22,47 @@ def load_meshes(mesh_dir):
     return meshes
 
 
-def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir):
+def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None):
     """Load a URDF file and save it to an MJCF XML file.
 
     Args:
         urdf_path (str): The path to the URDF file.
         mjcf_dir (str): The directory to save the output MJCF file.
-        mesh_dir (str): The directory containing the mesh files.
+        mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.
     """
-    m = mujoco.MjModel.from_xml_path(urdf_path, load_meshes(mesh_dir))
+    if mesh_dir is None:
+        m = mujoco.MjModel.from_xml_path(urdf_path)
+    else:
+        m = mujoco.MjModel.from_xml_path(urdf_path, load_meshes(mesh_dir))
     mujoco.mj_saveLastXML(
         f"{mjcf_dir}/{os.path.splitext(os.path.basename(urdf_path))[0]}.xml", m
     )
+
+def get_joint_names(xml_path):
+    """Get the names of all joints in the MJCF XML file.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+
+    Returns:
+        list[str]: A list of joint names.
+    """
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+    return [joint.get("name") for joint in root.findall(".//joint")]
+
+def get_body_names(xml_path):
+    """Get the names of all bodies in the MJCF XML file.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+
+    Returns:
+        list[str]: A list of body names.
+    """
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+    return [body.get("name") for body in root.findall(".//body")]
 
 
 def add_position_actuators(xml_path, actuator_info):
@@ -119,12 +148,15 @@ def add_touch_sensors(xml_path, sensor_info):
     subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
 
 
-def add_touch_sensor_sites(xml_file_path):
+def add_sites(xml_file_path, site_info):
     """
-    Add touch sensor sites to specific bodies in the MJCF XML file based on body names.
+    Add sites to specific bodies in the MJCF XML file.
 
     Args:
         xml_file_path (str): Path to the input/output MJCF XML file.
+        site_info (dict): Dictionary containing the site information.
+            key (str): The body name to add the site to.
+            value (dict): A set of properties to add to the <site> element.
 
     Returns:
         None
@@ -139,32 +171,22 @@ def add_touch_sensor_sites(xml_file_path):
     if worldbody is None:
         raise ValueError("The provided MJCF file does not contain a <worldbody> element.")
 
-    # Define the specific site information for each body
-    site_info = {
-        "r_f_link1_3": {"pos": "-0.009 0.03 0", "size": "0.01", "type": "sphere"},
-        "r_f_link2_4": {"pos": "0.025 0.003 0", "size": "0.01", "type": "sphere"},
-        "r_f_link3_4": {"pos": "0.025 0.003 0", "size": "0.01", "type": "sphere"},
-        "r_f_link4_4": {"pos": "0.025 0.003 0", "size": "0.01", "type": "sphere"},
-        "r_f_link5_4": {"pos": "0.025 0.003 0", "size": "0.01", "type": "sphere"},
-    }
-
     # Iterate through all bodies in the worldbody to find specific bodies and add sites
-    logger.warning("Adding touch sensor sites to specific bodies in the MJCF XML file.")
+    logger.info("Adding sites to specific bodies in the MJCF XML file.")
     for body in root.findall(".//body"):
         body_name = body.get("name")
         if body_name in site_info:
             # Get site details for the current body
             details = site_info[body_name]
             # Create the site element and add it to the current body
-            ET.SubElement(body, "site", name=f"site_{body_name}", pos=details["pos"], size=details["size"], type=details["type"])
-            logger.warning(f"Added touch sensor site to body: {body_name}")
+            ET.SubElement(body, "site", name=f"site_{body_name}", **details)
+            logger.info(f"Added site to body: {body_name}")
 
     # Write the modified tree to the output file
     tree.write(xml_file_path, encoding="utf-8", xml_declaration=True)
 
     # Call xmllint to prettify the XML file
     subprocess.run(["xmllint", "--format", xml_file_path, "--output", xml_file_path])
-
 
 def apply_defaults(mjcf_xml_path, defaults_xml_path):
     """Apply default values / options from the given defaults XML file to the given MJCF XML file.
@@ -359,12 +381,13 @@ def articulate(parent_xml_path, child_xml_path, link_name, output_xml_path, pos=
     )
 
 
-def add_trunk_body(xml_file_path, pos="0 0 0", quat="1 0 0 0"):
+def add_trunk_body(xml_file_path, name=None, pos="0 0 0", quat="1 0 0 0"):
     """
     Adds a top-level "trunk" element below the "worldbody" and makes every original child of "worldbody" a child of "trunk".
 
     Parameters:
     xml_file_path (str): Path to the input/output MJCF XML file.
+    name (str): Name of the "trunk" body. If not provided, f"{model_name}_trunk" will be used.
     pos (str): Position of the "trunk" body.
     quat (str): Quaternion orientation of the "trunk" body.
 
@@ -385,7 +408,9 @@ def add_trunk_body(xml_file_path, pos="0 0 0", quat="1 0 0 0"):
 
     # Create the "trunk" element
     model_name = root.get("model")
-    trunk = ET.Element("body", name=f"{model_name}_trunk", pos=pos, quat=quat)
+    if name is None:
+        name = f"{model_name}_trunk"
+    trunk = ET.Element("body", name=name, pos=pos, quat=quat)
 
     # Move all existing children of "worldbody" to be children of "trunk"
     for child in list(worldbody):

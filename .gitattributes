@@ -1,0 +1,1 @@
+dexrobot_mujoco/models/meshes/** filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,6 @@
+<mujoco>
+    <option timestep='0.001' integrator='implicit'/>
+    <default>
+        <joint damping="1"/>
+    </default>
+</mujoco>

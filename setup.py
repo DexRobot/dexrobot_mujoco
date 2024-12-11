@@ -63,8 +63,8 @@ setup(
         ],
     },
     zip_safe=True,
-    maintainer='Your Name',
-    maintainer_email='your.email@example.com',
+    maintainer='DexRobot',
+    maintainer_email='lyw@dex-robot.com',
     description='MuJoCo binding for DexRobot with ROS2 integration',
     license='MIT',  # Adjust according to your license
     tests_require=['pytest'],
