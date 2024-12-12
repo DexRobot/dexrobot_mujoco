@@ -10,7 +10,6 @@
   </default>
   <size njmax="1000" nconmax="1000"/>
   <compiler angle="radian" meshdir="../meshes/"/>
-  <compiler angle="radian" meshdir="../meshes/"/>
   <asset>
     <mesh name="r_p_link0" file="r_p_link0.STL"/>
     <mesh name="r_f_link1_1" file="r_f_link1_1.STL"/>

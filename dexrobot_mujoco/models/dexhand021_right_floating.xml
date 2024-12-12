@@ -214,6 +214,7 @@
       </body>
     </body>
   </worldbody>
+  <compiler angle="radian" meshdir="../meshes/"/>
   <actuator>
     <position name="act_ARTx" joint="ARTx" kp="10000" kv="500" ctrlrange="-1 1"/>
     <position name="act_ARTy" joint="ARTy" kp="10000" kv="500" ctrlrange="-1 1"/>
