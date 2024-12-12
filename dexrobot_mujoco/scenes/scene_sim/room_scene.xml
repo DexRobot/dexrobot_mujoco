@@ -1,0 +1,58 @@
+<mujoco model="room1 scene">
+<!-- =================================================
+    Copyright 2020 Vikash Kumar
+    Model   :: Room1 Scene (MuJoCoV2.0)
+    Author  :: Vikash Kumar (vikashplus@gmail.com)
+    source  :: https://github.com/vikashplus/scene_sim
+    License :: Under Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+====================================================== -->
+
+  <asset>
+    <texture name="texplane" type="2d" height="1" width="1" file="../scene_sim/textures/oak_floorboard.png"/>
+    <material name="MatPlane" reflectance="0.01" texture="texplane" texrepeat="4 4" texuniform="true"/>
+    <mesh name="room" file="../scene_sim/meshes/simpleroom1.stl" scale="1 1 1"/>
+    <mesh name="robohive" file="../scene_sim/meshes/robohive_text.stl" scale="1 1 1"/>
+    <mesh name="robohive_half" file="../scene_sim/meshes/robohive_logohalf.stl" scale="4 4 4"/>
+  </asset>
+
+  <compiler angle="radian"/>
+
+
+  <visual>
+    <map fogstart="1.5" fogend="5" force="0.1" znear="0.01" shadowclip="2"/>
+    <quality shadowsize="4096" offsamples="4"/>
+    <headlight ambient=".25 .25 .25" diffuse="0.250 0.250 0.250" specular="0.250 0.250 0.250"/>
+  </visual>
+
+  <default>
+    <default class='scene'>
+      <geom contype="0" conaffinity="0"/>
+    </default>
+  </default>
+
+  <worldbody>
+
+    <body name="room" pos="0 0 0" childclass="scene">
+      <!-- indoor lights -->
+      <light directional='false' diffuse='.8 .8 .8' specular='0.03 0.03 0.03' pos='0 0 3.0' dir='0 0 -3'/>
+
+      <geom name="room" pos="0 0 0" type="mesh" mesh="room" rgba=".3 .3 .3 1" euler="-.0 0 3.14"/>
+      <geom name="floor" pos="0 0 0.001" size="3 2.5 .1" conaffinity="1" contype="1" type="plane" material="MatPlane" condim="3"/>
+      <geom name="lamp" pos="2.604 2.1 1.65" type="cylinder" size=".3 .2" rgba="2 1.6 0 .6" group="1"/>
+      <light directional='false' diffuse='2 1.6 0' specular='0.03 0.03 0.03' pos='2.604 2.1 1.5' dir='0 0 -1' cutoff="90" exponent="5"/>
+
+      <geom pos="0 2.45 1.75" euler="1.57 0 0" name="robohive_front" type="mesh" mesh="robohive" rgba=".6 .6 .6 1"/>
+      <body pos="-3 .95 2.4" euler="0 1.57 1.57">
+          <geom pos="0 0 -.030" type="mesh" mesh="robohive_half" rgba="1 0.6 0 2" euler="0 0 0"/>
+          <geom pos="0 0 -.03" type="mesh" mesh="robohive_half" rgba=".6 .6 .6 1" euler="-.0 0 3.14"/>
+          <geom pos="0 -.45 0" name="robohive" type="mesh" mesh="robohive" rgba=".6 .6 .6 1"/>
+      </body>
+
+      <!-- <geom pos="0 0 1" size=".2 .2 .01" type="box"/> -->
+      <!-- co-ordinate axis -->
+      <site name="xaxis" fromto="0 0 0 1 0 0" size=".005" type="capsule" rgba="1 0 0 .25" group="3"/>
+      <site name="yaxis" fromto="0 0 0 0 1 0" size=".005" type="capsule" rgba="0 1 0 .25" group="3"/>
+    </body>
+  </worldbody>
+
+</mujoco>
