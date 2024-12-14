@@ -1,5 +1,4 @@
-import rclpy
-from rclpy.node import Node
+from ros_compat import ROSNode
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
 from std_msgs.msg import Float32MultiArray
@@ -26,7 +25,7 @@ def float_list(x):
     return np.array(list(map(float, x.split(","))))
 
 
-class MujocoJointController(Node):
+class MujocoJointController(ROSNode):
     def __init__(
         self,
         model_path,
@@ -53,7 +52,7 @@ class MujocoJointController(Node):
             replay_csv (str): Path to the CSV file to replay. The CSV file should contain joint names as column headers
                 and joint positions as rows. If provided, this will override ROS-based input sources.
             hand_pose_topic (str): Topic name for hand pose. When left blank, this node will subscribe to joint
-                positions from the topic "joint_states". When set, this node will subscribe to hand pose from the
+                positions from the topic "joint_commands". When set, this node will subscribe to hand pose from the
                 specified topic and try to set the hand pose using 6 DoF arbitrary joint in the model (skipping IK).
             position_magnifiers (list of float): Position magnifiers for the hand pose control. These factors will scale
                 the hand pose coordinates received from the `hand_pose_topic`.
@@ -67,7 +66,7 @@ class MujocoJointController(Node):
             renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
         """
         super().__init__("mujoco_joint_controller")
-        self.get_logger().info("Mujoco Joint Controller Node has been started.")
+        self.logger.info("Mujoco Joint Controller Node has been started.")
 
         self.app = Flask(__name__)
         self.model_path = model_path
@@ -112,7 +111,7 @@ class MujocoJointController(Node):
 
         if self.replay_csv is None:
             self.joint_state_subscription = self.create_subscription(
-                JointState, "joint_states", self.joint_state_callback, 10
+                JointState, "joint_commands", self.joint_state_callback, 10
             )
             if self.hand_pose_topic is not None:
                 self.hand_pose_subscription = self.create_subscription(
@@ -174,13 +173,13 @@ class MujocoJointController(Node):
             self.output_timer = None
         if "ros" in self.output_formats:
             self.joint_state_publisher = self.create_publisher(
-                JointState, "joint_states_actual", 10
+                JointState, "joint_states", 10
             )
             self.body_pose_publisher = self.create_publisher(
-                PoseArray, "body_poses_actual", 10
+                PoseArray, "body_poses", 10
             )
             self.touch_sensor_publisher = self.create_publisher(
-                Float32MultiArray, "touch_sensor_actual", 10
+                Float32MultiArray, "touch_sensors", 10
             )
         else:
             self.joint_state_publisher = None
@@ -200,7 +199,7 @@ class MujocoJointController(Node):
                 self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
                 self.csv_path = self.output_csv_path
             else:
-                self.get_logger().error(
+                self.logger.error(
                     'Output CSV path must be specified when "csv" is included in the output formats.'
                 )
                 exit(1)
@@ -212,13 +211,13 @@ class MujocoJointController(Node):
 
         if "ros" in output_formats and output_bag_path is not None:
             topics = [
+                "joint_commands",
                 "joint_states",
-                "joint_states_actual",
-                "body_poses_actual",
+                "body_poses",
             ] + additional_bag_topics
             command = f'ros2 bag record -o {output_bag_path} {" ".join(topics)}'
             self.rosbag_process = subprocess.Popen(command, shell=True, preexec_fn=os.setpgrp)
-            self.get_logger().info(f"Recording to bag file: {output_bag_path}")
+            self.logger.info(f"Recording to bag file: {output_bag_path}")
         else:
             self.rosbag_process = None
 
@@ -276,7 +275,7 @@ class MujocoJointController(Node):
         self.rpy_prev = rpy_ref
 
         if verbose:
-            self.get_logger().info(
+            self.logger.info(
                 f"target_pos={position_ref}, target_orientation={orientation_ref}"
             )
 
@@ -305,7 +304,7 @@ class MujocoJointController(Node):
     def joint_state_callback(self, msg: JointState, verbose=False):
         """Callback function for the joint state subscriber."""
         if verbose:
-            self.get_logger().info(f"Received Joint States: {msg}")
+            self.logger.info(f"Received Joint States: {msg}")
 
         for name, pos in zip(msg.name, msg.position):
             # send control
@@ -329,14 +328,14 @@ class MujocoJointController(Node):
 
         if "ros" in self.output_formats:
             joint_state_msg = JointState()
-            joint_state_msg.header.stamp = self.get_clock().now().to_msg()
+            joint_state_msg.header.stamp = self.get_ros_time().to_msg()
             joint_state_msg.name = self.tracked_joint_names
             joint_state_msg.position = list(joint_pos)
             joint_state_msg.velocity = list(joint_vel)
             self.joint_state_publisher.publish(joint_state_msg)
 
             body_pose_msg = PoseArray()
-            body_pose_msg.header.stamp = self.get_clock().now().to_msg()
+            body_pose_msg.header.stamp = self.get_ros_time().to_msg()
             for pos, quat in zip(body_pos, body_quat):
                 pose = Pose()
                 pose.position.x, pose.position.y, pose.position.z = pos
@@ -369,7 +368,7 @@ class MujocoJointController(Node):
         try:
             frame = self.mj.render_frame()
             frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-            timestamp = self.get_clock().now().nanoseconds
+            timestamp = self.get_ros_time().now()
             filename = f"mujoco_screenshot_{timestamp}.png"
             cv2.imwrite(filename, frame_bgr)
 
@@ -404,17 +403,17 @@ class MujocoJointController(Node):
         """Clean up the node."""
         if self.csv_buffer is not None:
             self.csv_buffer.to_csv(self.csv_path)
-            self.get_logger().info(f"Saved data to {self.csv_path}")
+            self.logger.info(f"Saved data to {self.csv_path}")
         if self.rosbag_process is not None:
             os.killpg(os.getpgid(self.rosbag_process.pid), signal.SIGINT)
-            self.get_logger().info("Stopped recording to bag file.")
+            self.logger.info("Stopped recording to bag file.")
         if self.video_writer is not None:
             self.video_writer.release()
-            self.get_logger().info(f"Saved video to {self.output_mp4_path}")
+            self.logger.info(f"Saved video to {self.output_mp4_path}")
         if self.enable_vr:
             requests.post("http://127.0.0.1:5000/shutdown")
-            self.get_logger().info("Stopped the Flask server.")
-        self.get_logger().info('Simulation stopped.')
+            self.logger.info("Stopped the Flask server.")
+        self.logger.info('Simulation stopped.')
 
 def main():
     parser = argparse.ArgumentParser()
@@ -468,8 +467,6 @@ def main():
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
     args = parser.parse_args()
 
-    rclpy.init()
-
     # Convert renderer dimension string to tuple or None
     renderer_dim = tuple(map(int, args.renderer_dimension)) if args.renderer_dimension is not None else None
 
@@ -490,13 +487,12 @@ def main():
     )
 
     try:
-        rclpy.spin(node)
+        node.spin()
     except KeyboardInterrupt:
         logger.error("KeyboardInterrupt, shutting down MujocoJointController...")
     finally:
         node.on_shutdown()
-        node.destroy_node()
-        rclpy.shutdown()
+        node.shutdown()
 
 
 if __name__ == "__main__":
