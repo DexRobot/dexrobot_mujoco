@@ -4,16 +4,12 @@
 
     <include file="scene_sim/topfloor_scene.xml" />
     <include file="furniture_sim/simpleTable/simpleTable_asset.xml" />
-
     <include file="../parts/dexhand021_right_floating_asset.xml" />
 
     <worldbody>
-        <site name="workspace" type="box" size=".6 .375 .25" pos="0 0.475 1.0" group="3"
-            rgba="0 0 .4 0.2" />
         <body name="floating_hand_base" pos="0 0 1.2">
             <include file="../parts/dexhand021_right_floating_body.xml" />
         </body>
-
         <body name="scenetable" pos="0 0 0" euler="0 0 1.57">
             <include
                 file="furniture_sim/simpleTable/simpleMarbleTable_body.xml" />
@@ -24,11 +20,9 @@
                 rgba="0.49803922 0.72156863 0.87058824 1" />
             <freejoint />
         </body>
-
     </worldbody>
 
     <include file="../parts/dexhand021_right_floating_actuator.xml" />
     <include file="../parts/dexhand021_right_floating_sensor.xml" />
-
     <include file="../parts/dexhand021_right_floating_contact.xml" />
 </mujoco>
