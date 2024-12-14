@@ -3,6 +3,7 @@ import os
 import xml.etree.ElementTree as ET
 import re
 import subprocess
+import yaml
 from loguru import logger
 
 
@@ -694,3 +695,66 @@ def add_mesh_prefix(xml_file_path, prefix):
     tree.write(xml_file_path, encoding="utf-8", xml_declaration=True)
 
     subprocess.run(["xmllint", "--format", xml_file_path, "--output", xml_file_path])
+
+def update_geom_collisions(xml_file_path, collision_yaml_path):
+    """Update collision properties of an MJCF XML file based on a YAML configuration.
+
+    This function:
+    1. Sets all existing geoms to non-collidable if they don't have collision properties already set
+    2. Adds collidable geoms specified in the YAML file
+
+    Args:
+        xml_file_path (str): Path to the MJCF XML file
+        collision_yaml_path (str): Path to YAML file containing collidable geom specifications
+    """
+    # Parse the XML file
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+
+    # Load collision specifications from YAML
+    with open(collision_yaml_path, 'r') as f:
+        collision_specs = yaml.safe_load(f)
+
+    # Set all existing geoms to non-collidable if they don't have collision properties
+    for geom in root.findall(".//body//geom"):
+        if not any(attr in geom.attrib for attr in ['contype', 'conaffinity', 'group']):
+            geom.set('contype', '0')
+            geom.set('conaffinity', '0')
+            geom.set('group', '1')
+            geom.set('density', '0')
+
+    # Add collidable geoms from YAML
+    for body_name, geom_spec in collision_specs.items():
+        # Find the body element
+        body = root.find(f'.//body[@name="{body_name}"]')
+        if body is None:
+            logger.warning(f"Body {body_name} not found in XML")
+            continue
+
+        # Create geom attributes
+        geom_attrs = {
+            'name': f'col_{body_name}',
+            'type': geom_spec['type'],
+            'contype': '1',
+            'conaffinity': '1',
+            'group': '3'  # Using group 3 for collision geoms as in original XML
+        }
+
+        # Add type-specific attributes
+        if geom_spec['type'] == 'box':
+            geom_attrs['size'] = ' '.join(map(str, geom_spec['size']))
+            geom_attrs['pos'] = ' '.join(map(str, geom_spec['pos']))
+        elif geom_spec['type'] == 'capsule':
+            geom_attrs['size'] = ' '.join(map(str, geom_spec['size']))
+            geom_attrs['fromto'] = ' '.join(map(str, geom_spec['fromto']))
+
+        # Create and add the geom element
+        collision_geom = ET.SubElement(body, 'geom', geom_attrs)
+
+    # Save the modified XML
+    tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
+
+    # Format the XML file
+    subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
+
+    logger.info(f"Updated collision properties in {xml_file_path}")
