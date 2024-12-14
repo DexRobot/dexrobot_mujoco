@@ -20,7 +20,7 @@ The original mesh-based collision model is simplified to use primitive geometrie
 
 | <img src="assets/hands.png" alt="Original model" width="320">| <img src="assets/hands_simplified_collision_geom.png" alt="Simplified collision geometries" width="400"> |
 |---------------------------------------------|---------------------------------------------|
-| hands and capsules                                 | capsules  only                         |
+| Visual model                                 | Simplified model for collision                        |
 
 Left: Original full mesh-based collision geometries. Right: Simplified collision geometries using primitives.
 
