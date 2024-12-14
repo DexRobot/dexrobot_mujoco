@@ -1,6 +1,7 @@
 import os
 import argparse
 from pathlib import Path
+import yaml
 from dexrobot_mujoco.utils.mjcf_utils import (
     urdf2mjcf,
     get_body_names,
@@ -10,15 +11,18 @@ from dexrobot_mujoco.utils.mjcf_utils import (
     add_sites,
     apply_defaults,
     exclude_self_collisions,
+    update_geom_collisions,
 )
 
 
-def convert_hand_urdf(urdf_path=None, output_dir=None):
+def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None):
     """Convert URDF to MJCF and add necessary configurations for the hand model.
 
     Args:
         urdf_path (str, optional): Path to input URDF file. If not provided, uses default path.
         output_dir (str, optional): Output directory for MJCF file. If not provided, uses default path.
+        simplified_collision_yaml (str): Path to YAML file containing simplified collision model.
+            If provided, this will be used instead of generating full collision model.
     """
     # Set up paths
     current_dir = Path(__file__).parent
@@ -122,13 +126,22 @@ def convert_hand_urdf(urdf_path=None, output_dir=None):
     ]
     exclude_self_collisions(output_path, allowed_collision_pairs=allowed_collision_pairs)
 
+    # Apply collision model if applicable
+    if simplified_collision_yaml:
+        # Use provided simplified collision model
+        if not os.path.exists(simplified_collision_yaml):
+            raise FileNotFoundError(f"Simplified collision YAML not found: {simplified_collision_yaml}")
+        update_geom_collisions(str(output_path), str(simplified_collision_yaml))
+
 
 def main():
     parser = argparse.ArgumentParser(description="Convert hand URDF to MJCF format")
     parser.add_argument("--urdf", type=str, help="Input URDF file path")
+    parser.add_argument("--simplified-collisions", type=str, help="Path to simplified collision YAML file")
+
     args = parser.parse_args()
 
-    convert_hand_urdf(args.urdf)
+    convert_hand_urdf(args.urdf, simplified_collision_yaml=args.simplified_collisions)
 
 
 if __name__ == "__main__":

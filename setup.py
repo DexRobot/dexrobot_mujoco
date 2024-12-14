@@ -52,6 +52,7 @@ setup(
         'flask',
         'opencv-python',
         'pandas',
+        "ros_compat @ git+https://github.com/dexrobot/ros_compat.git",
     ],
     extras_require={
         'dev': [

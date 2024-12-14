@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="dexhand021_left_simplified">
+  <visual>
+    <global offwidth="1920" offheight="1080"/>
+  </visual>
+  <option gravity="0 0 -9.81" iterations="100" solver="Newton" integrator="implicit" timestep="0.001"/>
+  <default>
+    <joint damping="1"/>
+    <geom condim="3" solref="0.02 1" solimp="0.9 0.95 0.001" friction="2 2 2"/>
+  </default>
+  <size njmax="1000" nconmax="1000"/>
+  <compiler angle="radian" meshdir="../meshes/dexhand021_simplified/"/>
+  <asset>
+    <mesh name="left_hand_base" file="left_hand_base.STL"/>
+    <mesh name="l_f_link1_1" file="l_f_link1_1.STL"/>
+    <mesh name="l_f_link1_2" file="l_f_link1_2.STL"/>
+    <mesh name="l_f_link1_3" file="l_f_link1_3.STL"/>
+    <mesh name="l_f_link1_4" file="l_f_link1_4.STL"/>
+    <mesh name="l_f_link2_1" file="l_f_link2_1.STL"/>
+    <mesh name="l_f_link2_2" file="l_f_link2_2.STL"/>
+    <mesh name="l_f_link2_3" file="l_f_link2_3.STL"/>
+    <mesh name="l_f_link2_4" file="l_f_link2_4.STL"/>
+    <mesh name="l_f_link3_1" file="l_f_link3_1.STL"/>
+    <mesh name="l_f_link3_2" file="l_f_link3_2.STL"/>
+    <mesh name="l_f_link3_3" file="l_f_link3_3.STL"/>
+    <mesh name="l_f_link3_4" file="l_f_link3_4.STL"/>
+    <mesh name="l_f_link4_1" file="l_f_link4_1.STL"/>
+    <mesh name="l_f_link4_2" file="l_f_link4_2.STL"/>
+    <mesh name="l_f_link4_3" file="l_f_link4_3.STL"/>
+    <mesh name="l_f_link4_4" file="l_f_link4_4.STL"/>
+    <mesh name="l_f_link5_1" file="l_f_link5_1.STL"/>
+    <mesh name="l_f_link5_2" file="l_f_link5_2.STL"/>
+    <mesh name="l_f_link5_3" file="l_f_link5_3.STL"/>
+    <mesh name="l_f_link5_4" file="l_f_link5_4.STL"/>
+  </asset>
+  <worldbody>
+    <body name="left_hand_base" pos="0 0 0" quat="1 0 0 0">
+      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.75294 0.75294 0.75294 1" mesh="left_hand_base"/>
+      <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="left_hand_base" contype="0" conaffinity="0" group="1" density="0"/>
+      <body name="l_f_link1_1" pos="0.032783 -0.023781 0.11211" quat="0.775383 -0.151562 0.0221299 -0.612635">
+        <inertial pos="0.00198601 -0.000349748 -0.0134844" quat="0.71633 0.07806 0.053615 0.691305" mass="0.0055493" diaginertia="5.52285e-07 4.77982e-07 2.48011e-07"/>
+        <joint name="l_f_joint1_1" pos="0 0 0" axis="0 0 1" range="0 2.2" actuatorfrcrange="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_1"/>
+        <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_1" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="l_f_link1_2" pos="0.0083307 0 0" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0214367 0.000173155 0.00129831" quat="0.0169236 0.707399 -0.0127201 0.706498" mass="0.0124624" diaginertia="2.145e-06 2.07722e-06 7.7629e-07"/>
+          <joint name="l_f_joint1_2" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_2"/>
+          <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_2" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="l_f_link1_3" pos="0.043 0 0">
+            <inertial pos="0.0134548 -0.000702415 0.0012928" quat="0.0203476 0.706847 -0.0205118 0.706776" mass="0.00572599" diaginertia="4.76545e-07 4.47487e-07 2.54784e-07"/>
+            <joint name="l_f_joint1_3" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_3"/>
+            <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_3" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="l_f_link1_4" pos="0.025 0 0">
+              <inertial pos="-0.106463 -0.00117929 0.0357676" quat="0.486657 0.478687 -0.600969 0.415764" mass="0.51236" diaginertia="0.00218684 0.00177009 0.000621391"/>
+              <joint name="l_f_joint1_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_4"/>
+              <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link1_4" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
+              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <site name="site_l_f_link1_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom name="col_l_f_link1_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0.001 0.027 -0.007 0.001"/>
+            </body>
+            <geom name="col_l_f_link1_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.0125 0.003 -0.002 0.0125 0.003 0.0042"/>
+          </body>
+          <geom name="col_l_f_link1_2" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.03 0 0.002"/>
+        </body>
+      </body>
+      <body name="l_f_link2_1" pos="0.006966 -0.034912 0.1644" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+        <inertial pos="0.00700303 1.36492e-10 -0.000969321" quat="0.371165 0.601861 0.601861 0.371165" mass="0.0051273" diaginertia="3.98794e-07 3.40578e-07 2.55887e-07"/>
+        <joint name="l_f_joint2_1" pos="0 0 0" axis="0 0 1" range="0 0.6" actuatorfrcrange="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link2_1"/>
+        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link2_1" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="l_f_link2_2" pos="0.017 0 0" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0211605 -0.000591446 2.2915e-06" quat="0.503104 0.507903 0.492635 0.496217" mass="0.0118025" diaginertia="2.07731e-06 2.05915e-06 6.94892e-07"/>
+          <joint name="l_f_joint2_2" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_2"/>
+          <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_2" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="l_f_link2_3" pos="0.043 0 0">
+            <inertial pos="0.0134548 -0.000702382 3.81155e-07" quat="0.0203638 0.706846 -0.0204941 0.706777" mass="0.00572599" diaginertia="4.76545e-07 4.47486e-07 2.54785e-07"/>
+            <joint name="l_f_joint2_3" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_3"/>
+            <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_3" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="l_f_link2_4" pos="0.025 0 0">
+              <inertial pos="-0.133327 -0.0157546 0.0326121" quat="0.430987 0.521588 0.48584 0.553313" mass="0.51236" diaginertia="0.00219602 0.00179206 0.000605432"/>
+              <joint name="l_f_joint2_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_4"/>
+              <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link2_4" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
+              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <site name="site_l_f_link2_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom name="col_l_f_link2_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
+            </body>
+            <geom name="col_l_f_link2_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
+          </body>
+          <geom name="col_l_f_link2_2" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.005 0 0 0.03 0 0"/>
+        </body>
+      </body>
+      <body name="l_f_link3_1" pos="0.006966 -0.010612 0.1734" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
+        <inertial pos="0.00700304 1.36492e-10 -0.000969317" quat="0.371164 0.601861 0.601861 0.371164" mass="0.0051273" diaginertia="3.98794e-07 3.40578e-07 2.55887e-07"/>
+        <joint name="l_f_joint3_1" pos="0 0 0" axis="0 0 1" range="-0.001 0.001" actuatorfrcrange="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link3_1"/>
+        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link3_1" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="l_f_link3_2" pos="0.017 0 0" quat="0.707105 0.707108 0 0">
+          <inertial pos="0.0211605 -0.000591446 2.2915e-06" quat="0.503104 0.507903 0.492635 0.496217" mass="0.0118025" diaginertia="2.07731e-06 2.05915e-06 6.94892e-07"/>
+          <joint name="l_f_joint3_2" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_2"/>
+          <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_2" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="l_f_link3_3" pos="0.043 0 0">
+            <inertial pos="0.0134548 -0.000702382 3.81155e-07" quat="0.0203638 0.706846 -0.0204941 0.706777" mass="0.00572599" diaginertia="4.76545e-07 4.47486e-07 2.54785e-07"/>
+            <joint name="l_f_joint3_3" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_3"/>
+            <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_3" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="l_f_link3_4" pos="0.025 0 0">
+              <inertial pos="-0.14231 -0.0157546 0.00835951" quat="0.431699 0.520855 0.485004 0.554182" mass="0.51236" diaginertia="0.00219811 0.0017948 0.000604785"/>
+              <joint name="l_f_joint3_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_4"/>
+              <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link3_4" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
+              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <site name="site_l_f_link3_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom name="col_l_f_link3_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
+            </body>
+            <geom name="col_l_f_link3_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
+          </body>
+          <geom name="col_l_f_link3_2" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.005 0 0 0.03 0 0"/>
+        </body>
+      </body>
+      <body name="l_f_link4_1" pos="0.006966 0.013688 0.1644" quat="0.707105 0 -0.707108 0">
+        <inertial pos="0.00700303 -1.36492e-10 0.000969318" quat="0.601861 0.371165 0.371165 0.601861" mass="0.0051273" diaginertia="3.98794e-07 3.40578e-07 2.55887e-07"/>
+        <joint name="l_f_joint4_1" pos="0 0 0" axis="0 0 1" range="0 0.6" actuatorfrcrange="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link4_1"/>
+        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link4_1" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="l_f_link4_2" pos="0.017 0 0" quat="0.707105 -0.707108 0 0">
+          <inertial pos="0.0211605 -0.000591445 2.29174e-06" quat="0.503105 0.507903 0.492636 0.496217" mass="0.0118025" diaginertia="2.07731e-06 2.05915e-06 6.94892e-07"/>
+          <joint name="l_f_joint4_2" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_2"/>
+          <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_2" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="l_f_link4_3" pos="0.043 0 0">
+            <inertial pos="0.0134548 -0.000702382 3.81155e-07" quat="0.0203638 0.706846 -0.0204941 0.706777" mass="0.00572599" diaginertia="4.76545e-07 4.47486e-07 2.54785e-07"/>
+            <joint name="l_f_joint4_3" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_3"/>
+            <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_3" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="l_f_link4_4" pos="0.025 0 0">
+              <inertial pos="-0.133327 -0.0157546 -0.0158931" quat="0.432486 0.519987 0.484326 0.554976" mass="0.51236" diaginertia="0.00219566 0.0017919 0.000605301"/>
+              <joint name="l_f_joint4_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_4"/>
+              <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link4_4" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
+              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <site name="site_l_f_link4_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom name="col_l_f_link4_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
+            </body>
+            <geom name="col_l_f_link4_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
+          </body>
+          <geom name="col_l_f_link4_2" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.005 0 0 0.03 0 0"/>
+        </body>
+      </body>
+      <body name="l_f_link5_1" pos="0.006966 0.037988 0.1504" quat="0.707105 0 -0.707108 0">
+        <inertial pos="0.00700303 -1.36492e-10 0.000969319" quat="0.601861 0.371165 0.371165 0.601861" mass="0.0051273" diaginertia="3.98794e-07 3.40578e-07 2.55887e-07"/>
+        <joint name="l_f_joint5_1" pos="0 0 0" axis="0 0 1" range="0 0.6" actuatorfrcrange="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link5_1"/>
+        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="l_f_link5_1" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="l_f_link5_2" pos="0.017 0 0" quat="0.707105 -0.707108 0 0">
+          <inertial pos="0.0211605 -0.000591445 2.29174e-06" quat="0.503105 0.507903 0.492636 0.496217" mass="0.0118025" diaginertia="2.07731e-06 2.05915e-06 6.94892e-07"/>
+          <joint name="l_f_joint5_2" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_2"/>
+          <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_2" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="l_f_link5_3" pos="0.043 0 0">
+            <inertial pos="0.0134548 -0.000702382 3.81155e-07" quat="0.0203638 0.706846 -0.0204941 0.706777" mass="0.00572599" diaginertia="4.76545e-07 4.47486e-07 2.54785e-07"/>
+            <joint name="l_f_joint5_3" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_3"/>
+            <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_3" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="l_f_link5_4" pos="0.025 0 0">
+              <inertial pos="-0.119355 -0.0157546 -0.0401456" quat="0.433299 0.519112 0.483939 0.555498" mass="0.51236" diaginertia="0.00219308 0.00178782 0.000606966"/>
+              <joint name="l_f_joint5_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
+              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_4"/>
+              <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="l_f_link5_4" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
+              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <site name="site_l_f_link5_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom name="col_l_f_link5_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
+            </body>
+            <geom name="col_l_f_link5_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
+          </body>
+          <geom name="col_l_f_link5_2" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.005 0 0 0.03 0 0"/>
+        </body>
+      </body>
+      <geom name="col_left_hand_base" type="box" contype="1" conaffinity="1" group="3" size="0.0273 0.05 0.05" pos="-0.0022 0 0.11"/>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="act_l_f_joint1_2" joint="l_f_joint1_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint1_3" joint="l_f_joint1_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint1_4" joint="l_f_joint1_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint2_2" joint="l_f_joint2_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint2_3" joint="l_f_joint2_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint2_4" joint="l_f_joint2_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint3_2" joint="l_f_joint3_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint3_3" joint="l_f_joint3_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint3_4" joint="l_f_joint3_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint4_2" joint="l_f_joint4_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint4_3" joint="l_f_joint4_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint4_4" joint="l_f_joint4_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint5_2" joint="l_f_joint5_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint5_3" joint="l_f_joint5_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint5_4" joint="l_f_joint5_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint1_1" joint="l_f_joint1_1" kp="20" kv="1" ctrlrange="0 2.2" forcerange="-20 20"/>
+    <position name="act_l_f_joint2_1" joint="l_f_joint2_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint3_1" joint="l_f_joint3_1" kp="20" kv="1" ctrlrange="-0.0001 0.0001" forcerange="-20 20"/>
+    <position name="act_l_f_joint4_1" joint="l_f_joint4_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint5_1" joint="l_f_joint5_1" kp="20" kv="1" ctrlrange="0 0.6" forcerange="-20 20"/>
+  </actuator>
+  <sensor>
+    <touch name="touch_l_f_link1_4" site="site_l_f_link1_4"/>
+    <touch name="touch_l_f_link2_4" site="site_l_f_link2_4"/>
+    <touch name="touch_l_f_link3_4" site="site_l_f_link3_4"/>
+    <touch name="touch_l_f_link4_4" site="site_l_f_link4_4"/>
+    <touch name="touch_l_f_link5_4" site="site_l_f_link5_4"/>
+  </sensor>
+  <contact>
+    <exclude body1="left_hand_base" body2="l_f_link1_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_1"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_2"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_3"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link1_2"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link1_3"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link1_3"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link5_1" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link5_1" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link5_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link5_2" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link5_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link5_3" body2="l_f_link5_4"/>
+  </contact>
+</mujoco>

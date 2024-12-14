@@ -3,6 +3,7 @@ import os
 import xml.etree.ElementTree as ET
 import re
 import subprocess
+import yaml
 from loguru import logger
 
 
@@ -326,59 +327,127 @@ def merge_xml_files(xml_dict, output_xml_path, model_name):
 def articulate(parent_xml_path, child_xml_path, link_name, output_xml_path, pos="0 0 0", quat="1 0 0 0"):
     """
     Articulates a child model to a parent model at the specified link.
+    Uses visual, option, default and size settings from the child model.
+    Handles mesh paths considering both explicit paths and meshdir compiler settings.
 
-    Note: we assume that the child model has a single root body. (first body under <worldbody>)
-
-    Parameters:
-    parent_xml_path (str): Path to the parent MJCF XML file.
-    child_xml_path (str): Path to the child MJCF XML file.
-    link_name (str): Name of the link in the parent model to which the child model should be articulated.
-    output_xml_path (str): Path to the output articulated MJCF XML file.
-    pos (str): Position of the child model.
-    quat (str): Quaternion orientation of the child model.
-
-    Returns:
-    None
+    Args:
+        parent_xml_path (str): Path to the parent MJCF XML file.
+        child_xml_path (str): Path to the child MJCF XML file.
+        link_name (str): Name of the link in the parent model to which the child model should be articulated.
+        output_xml_path (str): Path to the output articulated MJCF XML file.
+        pos (str): Position of the child model.
+        quat (str): Quaternion orientation of the child model.
     """
-    # Load the parent XML file and locate the specified link
+    # Convert all paths to absolute for resolution
+    parent_xml_path = os.path.abspath(parent_xml_path)
+    child_xml_path = os.path.abspath(child_xml_path)
+    output_xml_path = os.path.abspath(output_xml_path)
+
+    parent_dir = os.path.dirname(parent_xml_path)
+    child_dir = os.path.dirname(child_xml_path)
+    output_dir = os.path.dirname(output_xml_path)
+
+    # Load XML files
     parent_tree = ET.parse(parent_xml_path)
     parent_root = parent_tree.getroot()
-    parent_worldbody = parent_root.find("worldbody")
-    parent_link = parent_worldbody.find(f'.//body[@name="{link_name}"]')
 
-    # Load the child XML file and locate the root body
     child_tree = ET.parse(child_xml_path)
     child_root = child_tree.getroot()
+
+    # Get model names and set combined name
+    parent_name = parent_root.get("model", "parent")
+    child_name = child_root.get("model", "child")
+    parent_root.set("model", f"{parent_name}_{child_name}")
+
+    # Replace/copy configuration elements from child model
+    for element_name in ["visual", "option", "default", "size"]:
+        child_element = child_root.find(element_name)
+        if child_element is not None:
+            # Remove existing element from parent if it exists
+            parent_element = parent_root.find(element_name)
+            if parent_element is not None:
+                parent_root.remove(parent_element)
+            # Insert child element at beginning of parent
+            parent_root.insert(0, child_element)
+
+    # Extract meshdir settings
+    def get_meshdir(root, base_dir):
+        compiler = root.find(".//compiler")
+        if compiler is not None and "meshdir" in compiler.attrib:
+            meshdir = compiler.get("meshdir")
+            # Convert meshdir to absolute path
+            return os.path.normpath(os.path.join(base_dir, meshdir))
+        return base_dir
+
+    parent_meshdir = get_meshdir(parent_root, parent_dir)
+    child_meshdir = get_meshdir(child_root, child_dir)
+
+    # Find required elements for articulation
+    parent_worldbody = parent_root.find("worldbody")
+    parent_link = parent_worldbody.find(f'.//body[@name="{link_name}"]')
+    if parent_link is None:
+        raise ValueError(f"Link {link_name} not found in parent model")
+
     child_worldbody = child_root.find("worldbody")
     child_root_body = child_worldbody.find("body")
+    if child_root_body is None:
+        raise ValueError("No root body found in child model")
 
-    # Override the position and orientation of the child root body
+    # Set position and orientation of child root body
     child_root_body.set("pos", pos)
     child_root_body.set("quat", quat)
 
-    # Append the child root body to the parent link
+    # Function to resolve and update mesh paths
+    def update_mesh_paths(asset_elem, meshdir):
+        if asset_elem is None:
+            return
+        mesh_elements = asset_elem.findall("mesh")
+        for mesh in mesh_elements:
+            if "file" in mesh.attrib:
+                # Get absolute path considering meshdir
+                mesh_file = mesh.get("file")
+                abs_mesh_path = os.path.normpath(os.path.join(meshdir, mesh_file))
+                # Convert to relative path from output XML
+                rel_mesh_path = os.path.relpath(abs_mesh_path, output_dir)
+                mesh.set("file", rel_mesh_path)
+
+    # Update mesh paths in both parent and child assets
+    parent_asset = parent_root.find("asset")
+    child_asset = child_root.find("asset")
+    update_mesh_paths(parent_asset, parent_meshdir)
+    update_mesh_paths(child_asset, child_meshdir)
+
+    # Update or create compiler element with new meshdir
+    compiler = parent_root.find("compiler")
+    if compiler is None:
+        compiler = ET.Element("compiler")
+        parent_root.insert(0, compiler)
+    compiler.set("meshdir", "")
+
+    # Append child root body to parent link
     parent_link.append(child_root_body)
 
-    # Merge the assets, actuators, sensors, tendons, and contacts from the child model to the parent model (when name duplicates, skip)
+    # Merge other elements from child to parent
     for element_name in ["asset", "actuator", "sensor", "tendon", "contact"]:
-        if child_root.find(element_name) is not None:
-            if parent_root.find(element_name) is None:
-                parent_root.append(ET.Element(element_name))
-            child_element = child_root.find(element_name)
+        child_element = child_root.find(element_name)
+        if child_element is not None:
             parent_element = parent_root.find(element_name)
+            if parent_element is None:
+                parent_element = ET.SubElement(parent_root, element_name)
+
+            # Get existing names to avoid duplicates
             parent_item_names = {item.get("name") for item in parent_element}
+
             for item in child_element:
                 item_name = item.get("name")
                 if item_name not in parent_item_names:
                     parent_element.append(item)
 
-    # Write the modified parent XML to the output file
+    # Write the modified parent XML to output
     parent_tree.write(output_xml_path, encoding="utf-8", xml_declaration=True)
 
     # Format the output XML file
-    subprocess.run(
-        ["xmllint", "--format", output_xml_path, "--output", output_xml_path]
-    )
+    subprocess.run(["xmllint", "--format", output_xml_path, "--output", output_xml_path])
 
 
 def add_trunk_body(xml_file_path, name=None, pos="0 0 0", quat="1 0 0 0"):
@@ -626,3 +695,66 @@ def add_mesh_prefix(xml_file_path, prefix):
     tree.write(xml_file_path, encoding="utf-8", xml_declaration=True)
 
     subprocess.run(["xmllint", "--format", xml_file_path, "--output", xml_file_path])
+
+def update_geom_collisions(xml_file_path, collision_yaml_path):
+    """Update collision properties of an MJCF XML file based on a YAML configuration.
+
+    This function:
+    1. Sets all existing geoms to non-collidable if they don't have collision properties already set
+    2. Adds collidable geoms specified in the YAML file
+
+    Args:
+        xml_file_path (str): Path to the MJCF XML file
+        collision_yaml_path (str): Path to YAML file containing collidable geom specifications
+    """
+    # Parse the XML file
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+
+    # Load collision specifications from YAML
+    with open(collision_yaml_path, 'r') as f:
+        collision_specs = yaml.safe_load(f)
+
+    # Set all existing geoms to non-collidable if they don't have collision properties
+    for geom in root.findall(".//body//geom"):
+        if not any(attr in geom.attrib for attr in ['contype', 'conaffinity', 'group']):
+            geom.set('contype', '0')
+            geom.set('conaffinity', '0')
+            geom.set('group', '1')
+            geom.set('density', '0')
+
+    # Add collidable geoms from YAML
+    for body_name, geom_spec in collision_specs.items():
+        # Find the body element
+        body = root.find(f'.//body[@name="{body_name}"]')
+        if body is None:
+            logger.warning(f"Body {body_name} not found in XML")
+            continue
+
+        # Create geom attributes
+        geom_attrs = {
+            'name': f'col_{body_name}',
+            'type': geom_spec['type'],
+            'contype': '1',
+            'conaffinity': '1',
+            'group': '3'  # Using group 3 for collision geoms as in original XML
+        }
+
+        # Add type-specific attributes
+        if geom_spec['type'] == 'box':
+            geom_attrs['size'] = ' '.join(map(str, geom_spec['size']))
+            geom_attrs['pos'] = ' '.join(map(str, geom_spec['pos']))
+        elif geom_spec['type'] == 'capsule':
+            geom_attrs['size'] = ' '.join(map(str, geom_spec['size']))
+            geom_attrs['fromto'] = ' '.join(map(str, geom_spec['fromto']))
+
+        # Create and add the geom element
+        collision_geom = ET.SubElement(body, 'geom', geom_attrs)
+
+    # Save the modified XML
+    tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
+
+    # Format the XML file
+    subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
+
+    logger.info(f"Updated collision properties in {xml_file_path}")
