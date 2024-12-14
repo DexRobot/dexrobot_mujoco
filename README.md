@@ -57,9 +57,9 @@ The package provides a ROS node that works with both ROS1 and ROS2 (auto-detecte
 ### Example usage
 
 ```bash
-python nodes/dexrobot_mujoco_ros2.py dexrobot_mujoco/models/dexhand021_left_simplified.xml     # Simulate a single hand
+python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_left_simplified.xml     # Simulate a single hand
 
-python nodes/dexrobot_mujoco_ros2.py dexrobot_mujoco/scenes/box.xml --config config/scene_default.yaml    # Simulate a scene, with camera and ros topic configurations specified in the config file
+python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/box.xml --config config/scene_default.yaml    # Simulate a scene, with camera and ros topic configurations specified in the config file
 ```
 
 ## Utilities
