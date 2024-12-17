@@ -53,7 +53,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link1_4" pos="0.025 0 0">
-              <inertial pos="-0.106463 -0.00117909 -0.0357483" quat="0.600225 0.415148 -0.487221 0.479581" mass="0.51236" diaginertia="0.00218672 0.00177093 0.000622187"/>
+              <inertial pos="-0.0859841 -0.000988159 -0.0291498" quat="0.0860876 0.58523 0.0687441 0.803349" mass="0.0061136" diaginertia="1.5037e-05 1.48882e-05 1.81638e-07"/>
               <joint name="r_f_joint1_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_4" contype="0" conaffinity="0" group="1" density="0"/>
@@ -83,7 +83,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link2_4" pos="0.025 0 0">
-              <inertial pos="-0.13333 -0.0157552 -0.0325925" quat="0.521864 0.430738 0.552922 0.48621" mass="0.51236" diaginertia="0.00219668 0.00179214 0.000606036"/>
+              <inertial pos="-0.108501 -0.0132039 -0.026505" quat="0.568037 0.379404 0.488022 0.543343" mass="0.0061136" diaginertia="2.13548e-05 2.13087e-05 6.73501e-08"/>
               <joint name="r_f_joint2_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_4" contype="0" conaffinity="0" group="1" density="0"/>
@@ -113,7 +113,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link3_4" pos="0.025 0 0">
-              <inertial pos="-0.142313 -0.0157552 -0.00833951" quat="0.521187 0.431389 0.55381 0.485347" mass="0.51236" diaginertia="0.00219829 0.00179485 0.000604912"/>
+              <inertial pos="-0.116029 -0.0132039 -0.00617939" quat="0.535873 0.414207 0.536512 0.503416" mass="0.0061136" diaginertia="2.26983e-05 2.26575e-05 6.20343e-08"/>
               <joint name="r_f_joint3_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_4" contype="0" conaffinity="0" group="1" density="0"/>
@@ -143,7 +143,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link4_4" pos="0.025 0 0">
-              <inertial pos="-0.13333 -0.0157552 0.0159127" quat="0.520351 0.432138 0.554668 0.484598" mass="0.51236" diaginertia="0.00219538 0.00179193 0.000604955"/>
+              <inertial pos="-0.108501 -0.0132039 0.0141455" quat="0.493872 0.447629 0.578529 0.470132" mass="0.0061136" diaginertia="2.0268e-05 2.02271e-05 6.23385e-08"/>
               <joint name="r_f_joint4_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_4" contype="0" conaffinity="0" group="1" density="0"/>
@@ -173,7 +173,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link5_4" pos="0.025 0 0">
-              <inertial pos="-0.119357 -0.0157552 0.0401652" quat="0.519498 0.43292 0.555267 0.484129" mass="0.51236" diaginertia="0.00219233 0.00178783 0.000606145"/>
+              <inertial pos="-0.0967908 -0.0132039 0.0344708" quat="0.434979 0.491848 0.615542 0.435876" mass="0.0061136" diaginertia="1.77719e-05 1.77249e-05 6.92662e-08"/>
               <joint name="r_f_joint5_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_4" contype="0" conaffinity="0" group="1" density="0"/>
