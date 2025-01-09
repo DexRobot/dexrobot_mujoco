@@ -87,7 +87,7 @@
       <geom pos="0.031185 -0.0238798 0.10607" quat="0.788446 -0.0464709 -0.0600256 -0.610402" type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_p_link6"/>
       <body name="l_f_link1_1" pos="0.031185 -0.0238798 0.10607" quat="0.788446 -0.0464709 -0.0600256 -0.610402">
         <inertial pos="0.00205223 -0.00527333 -0.0177664" quat="0.718046 -0.0455942 0.122343 0.68364" mass="0.00518035" diaginertia="1.21881e-06 1.15459e-06 2.51191e-07"/>
-        <joint name="l_a_joint1_1" pos="0 0 0" axis="0 0.26521 0.964191" range="0 2.2" actuatorfrcrange="-10 10"/>
+        <joint name="l_f_joint1_1" pos="0 0 0" axis="0 0.26521 0.964191" range="0 2.2" actuatorfrcrange="-10 10"/>
         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link1_1"/>
         <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link1_1"/>
         <body name="l_f_link1_2" pos="0.0083307 0 0" quat="0.795298 0.606144 -0.00578778 0.00759551">
@@ -298,6 +298,7 @@
     <position name="act_l_f_joint5_2" joint="l_f_joint5_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
     <position name="act_l_f_joint5_3" joint="l_f_joint5_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
     <position name="act_l_f_joint5_4" joint="l_f_joint5_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
+    <position name="act_l_f_joint1_1" joint="l_f_joint1_1" kp="20" kv="1" ctrlrange="0 2.2" forcerange="-20 20"/>
     <position name="act_l_f_joint2_1" joint="l_f_joint2_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
     <position name="act_l_f_joint3_1" joint="l_f_joint3_1" kp="20" kv="1" ctrlrange="-0.0001 0.0001" forcerange="-20 20"/>
     <position name="act_l_f_joint4_1" joint="l_f_joint4_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
