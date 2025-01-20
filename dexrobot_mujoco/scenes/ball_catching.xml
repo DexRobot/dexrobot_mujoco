@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="box">
+    <include file="../parts/defaults.xml" />
+
+    <include file="scene_sim/topfloor_scene.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_asset.xml" />
+
+    <worldbody>
+        <body name="arm_hand_base" pos="0 0 0">
+            <include file="../parts/dexhand021_right_jaka_zu7_body.xml" />
+        </body>
+        <body name="ball" pos="2.0 -0.2 0">
+            <inertial pos="0 0 0" mass="0.03" diaginertia="0.000072 0.000072 0.000072" />
+            <geom type="sphere" size="0.03" pos="0 0 0" rgba="0.49803922 0.72156863 0.87058824 1" />
+            <freejoint name="ball_joint" />
+        </body>
+    </worldbody>
+
+    <include file="../parts/dexhand021_right_jaka_zu7_actuator.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_sensor.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_contact.xml" />
+</mujoco>

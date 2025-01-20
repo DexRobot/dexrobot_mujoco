@@ -94,7 +94,6 @@ class MujocoJointController(ROSNode):
         self.mj.launch_viewer("passive")
 
         # timer for simulation
-        self.start_time = time.time()
         self.sim_timer = self.create_timer(0.01, self.forward_sim)
 
         # timer for VR images
@@ -238,7 +237,7 @@ class MujocoJointController(ROSNode):
 
     def forward_sim(self):
         """Forward the simulator until the current time."""
-        current_time = time.time() - self.start_time
+        current_time = time.time() - self.mj.start_time
         # Step the simulation to apply the control
         self.mj.step(until=current_time)
 
@@ -265,7 +264,7 @@ class MujocoJointController(ROSNode):
         )
 
         if self.hand_position_offset is None:
-            if time.time() - self.start_time < 2.0:
+            if time.time() - self.mj.start_time < 2.0:
                 return
             self.hand_position_offset = raw_position_ref
 
