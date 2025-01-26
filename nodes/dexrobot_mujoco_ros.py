@@ -160,6 +160,12 @@ class MujocoJointController(ROSNode):
         self.tracked_joint_ids = [
             self.mj.get_joint_id(name) for name in self.tracked_joint_names
         ]
+        self.tracked_joint_qpos_idx = [
+            self.mj.get_qpos_addr(name) for name in self.tracked_joint_names
+        ]
+        self.tracked_joint_qvel_idx = [
+            self.mj.get_qvel_addr(name) for name in self.tracked_joint_names
+        ]
         self.tracked_body_ids = [
             self.mj.get_link_id(name) for name in self.tracked_body_names
         ]
@@ -316,8 +322,8 @@ class MujocoJointController(ROSNode):
 
     def output_data(self):
         """Output the data to the specified formats."""
-        joint_pos = self.mj.data.qpos[self.tracked_joint_ids]
-        joint_vel = self.mj.data.qvel[self.tracked_joint_ids]
+        joint_pos = self.mj.data.qpos[self.tracked_joint_qpos_idx]
+        joint_vel = self.mj.data.qvel[self.tracked_joint_qvel_idx]
         body_pos = self.mj.data.xpos[self.tracked_body_ids]
         body_quat = self.mj.data.xquat[self.tracked_body_ids]
         all_sensor_data = []
