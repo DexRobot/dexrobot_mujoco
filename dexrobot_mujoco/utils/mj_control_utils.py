@@ -172,6 +172,30 @@ class MJControlWrapper:
         """
         return mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, link_name)
 
+    def get_qpos_addr(self, joint_name):
+        """Get the address of the specified joint position.
+
+        Args:
+            joint_name (str): The name of the joint.
+
+        Returns:
+            int: The address of the joint position in the qpos array.
+        """
+        joint_id = self.get_joint_id(joint_name)
+        return self.model.jnt_qposadr[joint_id]
+
+    def get_qvel_addr(self, joint_name):
+        """Get the address of the specified joint velocity.
+
+        Args:
+            joint_name (str): The name of the joint.
+
+        Returns:
+            int: The address of the joint velocity in the qvel array.
+        """
+        joint_id = self.get_joint_id(joint_name)
+        return self.model.jnt_dofadr[joint_id]
+
     def set_qpos(self, joint_name, value):
         """Set the position of the specified joint.
 
@@ -179,8 +203,8 @@ class MJControlWrapper:
             joint_name (str): The name of the joint.
             value (float): The position value.
         """
-        joint_id = self.get_joint_id(joint_name)
-        self.data.qpos[joint_id] = value
+        qpos_addr = self.get_qpos_addr(joint_name)
+        self.data.qpos[qpos_addr] = value
 
     @reset_safe
     def get_qpos(self, joint_name):
@@ -192,8 +216,39 @@ class MJControlWrapper:
         Returns:
             float: The position value.
         """
-        joint_id = self.get_joint_id(joint_name)
-        return self.data.qpos[joint_id]
+        qpos_addr = self.get_pos_addr(joint_name)
+        return self.data.qpos[qpos_addr]
+
+    @reset_safe
+    def get_qvel(self, joint_name):
+        """Get the velocity of the specified joint.
+
+        Args:
+            joint_name (str): The name of the joint.
+
+        Returns:
+            float: The velocity value.
+        """
+        qvel_addr = self.get_qvel_addr(joint_name)
+        return self.data.qvel[qvel_addr]
+
+    def get_qpos_freejoint(self, joint_name):
+        """Get the position of the specified free joint.
+
+        Args:
+            joint_name (str): The name of the free joint.
+        """
+        qpos_addr = self.get_qpos_addr(joint_name)
+        return self.data.qpos[qpos_addr : qpos_addr + 7]
+
+    def get_qvel_freejoint(self, joint_name):
+        """Get the velocity of the specified free joint.
+
+        Args:
+            joint_name (str): The name of the free joint.
+        """
+        qvel_addr = self.get_qvel_addr(joint_name)
+        return self.data.qvel[qvel_addr : qvel_addr + 6]
 
     def set_qpos_freejoint(self, joint_name, value):
         """Set the position of the specified free joint.
@@ -202,8 +257,8 @@ class MJControlWrapper:
             joint_name (str): The name of the free joint.
             value (np.array): The position value.
         """
-        joint_id = self.get_joint_id(joint_name)
-        self.data.qpos[joint_id : joint_id + 7] = value
+        qpos_addr = self.get_qpos_addr(joint_name)
+        self.data.qpos[qpos_addr : qpos_addr + 7] = value
 
     def set_qvel_freejoint(self, joint_name, value):
         """Set the velocity of the specified free joint.
@@ -211,8 +266,8 @@ class MJControlWrapper:
         Args:
             joint_name (str): The name of the free joint.
         """
-        joint_id = self.get_joint_id(joint_name)
-        self.data.qvel[joint_id : joint_id + 6] = value
+        qvel_addr = self.get_qvel_addr(joint_name)
+        self.data.qvel[qvel_addr : qvel_addr + 6] = value
 
     def set_site_xpos(self, site_name: str, pos: np.array):
         """Set the position of the specified site.
