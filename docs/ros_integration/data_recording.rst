@@ -171,37 +171,6 @@ Example Python script:
 
         return joint_data
 
-Best Practices
-------------
-
-File Management
-^^^^^^^^^^^^
-1. Use absolute paths
-2. Create output directories
-3. Check disk space
-4. Use descriptive filenames
-
-Performance
-^^^^^^^^^
-1. Monitor memory usage
-2. Check recording rates
-3. Adjust buffer sizes
-4. Balance quality settings
-
-Data Organization
-^^^^^^^^^^^^^^
-1. Use consistent naming
-2. Document data format
-3. Include metadata
-4. Maintain timestamps
-
-Error Handling
-^^^^^^^^^^^^
-1. Check file permissions
-2. Monitor disk space
-3. Handle recording failures
-4. Clean up resources
-
 Example Pipeline
 -------------
 

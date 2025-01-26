@@ -103,6 +103,7 @@ Add physical bodies to the scene:
     </body>
 
 The body tag sets:
+
 - ``name``: Unique identifier
 - ``pos``: Position [x y z]
 - ``euler``: Orientation [roll pitch yaw]
@@ -211,30 +212,6 @@ Setup for mounted hand:
         <include file="../parts/dexhand021_right_jaka_zu7_sensor.xml"/>
         <include file="../parts/dexhand021_right_jaka_zu7_contact.xml"/>
     </mujoco>
-
-Best Practices
-------------
-
-1. Component Organization
-   - Keep assets separate from bodies
-   - Use consistent naming conventions
-   - Maintain modular structure
-
-2. Scene Composition
-   - Include defaults first
-   - Include all assets before worldbody
-   - Position bodies appropriately
-   - Include remaining components last
-
-3. File Management
-   - Use relative paths in includes
-   - Keep scene files in scenes directory
-   - Follow component directory structure
-
-4. Naming
-   - Use descriptive model names
-   - Give unique names to bodies
-   - Follow naming conventions
 
 Next Steps
 ---------

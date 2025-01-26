@@ -1,0 +1,40 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+
+# 权限
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
+
+    - name: Install dependencies
+      run: |
+        pip install sphinx
+        pip install sphinx-rtd-theme
+        pip install sphinx-autodoc-typehints
+        pip install myst-parser
+
+    - name: Build Sphinx documentation
+      run: |
+        sphinx-build -b html docs build
+        # 创建 .nojekyll 文件以允许下划线开头的文件夹
+        touch build/.nojekyll
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: build

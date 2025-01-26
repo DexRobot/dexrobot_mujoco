@@ -216,22 +216,34 @@ def apply_defaults(mjcf_xml_path, defaults_xml_path):
 
 
 def merge_xml_files(xml_dict, output_xml_path, model_name):
-    """
-    Merges multiple MuJoCo XML files into a single scene file.
+    """Merges multiple MuJoCo XML files into a single scene file.
 
-    Parameters:
-    xml_dict (dict): A dictionary mapping XML file paths to a dictionary containing 'pos', 'quat', and 'articulation_method'.
-                     Example:
-                     {
-                         'model1.xml': {'pos': (0, 0, 0), 'quat': (1, 0, 0, 0), 'articulation_method': 'fixed'},
-                         'model2.xml': {'pos': (1, 1, 0), 'quat': (0, 1, 0, 0), 'articulation_method': 'free'},
-                         ...
-                     }
-    output_xml_path (str): Path to the output combined XML file.
-    model_name (str): Name of the combined model.
+    This function combines multiple MuJoCo XML model files into one unified scene file,
+    preserving key elements like assets, bodies, actuators, sensors etc. Each model can
+    be positioned and articulated differently in the combined scene.
 
-    Returns:
-    None
+    Args:
+        xml_dict (dict): Dictionary mapping XML file paths to positioning attributes.
+            Each entry should have:
+            - 'pos': tuple of (x,y,z) coordinates
+            - 'quat': tuple of (w,x,y,z) quaternion rotation
+            - 'articulation_method': str, either 'fixed' or 'free'
+                'model1.xml': {'pos': (0,0,0), 'quat': (1,0,0,0), 'articulation_method': 'fixed'},
+                'model2.xml': {'pos': (1,1,0), 'quat': (0,1,0,0), 'articulation_method': 'free'}
+        output_xml_path (str): File path where the combined XML will be saved.
+        model_name (str): Name to be given to the combined model.
+
+
+    Notes:
+        The function merges the following XML elements:
+
+        - compiler, option, default (taken from first file only)
+        - asset (merged from all files)
+        - worldbody (merged with specified positions and articulations)
+        - actuator (merged from all files)
+        - sensor (merged from all files if present)
+        - tendon (merged from all files if present)
+        - contact (merged from all files if present)
     """
     # Parse the first XML file to get the base elements
     first_key = next(iter(xml_dict))
@@ -451,17 +463,15 @@ def articulate(parent_xml_path, child_xml_path, link_name, output_xml_path, pos=
 
 
 def add_trunk_body(xml_file_path, name=None, pos="0 0 0", quat="1 0 0 0"):
-    """
-    Adds a top-level "trunk" element below the "worldbody" and makes every original child of "worldbody" a child of "trunk".
+    """Adds a top-level "trunk" element below the "worldbody" element.
 
-    Parameters:
-    xml_file_path (str): Path to the input/output MJCF XML file.
-    name (str): Name of the "trunk" body. If not provided, f"{model_name}_trunk" will be used.
-    pos (str): Position of the "trunk" body.
-    quat (str): Quaternion orientation of the "trunk" body.
+    Makes every original child of "worldbody" a child of "trunk" instead.
 
-    Returns:
-    None
+    Args:
+        xml_file_path: Path to the input/output MJCF XML file.
+        name: Name of the "trunk" body. Defaults to f"{model_name}_trunk".
+        pos: Position of the "trunk" body. Defaults to "0 0 0".
+        quat: Quaternion orientation of the "trunk" body. Defaults to "1 0 0 0".
     """
     # Parse the XML file
     tree = ET.parse(xml_file_path)
@@ -498,18 +508,22 @@ def add_trunk_body(xml_file_path, name=None, pos="0 0 0", quat="1 0 0 0"):
 
 
 def exclude_self_collisions(xml_file_path, top_level_body_1=None, top_level_body_2=None, allowed_collision_pairs=[], additional_xml_file_path=None):
-    """
-    Excludes self-collisions pairwise between bodies under top_level_body_1 and top_level_body_2 in the MJCF XML file. When one of the top-level bodies is None, it excludes self-collisions within this top-level body. When both are None, it excludes self-collisions within the first body directly under "worldbody".
+    """Excludes self-collisions pairwise between bodies under specified top-level bodies.
 
-    Parameters:
-    xml_file_path (str): Path to the input/output MJCF XML file.
-    top_level_body_1 (str or None): Name of the first top-level body.
-    top_level_body_2 (str or None): Name of the second top-level body.
-    allowed_collision_pairs (list): List of tuples of body names that should not be excluded from collisions. Each body name can be specified as a regular expression.
-    additional_xml_file_path (str or None): Path to an additional XML file. Useful for dealing with bodies included by `mujocoinclude`. When specified, the second top-level body will be read from this additional XML file.
+    When one of the top-level bodies is None, excludes self-collisions within that top-
+    level body. When both are None, excludes self-collisions within the first body
+    directly under "worldbody".
 
-    Returns:
-    None
+    Args:
+        xml_file_path: Path to the input/output MJCF XML file.
+        top_level_body_1: Name of the first top-level body.
+        top_level_body_2: Name of the second top-level body.
+        allowed_collision_pairs: List of tuples of body names that should not be
+            excluded from collisions. Each body name can be specified as a regular
+            expression.
+        additional_xml_file_path: Path to an additional XML file. Useful for dealing
+            with bodies included by `mujocoinclude`. When specified, the second top-
+            level body will be read from this additional XML file.
     """
     # Parse the XML file
     tree = ET.parse(xml_file_path)
@@ -576,18 +590,14 @@ def exclude_self_collisions(xml_file_path, top_level_body_1=None, top_level_body
 
 
 def add_ground(xml_file_path, ground_name='ground', pos="0 0 0", size="1 1 0.1", rgba="0.8 0.8 1 1"):
-    """
-    Adds a ground plane to the MJCF XML file.
+    """Adds a ground plane to the MJCF XML file.
 
-    Parameters:
-    xml_file_path (str): Path to the input/output MJCF XML file.
-    ground_name (str): Name of the ground plane geom.
-    pos (str): Position of the ground plane.
-    size (str): Size of the ground plane.
-    rgba (str): RGBA color of the ground plane.
-
-    Returns:
-    None
+    Args:
+        xml_file_path: Path to the input/output MJCF XML file.
+        ground_name: Name of the ground plane geom. Defaults to 'ground'.
+        pos: Position of the ground plane. Defaults to "0 0 0".
+        size: Size of the ground plane. Defaults to "1 1 0.1".
+        rgba: RGBA color of the ground plane. Defaults to "0.8 0.8 1 1".
     """
     # Parse the XML file
     tree = ET.parse(xml_file_path)

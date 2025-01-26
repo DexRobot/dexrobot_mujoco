@@ -22,13 +22,15 @@ Articulation Methods
 Two main methods of articulation:
 
 1. **Fixed Mount**
+
    - Rigid attachment to another model
    - Suitable for robot arms
    - Preserves kinematic chain
 
 2. **Floating Base**
+
    - 6-DoF free joint
-   - Suitable for teleoperation
+   - Suitable for simulating grasping/manipulation tasks without actual robot arm
    - Independent position/orientation control
 
 Model Components

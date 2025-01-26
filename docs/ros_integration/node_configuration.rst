@@ -182,32 +182,6 @@ Configuration for VR control:
         --hand-pose-topic hand_pose \
         --renderer-dimension 1920,1080
 
-Best Practices
-------------
-
-1. YAML Organization
-   - Group related settings
-   - Use descriptive names
-   - Document non-obvious options
-   - Keep configurations modular
-
-2. Resource Management
-   - Close unused outputs
-   - Monitor memory usage
-   - Check disk space for recording
-   - Set appropriate buffer sizes
-
-3. Performance
-   - Minimize tracked objects
-   - Optimize recording formats
-   - Adjust rendering resolution
-   - Balance update rates
-
-4. Error Handling
-   - Validate file paths
-   - Check topic names
-   - Monitor resource availability
-   - Handle cleanup properly
 
 Next Steps
 ---------

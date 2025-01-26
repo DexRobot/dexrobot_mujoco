@@ -140,29 +140,6 @@ Touch Sensor Format
 
     data: [0.1, 0.2, 0.3, 0.4, 0.5]  # Force values for each sensor
 
-Best Practices
-------------
-
-Topic Management
-^^^^^^^^^^^^^
-1. Check message rates and buffer sizes
-2. Handle missing or delayed messages
-3. Validate joint names
-4. Monitor sensor data ranges
-
-Error Handling
-^^^^^^^^^^^^
-1. Check joint limits
-2. Validate quaternions
-3. Handle missing sensors
-4. Process stale data
-
-Performance
-^^^^^^^^^
-1. Use appropriate message queue sizes
-2. Monitor topic frequencies
-3. Handle high-rate data efficiently
-4. Clean up subscribers/publishers
 
 Example Usage
 -----------
