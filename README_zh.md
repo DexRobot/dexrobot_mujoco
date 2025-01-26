@@ -2,55 +2,55 @@
 
 [English](README.md) | [中文](README_zh.md)
 
-MuJoCo binding for DexRobot hand simulation with ROS integration, providing:
+DexHand 灵巧手的 MuJoCo 仿真环境，集成 ROS 支持，提供以下功能：
 
-- Hand simulation with optimized collision models
-- Robot arm integration
-- Scene composition with furniture and environments
-- ROS1/ROS2 compatibility
-- VR visualization
+- 带优化碰撞模型的灵巧手仿真
+- 机械臂集成支持
+- 可自由组合的场景和家具环境
+- 兼容 ROS1/ROS2
+- VR 可视化
 
-## Installation
+## 安装
 
 ```bash
 pip install -e .
 ```
 
-## Hand Models
+## 灵巧手模型
 
-Available hand models:
+可用的灵巧手模型：
 
 ```bash
-# Right hand (full collision model)
+# 右手（完整碰撞模型）
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_right.xml
 
-# Right hand (simplified collision model - faster)
+# 右手（简化碰撞模型 - 更快）
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_right_simplified.xml
 
-# Left hand variants
+# 左手
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_left.xml
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_left_simplified.xml
 
-# Hand with floating base
+# 浮动基座的手
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_right_floating.xml
 
-# Hand mounted on robot arm
+# 安装在机械臂上的手
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/models/dexhand021_right_jaka_zu7.xml
 ```
 
-The simplified collision model significantly improves simulation performance while maintaining accuracy:
+简化的碰撞模型在保持准确性的同时显著提高了仿真性能：
 
-![Hand Models](assets/hands.png)
+![灵巧手模型](assets/hands.png)
 
-## Scene Composition
+## 场景组合
 
-Create a ball catching scene:
+创建一个接球场景：
 
 ```bash
 python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/ball_catching.xml --config config/ball_catching.yaml
 ```
 
-Configure initial positions and tracked objects in YAML:
+在 YAML 中配置初始位置和跟踪对象：
 
 ```yaml
 camera:
@@ -66,21 +66,21 @@ initial_qvel_freejoint:
   ball_joint: [-4.1, 0.0, 4.1, 0.0, 0.0, 0.0]
 ```
 
-## ROS Interface
+## ROS 接口
 
-Control joints using standard ROS messages:
+使用标准 ROS 消息控制关节：
 
 ```python
 from sensor_msgs.msg import JointState
 
-# Publish joint commands
+# 发布关节指令
 msg = JointState()
 msg.name = ['r_f_joint1_1']
 msg.position = [0.5]
 publisher.publish(msg)
 ```
 
-Record data in multiple formats:
+支持多种格式的数据记录：
 
 ```bash
 python nodes/dexrobot_mujoco_ros.py model.xml \
@@ -90,16 +90,16 @@ python nodes/dexrobot_mujoco_ros.py model.xml \
     --output-bag-path recording.bag
 ```
 
-## Documentation
+## 文档
 
-For more details, see the full documentation in `docs/`:
+详细信息请参阅 `docs/` 目录下的完整文档：
 
-- Getting Started
-- Hand Models and Configuration
-- Scene Creation
-- ROS Integration
-- API Reference
+- 入门指南
+- 灵巧手模型与配置
+- 场景创建
+- ROS 集成
+- API 参考
 
-## License
+## 许可证
 
-Copyright 2024 DexRobot. Licensed under the Apache License, Version 2.0.
+Copyright 2024 DexRobot. 基于 Apache License 2.0 授权。
