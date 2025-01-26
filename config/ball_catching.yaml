@@ -1,0 +1,27 @@
+camera:
+  azimuth: -180
+  distance: 2.5
+  elevation: -25
+  lookat:
+  - 0.0
+  - 0.0
+  - 0.55
+tracked_joints:
+- [ARTx, ARTy, ARTz]
+- [ARRx, ARRy, ARRz]
+- [r_f_joint1_1, r_f_joint1_2, r_f_joint1_3, r_f_joint1_4]
+- [r_f_joint2_1, r_f_joint2_2, r_f_joint2_3, r_f_joint2_4]
+- [r_f_joint3_1, r_f_joint3_2, r_f_joint3_3, r_f_joint3_4]
+- [r_f_joint4_1, r_f_joint4_2, r_f_joint4_3, r_f_joint4_4]
+- [r_f_joint5_1, r_f_joint5_2, r_f_joint5_3, r_f_joint5_4]
+tracked_bodies:
+- [right_hand_base]
+- [r_f_link1_1, r_f_link1_2, r_f_link1_3, r_f_link1_4]
+- [r_f_link2_1, r_f_link2_2, r_f_link2_3, r_f_link2_4]
+- [r_f_link3_1, r_f_link3_2, r_f_link3_3, r_f_link3_4]
+- [r_f_link4_1, r_f_link4_2, r_f_link4_3, r_f_link4_4]
+- [r_f_link5_1, r_f_link5_2, r_f_link5_3, r_f_link5_4]
+initial_qpos_freejoint:
+  ball_joint: [2.0, -0.2, 0.0, 1.0, 0.0, 0.0, 0.0]
+initial_qvel_freejoint:
+  ball_joint: [-4.1, 0.0, 4.1, 0.0, 0.0, 0.0]

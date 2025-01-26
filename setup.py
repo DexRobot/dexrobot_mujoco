@@ -52,7 +52,7 @@ setup(
         'flask',
         'opencv-python',
         'pandas',
-        "ros_compat @ git+https://github.com/dexrobot/ros_compat.git",
+        "ros_compat @ git+https://gitee.com/dexrobot/ros_compat.git",
     ],
     extras_require={
         'dev': [
@@ -66,7 +66,7 @@ setup(
     zip_safe=True,
     maintainer='DexRobot',
     maintainer_email='lyw@dex-robot.com',
-    description='MuJoCo binding for DexRobot with ROS2 integration',
+    description='MuJoCo binding for DexRobot with ROS/ROS2 integration',
     license='MIT',  # Adjust according to your license
     tests_require=['pytest'],
     entry_points={

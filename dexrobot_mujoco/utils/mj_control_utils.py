@@ -7,6 +7,9 @@ import sys
 import os
 from loguru import logger
 
+logger.remove()
+logger.add(sys.stderr, level="INFO")
+
 from .mjcf_utils import load_meshes
 
 
@@ -28,6 +31,7 @@ class MJControlWrapper:
             meshes = load_meshes(mesh_dir)
             self.model = mujoco.MjModel.from_xml_path(model_path, meshes)
         self.data = mujoco.MjData(self.model)
+        self.start_time = time.time()
         self.viewer = None
         self.camera = mujoco.MjvCamera()
         self.shadow = False  # whether to reflect
@@ -46,6 +50,15 @@ class MJControlWrapper:
         self.config = {}
         self.seed = seed
         np.random.seed(seed)
+
+        self._resetting = False
+
+    def reset_safe(func):
+        def wrapper(self, *args, **kwargs):
+            if self._resetting:
+                return
+            return func(self, *args, **kwargs)
+        return wrapper
 
     def enable_infinite_rotation(self, act_name_re):
         """Modify the model to allow infinite rotation for the specified joint actuators.
@@ -86,6 +99,7 @@ class MJControlWrapper:
         else:
             raise ValueError(f"Invalid viewer type: {viewer_type}")
 
+    @reset_safe
     def step(self, until=None):
         """Step the simulation.
 
@@ -100,6 +114,7 @@ class MJControlWrapper:
         if self.viewer is not None:
             self.viewer.sync()
 
+    @reset_safe
     def send_control(self, act_name, value):
         """Send control signal to the specified actuator.
 
@@ -125,6 +140,15 @@ class MJControlWrapper:
             self.data.ctrl[actuator_index] = value
         else:
             raise ValueError(f"Actuator {act_name} not found in model.")
+
+    def set_control(self, act_name, value):
+        """Set the control signal to the specified actuator. Used for initialization.
+
+        Args:
+            act_name (str): The name of the actuator.
+            value (float): The control signal value.
+        """
+        self.data.ctrl[self.actuator_names.index(act_name)] = value
 
     def get_joint_id(self, joint_name):
         """Get the ID of the specified joint.
@@ -158,6 +182,7 @@ class MJControlWrapper:
         joint_id = self.get_joint_id(joint_name)
         self.data.qpos[joint_id] = value
 
+    @reset_safe
     def get_qpos(self, joint_name):
         """Get the position of the specified joint.
 
@@ -170,6 +195,25 @@ class MJControlWrapper:
         joint_id = self.get_joint_id(joint_name)
         return self.data.qpos[joint_id]
 
+    def set_qpos_freejoint(self, joint_name, value):
+        """Set the position of the specified free joint.
+
+        Args:
+            joint_name (str): The name of the free joint.
+            value (np.array): The position value.
+        """
+        joint_id = self.get_joint_id(joint_name)
+        self.data.qpos[joint_id : joint_id + 7] = value
+
+    def set_qvel_freejoint(self, joint_name, value):
+        """Set the velocity of the specified free joint.
+
+        Args:
+            joint_name (str): The name of the free joint.
+        """
+        joint_id = self.get_joint_id(joint_name)
+        self.data.qvel[joint_id : joint_id + 6] = value
+
     def set_site_xpos(self, site_name: str, pos: np.array):
         """Set the position of the specified site.
 
@@ -180,6 +224,7 @@ class MJControlWrapper:
         site_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
         self.model.site_pos[site_id] = pos
 
+    @reset_safe
     def get_site_xpos(self, site_name: str):
         """Get the position of the specified site.
 
@@ -189,6 +234,7 @@ class MJControlWrapper:
         site_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, site_name)
         return self.model.site_pos[site_id]
 
+    @reset_safe
     def get_link_pose(self, link_name: str):
         """Get the position and rotation of the specified link.
 
@@ -227,9 +273,25 @@ class MJControlWrapper:
         if "initial_ctrl" in self.config:
             for act_name, ctrl in self.config["initial_ctrl"].items():
                 try:
-                    self.send_control(act_name, ctrl)
+                    self.set_control(act_name, ctrl)
                 except ValueError as e:
                     logger.error(f"Error setting control for {act_name}: {e}")
+
+        if "initial_qpos_freejoint" in self.config:
+            for joint_name, qpos in self.config["initial_qpos_freejoint"].items():
+                try:
+                    self.set_qpos_freejoint(joint_name, np.array(qpos))
+                    logger.info(f"Setting qpos for {joint_name}: {qpos}")
+                except ValueError as e:
+                    logger.error(f"Error setting qpos for {joint_name}: {e}")
+
+        if "initial_qvel_freejoint" in self.config:
+            for joint_name, qvel in self.config["initial_qvel_freejoint"].items():
+                try:
+                    self.set_qvel_freejoint(joint_name, np.array(qvel))
+                    logger.info(f"Setting qvel for {joint_name}: {qvel}")
+                except ValueError as e:
+                    logger.error(f"Error setting qvel for {joint_name}: {e}")
 
         if "camera" in self.config:
             self.set_view_angle(
@@ -279,10 +341,10 @@ class MJControlWrapper:
             keycode (int): The key code of the pressed key.
         """
         if chr(keycode) == "R":
-            logger.warning("Resetting simulation...")
+            logger.info("Resetting simulation...")
             self.reset_simulation()
         elif chr(keycode) == "Q":
-            logger.warning("Quitting viewer...")
+            logger.info("Quitting viewer...")
             self.viewer.close()
         elif chr(keycode) == "S":
             # set viewer visualization options
@@ -291,16 +353,27 @@ class MJControlWrapper:
                 self.viewer.user_scn.flags[mujoco.mjtRndFlag.mjRND_REFLECTION] = (
                     self.shadow
                 )
-            logger.warning(f"Setting reflection to {self.shadow}")
+            logger.info(f"Setting reflection to {self.shadow}")
         elif chr(keycode) == "C":
             logger.info(
                 f"Camera position: {self.viewer.cam.lookat}, distance: {self.viewer.cam.distance}, elevation: {self.viewer.cam.elevation}, azimuth: {self.viewer.cam.azimuth}"
             )
+        elif chr(keycode) == "D":
+            logger.info("Entering debug mode...")
+            import ipdb; ipdb.set_trace()
 
     def reset_simulation(self):
         """Reset the simulation."""
-        mujoco.mj_resetData(self.model, self.data)
-        mujoco.mj_forward(self.model, self.data)
-        time.sleep(0.01)
-        self.set_initial_values()
-        time.sleep(0.01)
+        self._resetting = True
+        try:
+            mujoco.mj_resetData(self.model, self.data)
+            self.start_time = time.time()
+            logger.debug("reset_simulation: mujoco.mj_resetData done")
+            self.set_initial_values()
+            logger.debug("reset_simulation: set_initial_values done")
+            mujoco.mj_forward(self.model, self.data)
+            logger.debug("reset_simulation: mujoco.mj_forward done")
+        except Exception as e:
+            logger.error(f"Error resetting simulation: {e}")
+        finally:
+            self._resetting = False
