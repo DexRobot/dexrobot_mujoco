@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topics and Services &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Recording" href="data_recording.html" />
+    <link rel="prev" title="Node Configuration" href="node_configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ROS Integration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html">Node Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Topics and Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html">Data Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html">VR Visualization</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ROS Integration</a></li>
+      <li class="breadcrumb-item active">Topics and Services</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ros_integration/topics_and_services.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="topics-and-services">
+<h1>Topics and Services<a class="headerlink" href="#topics-and-services" title="Link to this heading"></a></h1>
+<p>This section documents all ROS topics and services provided by the DexRobot MuJoCo node.</p>
+<section id="input-topics">
+<h2>Input Topics<a class="headerlink" href="#input-topics" title="Link to this heading"></a></h2>
+<section id="joint-commands">
+<h3>joint_commands<a class="headerlink" href="#joint-commands" title="Link to this heading"></a></h3>
+<p>Control joint positions directly.</p>
+<ul>
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">sensor_msgs/JointState</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Fields</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: List of joint names</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code>: List of target positions</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sensor_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointState</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="n">JointState</span><span class="p">()</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_f_joint1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_2&#39;</span><span class="p">]</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="hand-pose">
+<h3>hand_pose<a class="headerlink" href="#hand-pose" title="Link to this heading"></a></h3>
+<p>Control 6-DoF floating hand pose.</p>
+<ul>
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">geometry_msgs/Pose</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Fields</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code>: Position (x, y, z)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">orientation</span></code>: Quaternion (w, x, y, z)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Notes</strong>:</dt><dd><ul class="simple">
+<li><p>Must specify <code class="docutils literal notranslate"><span class="pre">--hand-pose-topic</span></code> to enable</p></li>
+<li><p>Position is scaled by <code class="docutils literal notranslate"><span class="pre">position_magnifiers</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geometry_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pose</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">()</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="output-topics">
+<h2>Output Topics<a class="headerlink" href="#output-topics" title="Link to this heading"></a></h2>
+<section id="joint-states">
+<h3>joint_states<a class="headerlink" href="#joint-states" title="Link to this heading"></a></h3>
+<p>Current joint positions and velocities.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">sensor_msgs/JointState</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Fields</strong>:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: List of tracked joint names</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">position</span></code>: Current joint positions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">velocity</span></code>: Current joint velocities</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Update Rate</strong>: 100Hz (default)</p></li>
+</ul>
+</section>
+<section id="body-poses">
+<h3>body_poses<a class="headerlink" href="#body-poses" title="Link to this heading"></a></h3>
+<p>6-DoF poses of tracked bodies.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">geometry_msgs/PoseArray</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Fields</strong>:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">poses</span></code>: List of poses for tracked bodies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">header</span></code>: Standard header with timestamp</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Update Rate</strong>: 100Hz (default)</p></li>
+</ul>
+</section>
+<section id="touch-sensors">
+<h3>touch_sensors<a class="headerlink" href="#touch-sensors" title="Link to this heading"></a></h3>
+<p>Touch sensor readings from fingertips.</p>
+<ul class="simple">
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">std_msgs/Float32MultiArray</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Fields</strong>:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: List of force values</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Update Rate</strong>: 100Hz (default)</p></li>
+<li><p><strong>Units</strong>: Newtons (N)</p></li>
+</ul>
+</section>
+</section>
+<section id="services">
+<h2>Services<a class="headerlink" href="#services" title="Link to this heading"></a></h2>
+<section id="save-screenshot">
+<h3>save_screenshot<a class="headerlink" href="#save-screenshot" title="Link to this heading"></a></h3>
+<p>Save current viewer frame as image.</p>
+<ul>
+<li><p><strong>Type</strong>: <code class="docutils literal notranslate"><span class="pre">std_srvs/Trigger</span></code></p></li>
+<li><dl class="simple">
+<dt><strong>Response</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code>: True if screenshot saved</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code>: File path or error message</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROS2</span>
+ros2<span class="w"> </span>service<span class="w"> </span>call<span class="w"> </span>/save_screenshot<span class="w"> </span>std_srvs/srv/Trigger
+
+<span class="c1"># ROS1</span>
+rosservice<span class="w"> </span>call<span class="w"> </span>/save_screenshot
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+<section id="message-formats">
+<h2>Message Formats<a class="headerlink" href="#message-formats" title="Link to this heading"></a></h2>
+<section id="jointstate-format">
+<h3>JointState Format<a class="headerlink" href="#jointstate-format" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">header</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">stamp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;time&gt;</span>
+<span class="w">  </span><span class="nt">frame_id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&#39;</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;joint1&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;joint2&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span>
+<span class="nt">position</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span>
+<span class="nt">velocity</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">...</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="pose-format">
+<h3>Pose Format<a class="headerlink" href="#pose-format" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">position</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">z</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="nt">orientation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">w</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">  </span><span class="nt">x</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">y</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">z</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+</pre></div>
+</div>
+</section>
+<section id="touch-sensor-format">
+<h3>Touch Sensor Format<a class="headerlink" href="#touch-sensor-format" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">data</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Force values for each sensor</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading"></a></h2>
+<section id="python-interface">
+<h3>Python Interface<a class="headerlink" href="#python-interface" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sensor_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geometry_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">PoseArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">Float32MultiArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_srvs.srv</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trigger</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HandController</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Publishers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joint_pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span>
+            <span class="s1">&#39;joint_commands&#39;</span><span class="p">,</span>
+            <span class="n">JointState</span><span class="p">,</span>
+            <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Subscribers</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span>
+            <span class="s1">&#39;joint_states&#39;</span><span class="p">,</span>
+            <span class="n">JointState</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">joint_callback</span>
+        <span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span>
+            <span class="s1">&#39;body_poses&#39;</span><span class="p">,</span>
+            <span class="n">PoseArray</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose_callback</span>
+        <span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span>
+            <span class="s1">&#39;touch_sensors&#39;</span><span class="p">,</span>
+            <span class="n">Float32MultiArray</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">touch_callback</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">joint_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="c1"># Process joint states</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">pose_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="c1"># Process body poses</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">touch_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="c1"># Process touch data</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_screenshot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;save_screenshot&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trigger</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span>
+                <span class="s1">&#39;save_screenshot&#39;</span><span class="p">,</span>
+                <span class="n">Trigger</span>
+            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">trigger</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">success</span>
+        <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</section>
+<section id="command-line-interface">
+<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h3>
+<p>Monitor topics:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Joint states</span>
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/joint_states
+
+<span class="c1"># Body poses</span>
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/body_poses
+
+<span class="c1"># Touch sensors</span>
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/touch_sensors
+</pre></div>
+</div>
+<p>Send commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Joint command</span>
+ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/joint_commands<span class="w"> </span>sensor_msgs/msg/JointState<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;{name: [&#39;r_f_joint1_1&#39;], position: [0.5]}&quot;</span>
+
+<span class="c1"># Hand pose</span>
+ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/hand_pose<span class="w"> </span>geometry_msgs/msg/Pose<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;{position: {x: 0.5, y: 0.0, z: 1.0},</span>
+<span class="s2">      orientation: {w: 1.0, x: 0.0, y: 0.0, z: 0.0}}&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Configure <a class="reference internal" href="data_recording.html"><span class="doc">Data Recording</span></a></p></li>
+<li><p>Set up <a class="reference internal" href="vr_visualization.html"><span class="doc">VR Visualization</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="node_configuration.html" class="btn btn-neutral float-left" title="Node Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_recording.html" class="btn btn-neutral float-right" title="Data Recording" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

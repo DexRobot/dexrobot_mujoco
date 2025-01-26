@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROS Integration &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Node Configuration" href="node_configuration.html" />
+    <link rel="prev" title="Scene Examples" href="../scenes/examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ROS Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html">Node Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html">Topics and Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html">Data Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html">VR Visualization</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ROS Integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ros_integration/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ros-integration">
+<h1>ROS Integration<a class="headerlink" href="#ros-integration" title="Link to this heading"></a></h1>
+<p>This section covers the ROS integration capabilities of DexRobot MuJoCo, which provides seamless control and monitoring through ROS topics and services.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="node_configuration.html">Node Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#command-line-options">Command Line Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#yaml-configuration">YAML Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#node-initialization">Node Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#example-configurations">Example Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topics_and_services.html">Topics and Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#input-topics">Input Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#output-topics">Output Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#services">Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#message-formats">Message Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_recording.html">Data Recording</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#recording-options">Recording Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#csv-recording">CSV Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#ros-bag-recording">ROS Bag Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#mp4-recording">MP4 Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#combined-recording">Combined Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#data-processing">Data Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#example-pipeline">Example Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vr_visualization.html">VR Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#web-streaming">Web Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The ROS node (<code class="docutils literal notranslate"><span class="pre">dexrobot_mujoco_ros.py</span></code>) provides:</p>
+<ul class="simple">
+<li><p>Joint and pose control interfaces</p></li>
+<li><p>State feedback and monitoring</p></li>
+<li><p>Data recording (CSV, ROS bags, MP4)</p></li>
+<li><p>VR visualization capabilities</p></li>
+<li><p>Automatic ROS1/ROS2 compatibility via ros_compat</p></li>
+</ul>
+</section>
+<section id="core-features">
+<h2>Core Features<a class="headerlink" href="#core-features" title="Link to this heading"></a></h2>
+<section id="joint-control">
+<h3>Joint Control<a class="headerlink" href="#joint-control" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Direct joint position control via <code class="docutils literal notranslate"><span class="pre">joint_commands</span></code></p></li>
+<li><p>Hand pose control with 6-DoF floating base</p></li>
+<li><p>Position scaling and velocity damping</p></li>
+<li><p>Real-time position tracking</p></li>
+</ul>
+</section>
+<section id="state-feedback">
+<h3>State Feedback<a class="headerlink" href="#state-feedback" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Joint state publishing</p></li>
+<li><p>Body pose tracking</p></li>
+<li><p>Touch sensor data</p></li>
+<li><p>Custom sensor outputs</p></li>
+</ul>
+</section>
+<section id="data-recording">
+<h3>Data Recording<a class="headerlink" href="#data-recording" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CSV file recording</p></li>
+<li><p>ROS bag recording</p></li>
+<li><p>MP4 video recording</p></li>
+<li><p>Synchronized multi-modal data</p></li>
+</ul>
+</section>
+<section id="vr-visualization">
+<h3>VR Visualization<a class="headerlink" href="#vr-visualization" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Stereo image rendering</p></li>
+<li><p>Web-based visualization</p></li>
+<li><p>Real-time streaming</p></li>
+<li><p>Adjustable viewpoints</p></li>
+</ul>
+</section>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p>Launch the node:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml
+</pre></div>
+</div>
+</li>
+<li><p>Send joint commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROS2</span>
+ros2<span class="w"> </span>topic<span class="w"> </span>pub<span class="w"> </span>/joint_commands<span class="w"> </span>sensor_msgs/msg/JointState<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;{name: [&#39;r_f_joint1_1&#39;], position: [0.5]}&quot;</span>
+
+<span class="c1"># ROS1</span>
+rostopic<span class="w"> </span>pub<span class="w"> </span>/joint_commands<span class="w"> </span>sensor_msgs/JointState<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;{name: [&#39;r_f_joint1_1&#39;], position: [0.5]}&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Monitor states:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROS2</span>
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/joint_states
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/body_poses
+ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/touch_sensors
+
+<span class="c1"># ROS1</span>
+rostopic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/joint_states
+rostopic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/body_poses
+rostopic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/touch_sensors
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="advanced-usage">
+<h3>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h3>
+<p>Enable VR and recording:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--enable-vr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>ros<span class="w"> </span>csv<span class="w"> </span>mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-csv-path<span class="w"> </span>data.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-mp4-path<span class="w"> </span>video.mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-bag-path<span class="w"> </span>recording.bag
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Continue reading:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="node_configuration.html"><span class="doc">Node Configuration</span></a> - Detailed node setup and configuration</p></li>
+<li><p><a class="reference internal" href="topics_and_services.html"><span class="doc">Topics and Services</span></a> - Available ROS interfaces</p></li>
+<li><p><a class="reference internal" href="data_recording.html"><span class="doc">Data Recording</span></a> - Data recording capabilities</p></li>
+<li><p><a class="reference internal" href="vr_visualization.html"><span class="doc">VR Visualization</span></a> - VR visualization features</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../scenes/examples.html" class="btn btn-neutral float-left" title="Scene Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="node_configuration.html" class="btn btn-neutral float-right" title="Node Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

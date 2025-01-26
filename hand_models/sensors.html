@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sensors &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Articulation" href="articulation.html" />
+    <link rel="prev" title="Actuators" href="actuators.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">Sensors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/sensors.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sensors">
+<h1>Sensors<a class="headerlink" href="#sensors" title="Link to this heading"></a></h1>
+<p>This section covers the sensor system in DexRobot MuJoCo, focusing on touch sensors and their configuration.</p>
+<section id="sensor-system-overview">
+<h2>Sensor System Overview<a class="headerlink" href="#sensor-system-overview" title="Link to this heading"></a></h2>
+<p>The DexHand includes touch sensors at fingertips:</p>
+<ul class="simple">
+<li><p>One touch sensor per fingertip</p></li>
+<li><p>Based on MuJoCo’s built-in contact sensing</p></li>
+<li><p>Configurable sensor sites</p></li>
+<li><p>Real-time force feedback</p></li>
+</ul>
+</section>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading"></a></h2>
+<section id="sensor-sites">
+<h3>Sensor Sites<a class="headerlink" href="#sensor-sites" title="Link to this heading"></a></h3>
+<p>Visual and physical locations for sensors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sensor_sites</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;r_f_link1_4&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># Thumb tip</span>
+        <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="s2">&quot;0.025 0.003 0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;sphere&quot;</span>
+    <span class="p">},</span>
+    <span class="c1"># Additional fingertip sites...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="touch-sensors">
+<h3>Touch Sensors<a class="headerlink" href="#touch-sensors" title="Link to this heading"></a></h3>
+<p>Contact force sensors at each site:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sensor_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;touch_r_f_link1_4&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># Thumb sensor</span>
+        <span class="s2">&quot;site&quot;</span><span class="p">:</span> <span class="s2">&quot;site_r_f_link1_4&quot;</span>
+    <span class="p">},</span>
+    <span class="c1"># Additional touch sensors...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
+<section id="adding-sites">
+<h3>Adding Sites<a class="headerlink" href="#adding-sites" title="Link to this heading"></a></h3>
+<p>Sites are added using the <code class="docutils literal notranslate"><span class="pre">add_sites()</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_sites</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">site_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add sites to specific bodies.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to MJCF XML file</span>
+<span class="sd">        site_info: Dictionary of site configurations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Add sites to specified bodies</span>
+    <span class="k">for</span> <span class="n">body_name</span><span class="p">,</span> <span class="n">details</span> <span class="ow">in</span> <span class="n">site_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">find_body</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">body_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">add_site_to_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">body_name</span><span class="p">,</span> <span class="n">details</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="mjcf-structure">
+<h3>MJCF Structure<a class="headerlink" href="#mjcf-structure" title="Link to this heading"></a></h3>
+<p>Generated site and sensor elements:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Site definition --&gt;</span>
+<span class="nt">&lt;site</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;site_r_f_link1_4&quot;</span>
+<span class="w">      </span><span class="na">pos=</span><span class="s">&quot;0.025 0.003 0&quot;</span>
+<span class="w">      </span><span class="na">size=</span><span class="s">&quot;0.01&quot;</span>
+<span class="w">      </span><span class="na">type=</span><span class="s">&quot;sphere&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Sensor definition --&gt;</span>
+<span class="nt">&lt;sensor&gt;</span>
+<span class="w">    </span><span class="nt">&lt;touch</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;touch_r_f_link1_4&quot;</span>
+<span class="w">           </span><span class="na">site=</span><span class="s">&quot;site_r_f_link1_4&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/sensor&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="site-parameters">
+<h2>Site Parameters<a class="headerlink" href="#site-parameters" title="Link to this heading"></a></h2>
+<section id="position-pos">
+<h3>Position (pos)<a class="headerlink" href="#position-pos" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Specified relative to link frame</p></li>
+<li><p>Format: “x y z”</p></li>
+<li><p>Typical fingertip offset</p></li>
+</ul>
+</section>
+<section id="size">
+<h3>Size<a class="headerlink" href="#size" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Sphere radius for site visualization</p></li>
+<li><p>Also affects contact detection area</p></li>
+<li><p>Default: 0.01 (1cm)</p></li>
+</ul>
+</section>
+<section id="type">
+<h3>Type<a class="headerlink" href="#type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Visual representation type</p></li>
+<li><p>Usually “sphere” for fingertips</p></li>
+<li><p>Other options: “box”, “cylinder”</p></li>
+</ul>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="reading-sensor-data">
+<h3>Reading Sensor Data<a class="headerlink" href="#reading-sensor-data" title="Link to this heading"></a></h3>
+<p>Via ROS Topics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">touch_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle touch sensor data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msg (Float32MultiArray): Touch sensor values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sensor_values</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span>
+    <span class="c1"># Process sensor data...</span>
+
+<span class="c1"># Subscribe to touch sensor topic</span>
+<span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span>
+    <span class="s2">&quot;touch_sensors&quot;</span><span class="p">,</span>
+    <span class="n">Float32MultiArray</span><span class="p">,</span>
+    <span class="n">touch_callback</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Via MuJoCo API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using MJControlWrapper</span>
+<span class="n">sensor_data</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sensor</span><span class="p">(</span><span class="s2">&quot;touch_r_f_link1_4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</section>
+<section id="data-format">
+<h3>Data Format<a class="headerlink" href="#data-format" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Each sensor returns contact force magnitude</p></li>
+<li><p>Values ≥ 0 (no negative forces)</p></li>
+<li><p>Units: Newtons</p></li>
+<li><p>Update rate: Simulation timestep</p></li>
+</ul>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="default-setup">
+<h3>Default Setup<a class="headerlink" href="#default-setup" title="Link to this heading"></a></h3>
+<p>The default configuration adds sites and sensors to all fingertips:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fingertip site pattern</span>
+<span class="n">fingertip_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sa">f</span><span class="s2">&quot;r_f_link</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_4&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Generate configurations</span>
+<span class="n">sensor_sites</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">name</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="s2">&quot;0.025 0.003 0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;0.01&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;sphere&quot;</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fingertip_names</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-configuration">
+<h3>Custom Configuration<a class="headerlink" href="#custom-configuration" title="Link to this heading"></a></h3>
+<p>Add custom sensor sites:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Custom site configuration</span>
+<span class="n">custom_sites</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;link_name&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="s2">&quot;x y z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;radius&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;shape&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Add custom sites</span>
+<span class="n">add_sites</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">custom_sites</span><span class="p">)</span>
+<span class="n">add_touch_sensors</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">sensor_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h2>
+<section id="contact-parameters">
+<h3>Contact Parameters<a class="headerlink" href="#contact-parameters" title="Link to this heading"></a></h3>
+<p>Adjust contact properties in MJCF:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;default&gt;</span>
+<span class="w">    </span><span class="nt">&lt;site</span><span class="w"> </span><span class="na">friction=</span><span class="s">&quot;1 0.005 0.0001&quot;</span>
+<span class="w">          </span><span class="na">solimp=</span><span class="s">&quot;0.9 0.95 0.001&quot;</span>
+<span class="w">          </span><span class="na">solref=</span><span class="s">&quot;0.02 1&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/default&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="filtering-and-processing">
+<h3>Filtering and Processing<a class="headerlink" href="#filtering-and-processing" title="Link to this heading"></a></h3>
+<p>Example sensor data processing:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TouchProcessor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_data</span><span class="p">):</span>
+        <span class="c1"># Apply threshold</span>
+        <span class="n">filtered</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">f</span> <span class="k">if</span> <span class="n">f</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">sensor_data</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Store history</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span>
+
+        <span class="c1"># Calculate features</span>
+        <span class="n">mean_force</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span>
+        <span class="n">max_force</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span>
+        <span class="n">active_sensors</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">f</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filtered</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean_force</span><span class="p">,</span>
+            <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="n">max_force</span><span class="p">,</span>
+            <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="n">active_sensors</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<section id="no-sensor-readings">
+<h4>No Sensor Readings<a class="headerlink" href="#no-sensor-readings" title="Link to this heading"></a></h4>
+<p>If not getting sensor data:</p>
+<ol class="arabic simple">
+<li><p>Check site placement</p></li>
+<li><p>Verify sensor configuration</p></li>
+<li><p>Confirm contact parameters</p></li>
+<li><p>Check collision settings</p></li>
+</ol>
+</section>
+<section id="noisy-readings">
+<h4>Noisy Readings<a class="headerlink" href="#noisy-readings" title="Link to this heading"></a></h4>
+<p>If experiencing noisy data:</p>
+<ol class="arabic simple">
+<li><p>Adjust contact parameters</p></li>
+<li><p>Implement filtering</p></li>
+<li><p>Check collision properties</p></li>
+<li><p>Verify site size and placement</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After setting up sensors:</p>
+<ul class="simple">
+<li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
+<li><p>Review <a class="reference internal" href="../ros_integration/index.html"><span class="doc">ROS Integration</span></a> for ROS usage</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="actuators.html" class="btn btn-neutral float-left" title="Actuators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="articulation.html" class="btn btn-neutral float-right" title="Articulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

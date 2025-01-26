@@ -1,0 +1,926 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dexrobot_mujoco.utils.mjcf_utils &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dexrobot_mujoco.utils.mjcf_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dexrobot_mujoco.utils.mjcf_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+
+
+<div class="viewcode-block" id="load_meshes">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.load_meshes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_meshes</span><span class="p">(</span><span class="n">mesh_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load all mesh files in the given directory and return them as a dictionary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mesh_dir (str): The directory containing the mesh files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict[str, bytes]: A dictionary mapping the filenames to the contents of the mesh files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">meshes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mesh_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mesh_dir</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">meshes</span></div>
+
+
+
+<div class="viewcode-block" id="urdf2mjcf">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.urdf2mjcf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">mjcf_dir</span><span class="p">,</span> <span class="n">mesh_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a URDF file and save it to an MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urdf_path (str): The path to the URDF file.</span>
+<span class="sd">        mjcf_dir (str): The directory to save the output MJCF file.</span>
+<span class="sd">        mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mesh_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjModel</span><span class="o">.</span><span class="n">from_xml_path</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjModel</span><span class="o">.</span><span class="n">from_xml_path</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">load_meshes</span><span class="p">(</span><span class="n">mesh_dir</span><span class="p">))</span>
+    <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_saveLastXML</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mjcf_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">,</span> <span class="n">m</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_joint_names">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.get_joint_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_joint_names</span><span class="p">(</span><span class="n">xml_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the names of all joints in the MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_path (str): The path to the MJCF XML file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[str]: A list of joint names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//joint&quot;</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="get_body_names">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.get_body_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_body_names</span><span class="p">(</span><span class="n">xml_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the names of all bodies in the MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_path (str): The path to the MJCF XML file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[str]: A list of body names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body&quot;</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="add_position_actuators">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_position_actuators">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_position_actuators</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">actuator_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add position actuators to the given MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_path (str): The path to the MJCF XML file.</span>
+<span class="sd">        actuator_info (dict): Dictionary containing the actuator information.</span>
+<span class="sd">            key (str): Regular expression for a group of joints.</span>
+<span class="sd">            value (dict): A set of properties to add to the &lt;position&gt; element.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Load the MJCF XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find or create the actuator element</span>
+    <span class="n">actuator_element</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;actuator&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">actuator_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">actuator_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;actuator&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Collect existing actuator names</span>
+    <span class="n">existing_actuator_names</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">actuator</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">actuator</span> <span class="ow">in</span> <span class="n">actuator_element</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;position&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Process each regular expression and its associated properties</span>
+    <span class="k">for</span> <span class="n">joint_names_re</span><span class="p">,</span> <span class="n">properties</span> <span class="ow">in</span> <span class="n">actuator_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">joint_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">joint_names_re</span><span class="p">)</span>
+        <span class="c1"># Find all joints matching the regular expression</span>
+        <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//joint&quot;</span><span class="p">):</span>
+            <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">joint_name</span> <span class="ow">and</span> <span class="n">joint_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">joint_name</span><span class="p">):</span>
+                <span class="n">actuator_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;act_</span><span class="si">{</span><span class="n">joint_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">actuator_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_actuator_names</span><span class="p">:</span>
+                    <span class="c1"># Create the position element with the provided properties</span>
+                    <span class="n">position_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span>
+                        <span class="n">actuator_element</span><span class="p">,</span>
+                        <span class="s2">&quot;position&quot;</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">actuator_name</span><span class="p">,</span>
+                        <span class="n">joint</span><span class="o">=</span><span class="n">joint_name</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">position_element</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">prop_value</span><span class="p">))</span>
+
+    <span class="c1"># Save the modified MJCF XML back to the file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Call xmllint to prettify the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="add_touch_sensors">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_touch_sensors">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_touch_sensors</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">sensor_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add touch sensors to the given MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_path (str): The path to the MJCF XML file.</span>
+<span class="sd">        sensor_info (dict): Dictionary containing the sensor information.</span>
+<span class="sd">            key (str): The sensor name.</span>
+<span class="sd">            value (dict): A set of properties to add to the &lt;sensor&gt; element.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Load the MJCF XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find or create the sensor element</span>
+    <span class="n">sensor_element</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sensor_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sensor_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Process each joint and its associated properties</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">properties</span> <span class="ow">in</span> <span class="n">sensor_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Create the touch sensor element</span>
+        <span class="n">touch_sensor</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">sensor_element</span><span class="p">,</span> <span class="s2">&quot;touch&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">touch_sensor</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">prop_value</span><span class="p">))</span>
+
+    <span class="c1"># Save the modified MJCF XML back to the file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Call xmllint to prettify the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="add_sites">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_sites">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_sites</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">site_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add sites to specific bodies in the MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the input/output MJCF XML file.</span>
+<span class="sd">        site_info (dict): Dictionary containing the site information.</span>
+<span class="sd">            key (str): The body name to add the site to.</span>
+<span class="sd">            value (dict): A set of properties to add to the &lt;site&gt; element.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the &quot;worldbody&quot; element</span>
+    <span class="n">worldbody</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">worldbody</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The provided MJCF file does not contain a &lt;worldbody&gt; element.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Iterate through all bodies in the worldbody to find specific bodies and add sites</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding sites to specific bodies in the MJCF XML file.&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body&quot;</span><span class="p">):</span>
+        <span class="n">body_name</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">body_name</span> <span class="ow">in</span> <span class="n">site_info</span><span class="p">:</span>
+            <span class="c1"># Get site details for the current body</span>
+            <span class="n">details</span> <span class="o">=</span> <span class="n">site_info</span><span class="p">[</span><span class="n">body_name</span><span class="p">]</span>
+            <span class="c1"># Create the site element and add it to the current body</span>
+            <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;site_</span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">details</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added site to body: </span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified tree to the output file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Call xmllint to prettify the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="apply_defaults">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.apply_defaults">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_defaults</span><span class="p">(</span><span class="n">mjcf_xml_path</span><span class="p">,</span> <span class="n">defaults_xml_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply default values / options from the given defaults XML file to the given MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mjcf_xml_path (str): The path to the MJCF XML file.</span>
+<span class="sd">        defaults_xml_path (str): The path to the defaults XML file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Load the MJCF XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">mjcf_xml_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Load the defaults XML file</span>
+    <span class="n">defaults_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">defaults_xml_path</span><span class="p">)</span>
+    <span class="n">defaults_root</span> <span class="o">=</span> <span class="n">defaults_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Apply defaults_root as a child to root</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">defaults_root</span><span class="p">):</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Save the modified MJCF XML back to the file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mjcf_xml_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Call xmllint to prettify the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">mjcf_xml_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">mjcf_xml_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="merge_xml_files">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.merge_xml_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_xml_files</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges multiple MuJoCo XML files into a single scene file.</span>
+
+<span class="sd">    This function combines multiple MuJoCo XML model files into one unified scene file,</span>
+<span class="sd">    preserving key elements like assets, bodies, actuators, sensors etc. Each model can</span>
+<span class="sd">    be positioned and articulated differently in the combined scene.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_dict (dict): Dictionary mapping XML file paths to positioning attributes.</span>
+<span class="sd">            Each entry should have:</span>
+<span class="sd">            - &#39;pos&#39;: tuple of (x,y,z) coordinates</span>
+<span class="sd">            - &#39;quat&#39;: tuple of (w,x,y,z) quaternion rotation</span>
+<span class="sd">            - &#39;articulation_method&#39;: str, either &#39;fixed&#39; or &#39;free&#39;</span>
+<span class="sd">                &#39;model1.xml&#39;: {&#39;pos&#39;: (0,0,0), &#39;quat&#39;: (1,0,0,0), &#39;articulation_method&#39;: &#39;fixed&#39;},</span>
+<span class="sd">                &#39;model2.xml&#39;: {&#39;pos&#39;: (1,1,0), &#39;quat&#39;: (0,1,0,0), &#39;articulation_method&#39;: &#39;free&#39;}</span>
+<span class="sd">        output_xml_path (str): File path where the combined XML will be saved.</span>
+<span class="sd">        model_name (str): Name to be given to the combined model.</span>
+
+
+<span class="sd">    Notes:</span>
+<span class="sd">        The function merges the following XML elements:</span>
+
+<span class="sd">        - compiler, option, default (taken from first file only)</span>
+<span class="sd">        - asset (merged from all files)</span>
+<span class="sd">        - worldbody (merged with specified positions and articulations)</span>
+<span class="sd">        - actuator (merged from all files)</span>
+<span class="sd">        - sensor (merged from all files if present)</span>
+<span class="sd">        - tendon (merged from all files if present)</span>
+<span class="sd">        - contact (merged from all files if present)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the first XML file to get the base elements</span>
+    <span class="n">first_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">))</span>
+    <span class="n">tree1</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">first_key</span><span class="p">)</span>
+    <span class="n">root1</span> <span class="o">=</span> <span class="n">tree1</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Create a new XML tree for the combined model</span>
+    <span class="n">mujoco</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;mujoco&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+
+    <span class="c1"># Combine the &lt;compiler&gt;, &lt;option&gt;, and &lt;default&gt; elements (using the values from the first file)</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;compiler&quot;</span><span class="p">,</span> <span class="s2">&quot;option&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">]:</span>
+            <span class="n">mujoco</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;asset&gt; element and merge assets from all files</span>
+    <span class="n">asset</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;asset&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">xml_path</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">):</span>
+                <span class="n">asset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;worldbody&gt; element and merge bodies from all files with specified positions, rotations, and articulation methods</span>
+    <span class="n">worldbody</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">xml_path</span><span class="p">,</span> <span class="n">attributes</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">body_elements</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">body_elements</span><span class="p">:</span>
+                <span class="n">first_body</span> <span class="o">=</span> <span class="n">body_elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">first_body</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="n">attributes</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span>
+                <span class="n">first_body</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;quat&quot;</span><span class="p">,</span> <span class="n">attributes</span><span class="p">[</span><span class="s2">&quot;quat&quot;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">attributes</span><span class="p">[</span><span class="s2">&quot;articulation_method&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;free&quot;</span><span class="p">:</span>
+                    <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">first_body</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;free&quot;</span><span class="p">)</span>
+                <span class="c1"># Append the modified first body and all other bodies to worldbody</span>
+                <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">body_elements</span><span class="p">:</span>
+                    <span class="n">worldbody</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;actuator&gt; element and merge actuators from all files</span>
+    <span class="n">actuator</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;actuator&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">xml_path</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;actuator&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;actuator&quot;</span><span class="p">):</span>
+                <span class="n">actuator</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;sensor&gt; element and merge sensors from all files (if any)</span>
+    <span class="n">sensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">xml_path</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sensor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sensor</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">):</span>
+                <span class="n">sensor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;tendon&gt; element and merge tendons from all files (if any)</span>
+    <span class="n">tendon</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">xml_path</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;tendon&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tendon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">tendon</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;tendon&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;tendon&quot;</span><span class="p">):</span>
+                <span class="n">tendon</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Create the &lt;contact&gt; element and merge contacts from all files (if any)</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">xml_path</span> <span class="ow">in</span> <span class="n">xml_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;contact&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">contact</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">contact</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">mujoco</span><span class="p">,</span> <span class="s2">&quot;contact&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;contact&quot;</span><span class="p">):</span>
+                <span class="n">contact</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Write the combined XML to the output file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">mujoco</span><span class="p">)</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_xml_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the output XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="articulate">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.articulate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">articulate</span><span class="p">(</span><span class="n">parent_xml_path</span><span class="p">,</span> <span class="n">child_xml_path</span><span class="p">,</span> <span class="n">link_name</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;0 0 0&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="s2">&quot;1 0 0 0&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Articulates a child model to a parent model at the specified link.</span>
+<span class="sd">    Uses visual, option, default and size settings from the child model.</span>
+<span class="sd">    Handles mesh paths considering both explicit paths and meshdir compiler settings.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parent_xml_path (str): Path to the parent MJCF XML file.</span>
+<span class="sd">        child_xml_path (str): Path to the child MJCF XML file.</span>
+<span class="sd">        link_name (str): Name of the link in the parent model to which the child model should be articulated.</span>
+<span class="sd">        output_xml_path (str): Path to the output articulated MJCF XML file.</span>
+<span class="sd">        pos (str): Position of the child model.</span>
+<span class="sd">        quat (str): Quaternion orientation of the child model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert all paths to absolute for resolution</span>
+    <span class="n">parent_xml_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">parent_xml_path</span><span class="p">)</span>
+    <span class="n">child_xml_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">child_xml_path</span><span class="p">)</span>
+    <span class="n">output_xml_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">output_xml_path</span><span class="p">)</span>
+
+    <span class="n">parent_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">parent_xml_path</span><span class="p">)</span>
+    <span class="n">child_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">child_xml_path</span><span class="p">)</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_xml_path</span><span class="p">)</span>
+
+    <span class="c1"># Load XML files</span>
+    <span class="n">parent_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">parent_xml_path</span><span class="p">)</span>
+    <span class="n">parent_root</span> <span class="o">=</span> <span class="n">parent_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">child_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">child_xml_path</span><span class="p">)</span>
+    <span class="n">child_root</span> <span class="o">=</span> <span class="n">child_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Get model names and set combined name</span>
+    <span class="n">parent_name</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span>
+    <span class="n">child_name</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;child&quot;</span><span class="p">)</span>
+    <span class="n">parent_root</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Replace/copy configuration elements from child model</span>
+    <span class="k">for</span> <span class="n">element_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;visual&quot;</span><span class="p">,</span> <span class="s2">&quot;option&quot;</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">]:</span>
+        <span class="n">child_element</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">element_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">child_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Remove existing element from parent if it exists</span>
+            <span class="n">parent_element</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">element_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parent_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parent_root</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">parent_element</span><span class="p">)</span>
+            <span class="c1"># Insert child element at beginning of parent</span>
+            <span class="n">parent_root</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">child_element</span><span class="p">)</span>
+
+    <span class="c1"># Extract meshdir settings</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_meshdir</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">):</span>
+        <span class="n">compiler</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//compiler&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">compiler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;meshdir&quot;</span> <span class="ow">in</span> <span class="n">compiler</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">meshdir</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meshdir&quot;</span><span class="p">)</span>
+            <span class="c1"># Convert meshdir to absolute path</span>
+            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">meshdir</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">base_dir</span>
+
+    <span class="n">parent_meshdir</span> <span class="o">=</span> <span class="n">get_meshdir</span><span class="p">(</span><span class="n">parent_root</span><span class="p">,</span> <span class="n">parent_dir</span><span class="p">)</span>
+    <span class="n">child_meshdir</span> <span class="o">=</span> <span class="n">get_meshdir</span><span class="p">(</span><span class="n">child_root</span><span class="p">,</span> <span class="n">child_dir</span><span class="p">)</span>
+
+    <span class="c1"># Find required elements for articulation</span>
+    <span class="n">parent_worldbody</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+    <span class="n">parent_link</span> <span class="o">=</span> <span class="n">parent_worldbody</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">link_name</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parent_link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Link </span><span class="si">{</span><span class="n">link_name</span><span class="si">}</span><span class="s2"> not found in parent model&quot;</span><span class="p">)</span>
+
+    <span class="n">child_worldbody</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+    <span class="n">child_root_body</span> <span class="o">=</span> <span class="n">child_worldbody</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">child_root_body</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No root body found in child model&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set position and orientation of child root body</span>
+    <span class="n">child_root_body</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+    <span class="n">child_root_body</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;quat&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="p">)</span>
+
+    <span class="c1"># Function to resolve and update mesh paths</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_mesh_paths</span><span class="p">(</span><span class="n">asset_elem</span><span class="p">,</span> <span class="n">meshdir</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">asset_elem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">mesh_elements</span> <span class="o">=</span> <span class="n">asset_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">mesh_elements</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;file&quot;</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="c1"># Get absolute path considering meshdir</span>
+                <span class="n">mesh_file</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
+                <span class="n">abs_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">meshdir</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">))</span>
+                <span class="c1"># Convert to relative path from output XML</span>
+                <span class="n">rel_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">abs_mesh_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+                <span class="n">mesh</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">rel_mesh_path</span><span class="p">)</span>
+
+    <span class="c1"># Update mesh paths in both parent and child assets</span>
+    <span class="n">parent_asset</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span>
+    <span class="n">child_asset</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span>
+    <span class="n">update_mesh_paths</span><span class="p">(</span><span class="n">parent_asset</span><span class="p">,</span> <span class="n">parent_meshdir</span><span class="p">)</span>
+    <span class="n">update_mesh_paths</span><span class="p">(</span><span class="n">child_asset</span><span class="p">,</span> <span class="n">child_meshdir</span><span class="p">)</span>
+
+    <span class="c1"># Update or create compiler element with new meshdir</span>
+    <span class="n">compiler</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">compiler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">compiler</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+        <span class="n">parent_root</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">compiler</span><span class="p">)</span>
+    <span class="n">compiler</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;meshdir&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Append child root body to parent link</span>
+    <span class="n">parent_link</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_root_body</span><span class="p">)</span>
+
+    <span class="c1"># Merge other elements from child to parent</span>
+    <span class="k">for</span> <span class="n">element_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;asset&quot;</span><span class="p">,</span> <span class="s2">&quot;actuator&quot;</span><span class="p">,</span> <span class="s2">&quot;sensor&quot;</span><span class="p">,</span> <span class="s2">&quot;tendon&quot;</span><span class="p">,</span> <span class="s2">&quot;contact&quot;</span><span class="p">]:</span>
+        <span class="n">child_element</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">element_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">child_element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parent_element</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">element_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parent_element</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parent_element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parent_root</span><span class="p">,</span> <span class="n">element_name</span><span class="p">)</span>
+
+            <span class="c1"># Get existing names to avoid duplicates</span>
+            <span class="n">parent_item_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">parent_element</span><span class="p">}</span>
+
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">child_element</span><span class="p">:</span>
+                <span class="n">item_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">item_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parent_item_names</span><span class="p">:</span>
+                    <span class="n">parent_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified parent XML to output</span>
+    <span class="n">parent_tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_xml_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the output XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">output_xml_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="add_trunk_body">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_trunk_body">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_trunk_body</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;0 0 0&quot;</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="s2">&quot;1 0 0 0&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a top-level &quot;trunk&quot; element below the &quot;worldbody&quot; element.</span>
+
+<span class="sd">    Makes every original child of &quot;worldbody&quot; a child of &quot;trunk&quot; instead.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to the input/output MJCF XML file.</span>
+<span class="sd">        name: Name of the &quot;trunk&quot; body. Defaults to f&quot;{model_name}_trunk&quot;.</span>
+<span class="sd">        pos: Position of the &quot;trunk&quot; body. Defaults to &quot;0 0 0&quot;.</span>
+<span class="sd">        quat: Quaternion orientation of the &quot;trunk&quot; body. Defaults to &quot;1 0 0 0&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the &quot;worldbody&quot; element</span>
+    <span class="n">worldbody</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">worldbody</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The provided MJCF file does not contain a &lt;worldbody&gt; element.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Create the &quot;trunk&quot; element</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_trunk&quot;</span>
+    <span class="n">trunk</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="n">quat</span><span class="p">)</span>
+
+    <span class="c1"># Move all existing children of &quot;worldbody&quot; to be children of &quot;trunk&quot;</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">worldbody</span><span class="p">):</span>
+        <span class="n">trunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+
+    <span class="c1"># Clear the original children of &quot;worldbody&quot;</span>
+    <span class="n">worldbody</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="c1"># Insert the &quot;trunk&quot; element into &quot;worldbody&quot;</span>
+    <span class="n">worldbody</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trunk</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified tree to the output file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="exclude_self_collisions">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.exclude_self_collisions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">exclude_self_collisions</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">top_level_body_1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_level_body_2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allowed_collision_pairs</span><span class="o">=</span><span class="p">[],</span> <span class="n">additional_xml_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Excludes self-collisions pairwise between bodies under specified top-level bodies.</span>
+
+<span class="sd">    When one of the top-level bodies is None, excludes self-collisions within that top-</span>
+<span class="sd">    level body. When both are None, excludes self-collisions within the first body</span>
+<span class="sd">    directly under &quot;worldbody&quot;.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to the input/output MJCF XML file.</span>
+<span class="sd">        top_level_body_1: Name of the first top-level body.</span>
+<span class="sd">        top_level_body_2: Name of the second top-level body.</span>
+<span class="sd">        allowed_collision_pairs: List of tuples of body names that should not be</span>
+<span class="sd">            excluded from collisions. Each body name can be specified as a regular</span>
+<span class="sd">            expression.</span>
+<span class="sd">        additional_xml_file_path: Path to an additional XML file. Useful for dealing</span>
+<span class="sd">            with bodies included by `mujocoinclude`. When specified, the second top-</span>
+<span class="sd">            level body will be read from this additional XML file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the &quot;worldbody&quot; element</span>
+    <span class="n">worldbody</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">worldbody</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The provided MJCF file does not contain a &lt;worldbody&gt; element.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Load the additional XML file if specified</span>
+    <span class="k">if</span> <span class="n">additional_xml_file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tree2</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">additional_xml_file_path</span><span class="p">)</span>
+        <span class="n">root2</span> <span class="o">=</span> <span class="n">tree2</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Collect pairs to exclude</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">top_level_body_1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">top_level_body_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">top_level_body_1</span> <span class="o">=</span> <span class="n">worldbody</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">top_level_body_1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">top_level_body_1</span> <span class="o">=</span> <span class="n">top_level_body_2</span>
+    <span class="k">elif</span> <span class="n">top_level_body_2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">top_level_body_2</span> <span class="o">=</span> <span class="n">top_level_body_1</span>
+
+    <span class="n">tlb1_elem</span> <span class="o">=</span> <span class="n">worldbody</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">top_level_body_1</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">additional_xml_file_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tlb2_elem</span> <span class="o">=</span> <span class="n">worldbody</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">top_level_body_2</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tlb2_elem</span> <span class="o">=</span> <span class="n">root2</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">top_level_body_2</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">body1_elem</span> <span class="ow">in</span> <span class="p">[</span><span class="n">tlb1_elem</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">tlb1_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body&quot;</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">body2_elem</span> <span class="ow">in</span> <span class="p">[</span><span class="n">tlb2_elem</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">tlb2_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body&quot;</span><span class="p">)):</span>
+            <span class="n">body1_name</span> <span class="o">=</span> <span class="n">body1_elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+            <span class="n">body2_name</span> <span class="o">=</span> <span class="n">body2_elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">body1_name</span> <span class="o">!=</span> <span class="n">body2_name</span> <span class="ow">and</span> <span class="p">(</span><span class="n">body2_name</span><span class="p">,</span> <span class="n">body1_name</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
+                    <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">body1_re</span><span class="p">,</span> <span class="n">body1_name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">body2_re</span><span class="p">,</span> <span class="n">body2_name</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">body1_re</span><span class="p">,</span> <span class="n">body2_re</span> <span class="ow">in</span> <span class="n">allowed_collision_pairs</span>
+                <span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span>
+                    <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">body2_re</span><span class="p">,</span> <span class="n">body1_name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">body1_re</span><span class="p">,</span> <span class="n">body2_name</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">body1_re</span><span class="p">,</span> <span class="n">body2_re</span> <span class="ow">in</span> <span class="n">allowed_collision_pairs</span>
+                <span class="p">):</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">body1_name</span><span class="p">,</span> <span class="n">body2_name</span><span class="p">))</span>
+
+    <span class="c1"># Create the &quot;contact&quot; element if it does not exist</span>
+    <span class="n">contact</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;contact&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">contact</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">contact</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;contact&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Iterate over all pairs</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">body1_name</span><span class="p">,</span> <span class="n">body2_name</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+        <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">contact</span><span class="p">,</span> <span class="s2">&quot;exclude&quot;</span><span class="p">,</span> <span class="n">body1</span><span class="o">=</span><span class="n">body1_name</span><span class="p">,</span> <span class="n">body2</span><span class="o">=</span><span class="n">body2_name</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified tree to the output file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="add_ground">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_ground">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_ground</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">ground_name</span><span class="o">=</span><span class="s1">&#39;ground&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;0 0 0&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;1 1 0.1&quot;</span><span class="p">,</span> <span class="n">rgba</span><span class="o">=</span><span class="s2">&quot;0.8 0.8 1 1&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a ground plane to the MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to the input/output MJCF XML file.</span>
+<span class="sd">        ground_name: Name of the ground plane geom. Defaults to &#39;ground&#39;.</span>
+<span class="sd">        pos: Position of the ground plane. Defaults to &quot;0 0 0&quot;.</span>
+<span class="sd">        size: Size of the ground plane. Defaults to &quot;1 1 0.1&quot;.</span>
+<span class="sd">        rgba: RGBA color of the ground plane. Defaults to &quot;0.8 0.8 1 1&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the &quot;worldbody&quot; element</span>
+    <span class="n">worldbody</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;worldbody&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">worldbody</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The provided MJCF file does not contain a &lt;worldbody&gt; element.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Create the ground plane geom element</span>
+    <span class="n">ground_geom</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span>
+        <span class="n">worldbody</span><span class="p">,</span>
+        <span class="s2">&quot;geom&quot;</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">ground_name</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;plane&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="n">pos</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="s2">&quot;rgba&quot;</span><span class="p">:</span> <span class="n">rgba</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Write the modified tree to the output file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the output XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="extract_part">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.extract_part">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_part</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">part_name</span><span class="p">,</span> <span class="n">body_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a part from the MJCF XML file into a &lt;mujocoinclude&gt; file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the input MJCF XML file.</span>
+<span class="sd">        output_path (str): Path to the output &lt;mujocoinclude&gt; file.</span>
+<span class="sd">        part_name (str): Name of the part to extract. Can be &quot;asset&quot;, &quot;body&quot;, &quot;actuator&quot;, &quot;sensor&quot;, &quot;tendon&quot;, or &quot;contact&quot;. When &quot;body&quot; is specified, the body_name argument must be provided.</span>
+<span class="sd">        body_name (str or None): Name of the body to extract when part_name is &quot;body&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the part element</span>
+    <span class="k">if</span> <span class="n">part_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;asset&quot;</span><span class="p">,</span> <span class="s2">&quot;actuator&quot;</span><span class="p">,</span> <span class="s2">&quot;sensor&quot;</span><span class="p">,</span> <span class="s2">&quot;tendon&quot;</span><span class="p">,</span> <span class="s2">&quot;contact&quot;</span><span class="p">]:</span>
+        <span class="n">part</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">part_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">part_name</span> <span class="o">==</span> <span class="s2">&quot;body&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">body_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The body_name argument must be provided when part_name is &#39;body&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">part</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The part_name argument must be one of &#39;asset&#39;, &#39;body&#39;, &#39;actuator&#39;, &#39;sensor&#39;, &#39;tendon&#39;, or &#39;contact&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">part</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;The provided MJCF file does not contain a &lt;</span><span class="si">{</span><span class="n">part_name</span><span class="si">}</span><span class="s2">&gt; element.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Wrap the part with a &lt;mujocoinclude&gt; root</span>
+    <span class="n">mujoco_include</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">&#39;mujocoinclude&#39;</span><span class="p">)</span>
+    <span class="n">mujoco_include</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+
+    <span class="c1"># Create a new tree with the &lt;mujocoinclude&gt; as the root</span>
+    <span class="n">new_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">mujoco_include</span><span class="p">)</span>
+
+    <span class="c1"># Write the new tree to the output file</span>
+    <span class="n">new_tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the output XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="add_mesh_prefix">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_mesh_prefix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_mesh_prefix</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a prefix to all mesh filenames in the MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the input/output MJCF XML file.</span>
+<span class="sd">        prefix (str): Prefix to add to all mesh filenames.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find the asset element</span>
+    <span class="n">asset</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">asset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;The provided MJCF file does not contain an &lt;asset&gt; element.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Iterate over all mesh elements</span>
+    <span class="k">for</span> <span class="n">mesh</span> <span class="ow">in</span> <span class="n">asset</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mesh</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">mesh</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified tree to the output file</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="update_geom_collisions">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.update_geom_collisions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_geom_collisions</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">collision_yaml_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update collision properties of an MJCF XML file based on a YAML configuration.</span>
+
+<span class="sd">    This function:</span>
+<span class="sd">    1. Sets all existing geoms to non-collidable if they don&#39;t have collision properties already set</span>
+<span class="sd">    2. Adds collidable geoms specified in the YAML file</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the MJCF XML file</span>
+<span class="sd">        collision_yaml_path (str): Path to YAML file containing collidable geom specifications</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Load collision specifications from YAML</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">collision_yaml_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">collision_specs</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Set all existing geoms to non-collidable if they don&#39;t have collision properties</span>
+    <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body//geom&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">attr</span> <span class="ow">in</span> <span class="n">geom</span><span class="o">.</span><span class="n">attrib</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;contype&#39;</span><span class="p">,</span> <span class="s1">&#39;conaffinity&#39;</span><span class="p">,</span> <span class="s1">&#39;group&#39;</span><span class="p">]):</span>
+            <span class="n">geom</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;contype&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+            <span class="n">geom</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;conaffinity&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+            <span class="n">geom</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+            <span class="n">geom</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;density&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Add collidable geoms from YAML</span>
+    <span class="k">for</span> <span class="n">body_name</span><span class="p">,</span> <span class="n">geom_spec</span> <span class="ow">in</span> <span class="n">collision_specs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Find the body element</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.//body[@name=&quot;</span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s1">&quot;]&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">body</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Body </span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s2"> not found in XML&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Create geom attributes</span>
+        <span class="n">geom_attrs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;col_</span><span class="si">{</span><span class="n">body_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;contype&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;conaffinity&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span>  <span class="c1"># Using group 3 for collision geoms as in original XML</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add type-specific attributes</span>
+        <span class="k">if</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;box&#39;</span><span class="p">:</span>
+            <span class="n">geom_attrs</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]))</span>
+            <span class="n">geom_attrs</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;capsule&#39;</span><span class="p">:</span>
+            <span class="n">geom_attrs</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]))</span>
+            <span class="n">geom_attrs</span><span class="p">[</span><span class="s1">&#39;fromto&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">geom_spec</span><span class="p">[</span><span class="s1">&#39;fromto&#39;</span><span class="p">]))</span>
+
+        <span class="c1"># Create and add the geom element</span>
+        <span class="n">collision_geom</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">&#39;geom&#39;</span><span class="p">,</span> <span class="n">geom_attrs</span><span class="p">)</span>
+
+    <span class="c1"># Save the modified XML</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xmllint&#39;</span><span class="p">,</span> <span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updated collision properties in </span><span class="si">{</span><span class="n">xml_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articulation &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hand Model Examples" href="examples.html" />
+    <link rel="prev" title="Sensors" href="sensors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">Articulation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/articulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="articulation">
+<h1>Articulation<a class="headerlink" href="#articulation" title="Link to this heading"></a></h1>
+<p>This section covers the process of articulating DexHand models with other mechanical systems, such as robot arms or floating bases.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The articulation system allows:</p>
+<ul class="simple">
+<li><p>Attaching hands to robot arms</p></li>
+<li><p>Creating floating base configurations</p></li>
+<li><p>Preserving visual and collision properties</p></li>
+<li><p>Configuring joint limits and dynamics</p></li>
+</ul>
+</section>
+<section id="basic-concepts">
+<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Link to this heading"></a></h2>
+<section id="articulation-methods">
+<h3>Articulation Methods<a class="headerlink" href="#articulation-methods" title="Link to this heading"></a></h3>
+<p>Two main methods of articulation:</p>
+<ol class="arabic simple">
+<li><p><strong>Fixed Mount</strong></p>
+<ul class="simple">
+<li><p>Rigid attachment to another model</p></li>
+<li><p>Suitable for robot arms</p></li>
+<li><p>Preserves kinematic chain</p></li>
+</ul>
+</li>
+<li><p><strong>Floating Base</strong></p>
+<ul class="simple">
+<li><p>6-DoF free joint</p></li>
+<li><p>Suitable for simulating grasping/manipulation tasks without actual robot arm</p></li>
+<li><p>Independent position/orientation control</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="model-components">
+<h3>Model Components<a class="headerlink" href="#model-components" title="Link to this heading"></a></h3>
+<p>Each articulated model requires:</p>
+<ul class="simple">
+<li><p>Parent model (arm/base)</p></li>
+<li><p>Child model (hand)</p></li>
+<li><p>Attachment specifications</p></li>
+<li><p>Configuration parameters</p></li>
+</ul>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="basic-articulation">
+<h3>Basic Articulation<a class="headerlink" href="#basic-articulation" title="Link to this heading"></a></h3>
+<p>Using the articulation script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/articulate_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--base<span class="w"> </span>robot_arm.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand<span class="w"> </span>dexhand021_right.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>combined_model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--euler<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--base</span></code>: Parent model XML path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--hand</span></code>: Hand model XML path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output</span></code>: Output model path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--pos</span></code>: Position offset [x y z]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--euler</span></code>: Euler angles [roll pitch yaw]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--quat</span></code>: Quaternion [w x y z]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--add-ground</span></code>: Add ground plane</p></li>
+</ul>
+</section>
+<section id="example-robot-arm">
+<h3>Example: Robot Arm<a class="headerlink" href="#example-robot-arm" title="Link to this heading"></a></h3>
+<p>Attaching to a JAKA Zu7 arm:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/articulate_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--base<span class="w"> </span>models/jaka_zu7_right.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand<span class="w"> </span>models/dexhand021_right_simplified.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>models/dexhand021_right_jaka_zu7.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--euler<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="example-floating-base">
+<h3>Example: Floating Base<a class="headerlink" href="#example-floating-base" title="Link to this heading"></a></h3>
+<p>Creating a floating base configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/articulate_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--base<span class="w"> </span>models/floating_base.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand<span class="w"> </span>models/dexhand021_right.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>models/dexhand021_right_floating.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--euler<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
+<section id="the-articulate-function">
+<h3>The <code class="docutils literal notranslate"><span class="pre">articulate()</span></code> Function<a class="headerlink" href="#the-articulate-function" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">articulate</span><span class="p">(</span>
+    <span class="n">parent_xml_path</span><span class="p">,</span>
+    <span class="n">child_xml_path</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="p">,</span>
+    <span class="n">output_xml_path</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="s2">&quot;0 0 0&quot;</span><span class="p">,</span>
+    <span class="n">quat</span><span class="o">=</span><span class="s2">&quot;1 0 0 0&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Articulate child model to parent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parent_xml_path: Parent model XML</span>
+<span class="sd">        child_xml_path: Child model XML</span>
+<span class="sd">        link_name: Attachment link name</span>
+<span class="sd">        output_xml_path: Output path</span>
+<span class="sd">        pos: Position offset</span>
+<span class="sd">        quat: Orientation quaternion</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Core steps:</span>
+    <span class="c1"># 1. Load models</span>
+    <span class="c1"># 2. Merge configurations</span>
+    <span class="c1"># 3. Update hierarchies</span>
+    <span class="c1"># 4. Configure attachment</span>
+    <span class="c1"># 5. Save combined model</span>
+</pre></div>
+</div>
+</section>
+<section id="mjcf-structure">
+<h3>MJCF Structure<a class="headerlink" href="#mjcf-structure" title="Link to this heading"></a></h3>
+<p>Example combined model structure:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;mujoco&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Combined model --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;compiler</span><span class="w"> </span><span class="na">meshdir=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Merged assets --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;asset&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Parent assets --&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Child assets --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/asset&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Body hierarchy --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Parent base --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;parent_base&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!-- Parent links --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;attachment_link&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="cm">&lt;!-- Child base --&gt;</span>
+<span class="w">                </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;hand_base&quot;</span>
+<span class="w">                      </span><span class="na">pos=</span><span class="s">&quot;0 0 0&quot;</span>
+<span class="w">                      </span><span class="na">quat=</span><span class="s">&quot;1 0 0 0&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cm">&lt;!-- Hand model --&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/worldbody&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Combined actuators --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;actuator&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Parent actuators --&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Child actuators --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/actuator&gt;</span>
+<span class="nt">&lt;/mujoco&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-features">
+<h2>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading"></a></h2>
+<section id="custom-attachment-points">
+<h3>Custom Attachment Points<a class="headerlink" href="#custom-attachment-points" title="Link to this heading"></a></h3>
+<p>Specify custom attachment configurations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Position offset</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;0.1 0 0.05&quot;</span>  <span class="c1"># x y z</span>
+
+<span class="c1"># Orientation (quaternion)</span>
+<span class="n">quat</span> <span class="o">=</span> <span class="s2">&quot;0.707 0 0.707 0&quot;</span>  <span class="c1"># w x y z</span>
+</pre></div>
+</div>
+</section>
+<section id="mesh-management">
+<h3>Mesh Management<a class="headerlink" href="#mesh-management" title="Link to this heading"></a></h3>
+<p>Handle mesh file paths:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update mesh directory</span>
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;meshdir&quot;</span><span class="p">,</span> <span class="s2">&quot;path/to/meshes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="asset-merging">
+<h3>Asset Merging<a class="headerlink" href="#asset-merging" title="Link to this heading"></a></h3>
+<p>Combine model assets:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">merge_assets</span><span class="p">(</span><span class="n">parent_root</span><span class="p">,</span> <span class="n">child_root</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge assets from both models.&quot;&quot;&quot;</span>
+    <span class="c1"># Get/create asset elements</span>
+    <span class="n">parent_asset</span> <span class="o">=</span> <span class="n">get_asset_element</span><span class="p">(</span><span class="n">parent_root</span><span class="p">)</span>
+    <span class="n">child_asset</span> <span class="o">=</span> <span class="n">child_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Copy child assets</span>
+    <span class="k">if</span> <span class="n">child_asset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">child_asset</span><span class="p">:</span>
+            <span class="n">parent_asset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asset</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-use-cases">
+<h2>Common Use Cases<a class="headerlink" href="#common-use-cases" title="Link to this heading"></a></h2>
+<section id="robot-arm-integration">
+<h3>Robot Arm Integration<a class="headerlink" href="#robot-arm-integration" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Convert URDF to MJCF</p></li>
+<li><p>Configure attachment point</p></li>
+<li><p>Articulate models</p></li>
+<li><p>Test kinematics</p></li>
+<li><p>Verify control</p></li>
+</ol>
+</section>
+<section id="floating-manipulation">
+<h3>Floating Manipulation<a class="headerlink" href="#floating-manipulation" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Start with floating base</p></li>
+<li><p>Configure 6-DoF control</p></li>
+<li><p>Add pose tracking</p></li>
+<li><p>Implement teleoperation</p></li>
+</ol>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<section id="incorrect-placement">
+<h4>Incorrect Placement<a class="headerlink" href="#incorrect-placement" title="Link to this heading"></a></h4>
+<p>If hand position is wrong:</p>
+<ol class="arabic simple">
+<li><p>Check attachment point</p></li>
+<li><p>Verify coordinate systems</p></li>
+<li><p>Adjust offset values</p></li>
+<li><p>Review transformation chain</p></li>
+</ol>
+</section>
+</section>
+<section id="control-problems">
+<h3>Control Problems<a class="headerlink" href="#control-problems" title="Link to this heading"></a></h3>
+<p>If experiencing control issues:</p>
+<ol class="arabic simple">
+<li><p>Check actuator configurations</p></li>
+<li><p>Verify joint limits</p></li>
+<li><p>Review control parameters</p></li>
+<li><p>Test individual components</p></li>
+</ol>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After articulation:</p>
+<ul class="simple">
+<li><p>Configure control in <a class="reference internal" href="../ros_integration/index.html"><span class="doc">ROS Integration</span></a></p></li>
+<li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sensors.html" class="btn btn-neutral float-left" title="Sensors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Hand Model Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URDF to MJCF Conversion &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Collision Models" href="collision_models.html" />
+    <link rel="prev" title="Hand Models" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">URDF to MJCF Conversion</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/conversion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="urdf-to-mjcf-conversion">
+<h1>URDF to MJCF Conversion<a class="headerlink" href="#urdf-to-mjcf-conversion" title="Link to this heading"></a></h1>
+<p>This section covers the process of converting DexHand URDF models to MJCF format for use with MuJoCo.</p>
+<section id="conversion-process">
+<h2>Conversion Process<a class="headerlink" href="#conversion-process" title="Link to this heading"></a></h2>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
+<p>The conversion from URDF to MJCF is handled by the <code class="docutils literal notranslate"><span class="pre">convert_hand.py</span></code> script, which performs the following steps:</p>
+<ol class="arabic simple">
+<li><p>Basic URDF to MJCF conversion using MuJoCo’s built-in converter</p></li>
+<li><p>Post-processing to add required elements and configurations</p></li>
+<li><p>Optimization of collision geometries (optional)</p></li>
+<li><p>Addition of actuators and sensors</p></li>
+<li><p>Configuration of model parameters</p></li>
+</ol>
+</section>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span>--urdf<span class="w"> </span>/path/to/hand.urdf
+</pre></div>
+</div>
+</section>
+<section id="advanced-usage">
+<h3>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--urdf<span class="w"> </span>/path/to/hand.urdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--simplified-collision<span class="w"> </span>config/collision_geoms/dexhand021_right_simplified.yaml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="model-hierarchy">
+<h2>Model Hierarchy<a class="headerlink" href="#model-hierarchy" title="Link to this heading"></a></h2>
+<section id="input-urdf-structure">
+<h3>Input URDF Structure<a class="headerlink" href="#input-urdf-structure" title="Link to this heading"></a></h3>
+<p>The URDF model should follow this basic structure:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;dexhand&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Base link --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;hand_base&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Visual and collision geometries --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Finger links --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;r_f_link1_1&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Thumb base --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/link&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Additional finger links --&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Joints --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;r_f_joint1_1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;revolute&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Joint properties --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/joint&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Additional joints --&gt;</span>
+<span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="output-mjcf-structure">
+<h3>Output MJCF Structure<a class="headerlink" href="#output-mjcf-structure" title="Link to this heading"></a></h3>
+<p>The converted MJCF maintains a similar hierarchy with additional elements:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;mujoco</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;dexhand&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Compiler settings --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;compiler</span><span class="w"> </span><span class="na">meshdir=</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="na">texturedir=</span><span class="s">&quot;&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Visual and physics defaults --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;default&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Default properties --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/default&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Asset definitions --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;asset&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Meshes --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/asset&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Actuator definitions --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;actuator&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Position actuators --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/actuator&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Sensor definitions --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sensor&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Touch sensors --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/sensor&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Body hierarchy --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;hand_base&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!-- Base link elements --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;r_f_link1_1&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="cm">&lt;!-- Finger elements --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!-- Additional bodies --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/worldbody&gt;</span>
+<span class="nt">&lt;/mujoco&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-files">
+<h2>Configuration Files<a class="headerlink" href="#configuration-files" title="Link to this heading"></a></h2>
+<p>The conversion process uses several configuration files:</p>
+<section id="actuator-configuration">
+<h3>Actuator Configuration<a class="headerlink" href="#actuator-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example actuator configuration</span>
+<span class="nt">r_f_joint1_1</span><span class="p">:</span><span class="w">  </span><span class="c1"># Thumb base</span>
+<span class="w">    </span><span class="nt">kp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">    </span><span class="nt">kv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">2.2&quot;</span>
+<span class="w">    </span><span class="nt">forcerange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-20</span><span class="nv"> </span><span class="s">20&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="collision-configuration">
+<h3>Collision Configuration<a class="headerlink" href="#collision-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example collision geometry configuration</span>
+<span class="nt">right_hand_base</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">box</span>
+<span class="w">    </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0273</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">pos</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0022</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.11</span><span class="p p-Indicator">]</span>
+
+<span class="nt">r_f_link1_2</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">capsule</span>
+<span class="w">    </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0095</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">fromto</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.03</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.002</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h2>
+<p>The conversion is implemented in the <code class="docutils literal notranslate"><span class="pre">convert_hand_urdf()</span></code> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_hand_urdf</span><span class="p">(</span>
+    <span class="n">urdf_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">simplified_collision_yaml</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert URDF to MJCF and add necessary configurations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urdf_path: Path to input URDF</span>
+<span class="sd">        output_dir: Output directory for MJCF</span>
+<span class="sd">        simplified_collision_yaml: Path to collision config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Basic conversion</span>
+    <span class="n">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+
+    <span class="c1"># Add defaults</span>
+    <span class="n">apply_defaults</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">defaults_path</span><span class="p">)</span>
+
+    <span class="c1"># Configure actuators</span>
+    <span class="n">add_position_actuators</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">actuator_config</span><span class="p">)</span>
+
+    <span class="c1"># Add sensors</span>
+    <span class="n">add_touch_sensors</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">sensor_info</span><span class="p">)</span>
+
+    <span class="c1"># Add base body</span>
+    <span class="n">add_trunk_body</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">base_name</span><span class="p">)</span>
+
+    <span class="c1"># Update collisions if specified</span>
+    <span class="k">if</span> <span class="n">simplified_collision_yaml</span><span class="p">:</span>
+        <span class="n">update_geom_collisions</span><span class="p">(</span>
+            <span class="n">output_path</span><span class="p">,</span>
+            <span class="n">simplified_collision_yaml</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<section id="key-functions">
+<h3>Key Functions<a class="headerlink" href="#key-functions" title="Link to this heading"></a></h3>
+<section id="urdf2mjcf">
+<h4>urdf2mjcf()<a class="headerlink" href="#urdf2mjcf" title="Link to this heading"></a></h4>
+<p>Handles basic URDF to MJCF conversion using MuJoCo’s built-in converter.</p>
+</section>
+<section id="add-position-actuators">
+<h4>add_position_actuators()<a class="headerlink" href="#add-position-actuators" title="Link to this heading"></a></h4>
+<p>Adds and configures position-controlled actuators for each joint.</p>
+</section>
+<section id="add-touch-sensors">
+<h4>add_touch_sensors()<a class="headerlink" href="#add-touch-sensors" title="Link to this heading"></a></h4>
+<p>Adds touch sensors at specified sites (typically fingertips).</p>
+</section>
+<section id="update-geom-collisions">
+<h4>update_geom_collisions()<a class="headerlink" href="#update-geom-collisions" title="Link to this heading"></a></h4>
+<p>Updates collision geometries based on simplified configuration.</p>
+</section>
+</section>
+</section>
+<section id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Link to this heading"></a></h2>
+<p>The conversion process can be customized in several ways:</p>
+<section id="custom-actuator-parameters">
+<h3>Custom Actuator Parameters<a class="headerlink" href="#custom-actuator-parameters" title="Link to this heading"></a></h3>
+<p>Modify actuator parameters in the configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">actuator_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;joint_pattern&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;kp&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kv&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ctrlrange&quot;</span><span class="p">:</span> <span class="s2">&quot;min max&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;forcerange&quot;</span><span class="p">:</span> <span class="s2">&quot;min max&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-collision-geometries">
+<h3>Custom Collision Geometries<a class="headerlink" href="#custom-collision-geometries" title="Link to this heading"></a></h3>
+<p>Define custom collision geometries in YAML:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">link_name</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">box/capsule</span>
+<span class="w">    </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">dimensions</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">pos/fromto</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">coordinates</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<section id="missing-meshes">
+<h4>Missing Meshes<a class="headerlink" href="#missing-meshes" title="Link to this heading"></a></h4>
+<p>If meshes are not found:</p>
+<ol class="arabic simple">
+<li><p>Check mesh paths in URDF</p></li>
+<li><p>Verify meshdir setting in MJCF</p></li>
+<li><p>Ensure meshes are in correct directory</p></li>
+</ol>
+</section>
+<section id="collision-issues">
+<h4>Collision Issues<a class="headerlink" href="#collision-issues" title="Link to this heading"></a></h4>
+<p>If experiencing collision problems:</p>
+<ol class="arabic simple">
+<li><p>Check collision geometry definitions</p></li>
+<li><p>Verify transform chains</p></li>
+<li><p>Consider using simplified collisions</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After converting your model:</p>
+<ul class="simple">
+<li><p>Configure <a class="reference internal" href="collision_models.html"><span class="doc">Collision Models</span></a></p></li>
+<li><p>Set up <a class="reference internal" href="actuators.html"><span class="doc">Actuators</span></a></p></li>
+<li><p>Add <a class="reference internal" href="sensors.html"><span class="doc">Sensors</span></a></p></li>
+<li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Hand Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="collision_models.html" class="btn btn-neutral float-right" title="Collision Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hand Model Examples &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Scene Creation" href="../scenes/index.html" />
+    <link rel="prev" title="Articulation" href="articulation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">Hand Model Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hand-model-examples">
+<h1>Hand Model Examples<a class="headerlink" href="#hand-model-examples" title="Link to this heading"></a></h1>
+<p>This section provides practical examples of working with DexHand models in various scenarios.</p>
+<section id="basic-examples">
+<h2>Basic Examples<a class="headerlink" href="#basic-examples" title="Link to this heading"></a></h2>
+<section id="launch-single-hand">
+<h3>Launch Single Hand<a class="headerlink" href="#launch-single-hand" title="Link to this heading"></a></h3>
+<p>Simple visualization of a right hand:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>dexrobot_mujoco/models/dexhand021_right_simplified.xml
+</pre></div>
+</div>
+</section>
+<section id="joint-control-example">
+<h3>Joint Control Example<a class="headerlink" href="#joint-control-example" title="Link to this heading"></a></h3>
+<p>Control individual joints using ROS messages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sensor_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointState</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;hand_control_example&#39;</span><span class="p">)</span>
+    <span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;joint_commands&#39;</span><span class="p">,</span> <span class="n">JointState</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Create joint command</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">JointState</span><span class="p">()</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_f_joint1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_2&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_3&#39;</span><span class="p">]</span>
+    <span class="n">msg</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">stamp</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="read-touch-sensors">
+<h3>Read Touch Sensors<a class="headerlink" href="#read-touch-sensors" title="Link to this heading"></a></h3>
+<p>Monitor touch sensor values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">std_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">Float32MultiArray</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">touch_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="c1"># Print sensor values</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">force</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">force</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>  <span class="c1"># Threshold for noise</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sensor </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">force</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">N&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;touch_monitor_example&#39;</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span>
+        <span class="s1">&#39;touch_sensors&#39;</span><span class="p">,</span>
+        <span class="n">Float32MultiArray</span><span class="p">,</span>
+        <span class="n">touch_callback</span>
+    <span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-examples">
+<h2>Advanced Examples<a class="headerlink" href="#advanced-examples" title="Link to this heading"></a></h2>
+<section id="floating-hand-with-vr">
+<h3>Floating Hand with VR<a class="headerlink" href="#floating-hand-with-vr" title="Link to this heading"></a></h3>
+<p>Launch hand with VR visualization:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>dexrobot_mujoco/models/dexhand021_right_floating.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--enable-vr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand-pose-topic<span class="w"> </span>hand_pose<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--position-magnifiers<span class="w"> </span><span class="m">2</span>.5,2.0,0.8
+</pre></div>
+</div>
+<p>Hand pose control code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geometry_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pose</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;hand_pose_example&#39;</span><span class="p">)</span>
+    <span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;hand_pose&#39;</span><span class="p">,</span> <span class="n">Pose</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Create pose message</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">()</span>
+
+    <span class="c1"># Circular motion parameters</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="c1"># Calculate position</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">to_sec</span><span class="p">()</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">freq</span> <span class="o">*</span> <span class="n">t</span>
+
+        <span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">height</span>
+
+        <span class="c1"># Fixed orientation (palm down)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">0.707</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.707</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">orientation</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">rate</span><span class="o">.</span><span class="n">sleep</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="robot-arm-integration">
+<h3>Robot Arm Integration<a class="headerlink" href="#robot-arm-integration" title="Link to this heading"></a></h3>
+<p>Launch hand mounted on JAKA Zu7:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>dexrobot_mujoco/models/dexhand021_right_jaka_zu7.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml
+</pre></div>
+</div>
+<p>Joint control with configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config/arm_control.yaml</span>
+
+<span class="c1"># Camera settings</span>
+<span class="nt">camera</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">azimuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-90</span>
+<span class="w">  </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.5</span>
+<span class="w">  </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-20</span>
+<span class="w">  </span><span class="nt">lookat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.8</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># Track these joints</span>
+<span class="nt">tracked_joints</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">joint1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">joint2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">joint3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">joint4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">joint5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">joint6</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Arm joints</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_joint1_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Thumb</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_joint2_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint2_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint2_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint2_4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Index</span>
+<span class="c1"># ... other fingers ...</span>
+
+<span class="c1"># Initial joint positions</span>
+<span class="nt">initial_qpos</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">joint1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">joint2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-0.5</span>
+<span class="w">  </span><span class="nt">joint3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">joint4</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-1.57</span>
+<span class="w">  </span><span class="nt">joint5</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">  </span><span class="nt">joint6</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+</pre></div>
+</div>
+<p>Combined arm and hand control:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rospy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sensor_msgs.msg</span><span class="w"> </span><span class="kn">import</span> <span class="n">JointState</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ArmHandController</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;arm_hand_controller&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span>
+            <span class="s1">&#39;joint_commands&#39;</span><span class="p">,</span>
+            <span class="n">JointState</span><span class="p">,</span>
+            <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Joint names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;joint1&#39;</span><span class="p">,</span> <span class="s1">&#39;joint2&#39;</span><span class="p">,</span> <span class="s1">&#39;joint3&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;joint4&#39;</span><span class="p">,</span> <span class="s1">&#39;joint5&#39;</span><span class="p">,</span> <span class="s1">&#39;joint6&#39;</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hand_joints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;r_f_joint1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;r_f_joint1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_4&#39;</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_to_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arm_pos</span><span class="p">,</span> <span class="n">hand_pos</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">JointState</span><span class="p">()</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arm_joints</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand_joints</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">arm_pos</span> <span class="o">+</span> <span class="n">hand_pos</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">stamp</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">controller</span> <span class="o">=</span> <span class="n">ArmHandController</span><span class="p">()</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Example motion sequence</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="c1"># Pre-grasp pose</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">move_to_pose</span><span class="p">(</span>
+            <span class="n">arm_pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">hand_pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+        <span class="c1"># Grasp pose</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">move_to_pose</span><span class="p">(</span>
+            <span class="n">arm_pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">hand_pos</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">rospy</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="recording-examples">
+<h2>Recording Examples<a class="headerlink" href="#recording-examples" title="Link to this heading"></a></h2>
+<section id="record-all-data">
+<h3>Record All Data<a class="headerlink" href="#record-all-data" title="Link to this heading"></a></h3>
+<p>Record simulation to multiple formats:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>dexrobot_mujoco/models/dexhand021_right_jaka_zu7.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>ros<span class="w"> </span>csv<span class="w"> </span>mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-csv-path<span class="w"> </span>data.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-mp4-path<span class="w"> </span>video.mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-bag-path<span class="w"> </span>recording.bag
+</pre></div>
+</div>
+<p>Data processing example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_recording</span><span class="p">(</span><span class="n">csv_path</span><span class="p">):</span>
+    <span class="c1"># Load data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+
+    <span class="c1"># Plot joint positions</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;r_f_joint1_1&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_2&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;r_f_joint1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;r_f_joint1_4&#39;</span><span class="p">]:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">joint</span><span class="si">}</span><span class="s1">_pos&#39;</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">joint</span>
+        <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (rad)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Joint Positions&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="c1"># Analyze touch sensors</span>
+    <span class="n">touch_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+                      <span class="k">if</span> <span class="s1">&#39;touch&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">]]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Touch Statistics:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max force: </span><span class="si">{</span><span class="n">touch_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">N&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean force: </span><span class="si">{</span><span class="n">touch_data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">N&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">analyze_recording</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="custom-configurations">
+<h2>Custom Configurations<a class="headerlink" href="#custom-configurations" title="Link to this heading"></a></h2>
+<section id="scene-with-hand-example">
+<h3>Scene with Hand Example<a class="headerlink" href="#scene-with-hand-example" title="Link to this heading"></a></h3>
+<p>Create a scene with hand and objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dexrobot_mujoco.utils.mjcf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">merge_xml_files</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_scene</span><span class="p">():</span>
+    <span class="c1"># Define models and their poses</span>
+    <span class="n">xml_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;models/dexhand021_right_floating.xml&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="s1">&#39;0 0 1.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;quat&#39;</span><span class="p">:</span> <span class="s1">&#39;0.707 0.707 0 0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;articulation_method&#39;</span><span class="p">:</span> <span class="s1">&#39;free&#39;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;scenes/table.xml&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="s1">&#39;0 0 0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;quat&#39;</span><span class="p">:</span> <span class="s1">&#39;1 0 0 0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;articulation_method&#39;</span><span class="p">:</span> <span class="s1">&#39;fixed&#39;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;scenes/objects/sphere.xml&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="s1">&#39;0 0 1.1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;quat&#39;</span><span class="p">:</span> <span class="s1">&#39;1 0 0 0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;articulation_method&#39;</span><span class="p">:</span> <span class="s1">&#39;free&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Merge models into scene</span>
+    <span class="n">merge_xml_files</span><span class="p">(</span>
+        <span class="n">xml_dict</span><span class="p">,</span>
+        <span class="s1">&#39;output_scene.xml&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;manipulation_scene&#39;</span>
+    <span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">create_scene</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Launch the custom scene:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>output_scene.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After trying these examples:</p>
+<ul class="simple">
+<li><p>Create custom scenes in <a class="reference internal" href="../scenes/index.html"><span class="doc">Scene Creation</span></a></p></li>
+<li><p>Explore ROS integration in <a class="reference internal" href="../ros_integration/index.html"><span class="doc">ROS Integration</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="articulation.html" class="btn btn-neutral float-left" title="Articulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../scenes/index.html" class="btn btn-neutral float-right" title="Scene Creation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

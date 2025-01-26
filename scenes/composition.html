@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scene Composition &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Furniture Components" href="furniture.html" />
+    <link rel="prev" title="Scene Creation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Scene Creation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Scene Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="furniture.html">Furniture Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenery.html">Scene Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Scene Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Scene Creation</a></li>
+      <li class="breadcrumb-item active">Scene Composition</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scenes/composition.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scene-composition">
+<h1>Scene Composition<a class="headerlink" href="#scene-composition" title="Link to this heading"></a></h1>
+<p>This section explains how to compose scenes using MuJoCo’s include system and the DexRobot MuJoCo component library.</p>
+<section id="basic-structure">
+<h2>Basic Structure<a class="headerlink" href="#basic-structure" title="Link to this heading"></a></h2>
+<p>A scene XML file consists of several key sections:</p>
+<ol class="arabic simple">
+<li><p>Default inclusions</p></li>
+<li><p>Asset inclusions</p></li>
+<li><p>World body definitions</p></li>
+<li><p>Component inclusions</p></li>
+</ol>
+</section>
+<section id="example-scene">
+<h2>Example Scene<a class="headerlink" href="#example-scene" title="Link to this heading"></a></h2>
+<p>Here’s a complete example (based on box.xml):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;mujoco</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;box&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Include defaults first --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/defaults.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Include required assets --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/topfloor_scene.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleTable_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Define scene hierarchy --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Add floating hand --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;floating_hand_base&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 1.2&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Add table --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;scenetable&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">euler=</span><span class="s">&quot;0 0 1.57&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;include</span>
+<span class="w">                </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleMarbleTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- Add manipulatable object --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;box&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 0.82&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;inertial</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 0&quot;</span>
+<span class="w">                     </span><span class="na">mass=</span><span class="s">&quot;0.03&quot;</span>
+<span class="w">                     </span><span class="na">diaginertia=</span><span class="s">&quot;0.00002 0.00002 0.00002&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;geom</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;box&quot;</span>
+<span class="w">                  </span><span class="na">size=</span><span class="s">&quot;0.03 0.03 0.03&quot;</span>
+<span class="w">                  </span><span class="na">pos=</span><span class="s">&quot;0 0 0&quot;</span>
+<span class="w">                  </span><span class="na">euler=</span><span class="s">&quot;0. 0. 0.&quot;</span>
+<span class="w">                  </span><span class="na">rgba=</span><span class="s">&quot;0.49803922 0.72156863 0.87058824 1&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;freejoint/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/worldbody&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Include remaining hand components --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_actuator.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_sensor.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_contact.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/mujoco&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="component-types">
+<h2>Component Types<a class="headerlink" href="#component-types" title="Link to this heading"></a></h2>
+<section id="defaults">
+<h3>Defaults<a class="headerlink" href="#defaults" title="Link to this heading"></a></h3>
+<p>Always include defaults first:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/defaults.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>This sets up standard parameters for physics, rendering, and contacts.</p>
+</section>
+<section id="assets">
+<h3>Assets<a class="headerlink" href="#assets" title="Link to this heading"></a></h3>
+<p>Include all required visual assets:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Environment --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/topfloor_scene.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Furniture --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleTable_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Hand --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_asset.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="bodies">
+<h3>Bodies<a class="headerlink" href="#bodies" title="Link to this heading"></a></h3>
+<p>Add physical bodies to the scene:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;component_name&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;x y z&quot;</span><span class="w"> </span><span class="na">euler=</span><span class="s">&quot;r p y&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
+</div>
+<p>The body tag sets:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Unique identifier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos</span></code>: Position [x y z]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">euler</span></code>: Orientation [roll pitch yaw]</p></li>
+</ul>
+</section>
+<section id="additional-components">
+<h3>Additional Components<a class="headerlink" href="#additional-components" title="Link to this heading"></a></h3>
+<p>Include remaining components after worldbody:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component_actuator.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component_sensor.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component_contact.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="building-scenes">
+<h2>Building Scenes<a class="headerlink" href="#building-scenes" title="Link to this heading"></a></h2>
+<section id="step-by-step-process">
+<h3>Step-by-Step Process<a class="headerlink" href="#step-by-step-process" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p>Start with model declaration:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;mujoco</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;scene_name&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Include defaults:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/defaults.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Include all required assets:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/environment.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component1_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component2_asset.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Define worldbody with components:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">    </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;component1&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;x1 y1 z1&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component1_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;component2&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;x2 y2 z2&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component2_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/worldbody&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Include remaining component files:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component1_actuator.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component1_sensor.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;path/to/component1_contact.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Link to this heading"></a></h2>
+<section id="floating-hand-scene">
+<h3>Floating Hand Scene<a class="headerlink" href="#floating-hand-scene" title="Link to this heading"></a></h3>
+<p>Basic setup for hand manipulation:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;mujoco</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;hand_scene&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/defaults.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/room_scene.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;floating_hand_base&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 1&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/worldbody&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_actuator.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_sensor.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_floating_contact.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/mujoco&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="hand-arm-scene">
+<h3>Hand-Arm Scene<a class="headerlink" href="#hand-arm-scene" title="Link to this heading"></a></h3>
+<p>Setup for mounted hand:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;mujoco</span><span class="w"> </span><span class="na">model=</span><span class="s">&quot;arm_scene&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/defaults.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/room_scene.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_jaka_zu7_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;worldbody&gt;</span>
+<span class="w">        </span><span class="nt">&lt;body</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;robot_base&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_jaka_zu7_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/body&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/worldbody&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_jaka_zu7_actuator.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_jaka_zu7_sensor.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;../parts/dexhand021_right_jaka_zu7_contact.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/mujoco&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Browse available furniture in <a class="reference internal" href="furniture.html"><span class="doc">Furniture Components</span></a></p></li>
+<li><p>Explore environments in <a class="reference internal" href="scenery.html"><span class="doc">Scene Components</span></a></p></li>
+<li><p>Study complete examples in <a class="reference internal" href="examples.html"><span class="doc">Scene Examples</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Scene Creation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="furniture.html" class="btn btn-neutral float-right" title="Furniture Components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

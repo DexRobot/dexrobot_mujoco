@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node Configuration &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Topics and Services" href="topics_and_services.html" />
+    <link rel="prev" title="ROS Integration" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ROS Integration</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Node Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="topics_and_services.html">Topics and Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_recording.html">Data Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html">VR Visualization</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">ROS Integration</a></li>
+      <li class="breadcrumb-item active">Node Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ros_integration/node_configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="node-configuration">
+<h1>Node Configuration<a class="headerlink" href="#node-configuration" title="Link to this heading"></a></h1>
+<p>This section covers the configuration options and setup of the DexRobot MuJoCo ROS node.</p>
+<section id="command-line-options">
+<h2>Command Line Options<a class="headerlink" href="#command-line-options" title="Link to this heading"></a></h2>
+<section id="required-arguments">
+<h3>Required Arguments<a class="headerlink" href="#required-arguments" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model_path</span></code>: Path to the MuJoCo model XML file</p></li>
+</ul>
+</section>
+<section id="optional-arguments">
+<h3>Optional Arguments<a class="headerlink" href="#optional-arguments" title="Link to this heading"></a></h3>
+<section id="general-options">
+<h4>General Options<a class="headerlink" href="#general-options" title="Link to this heading"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--config-yaml PATH        YAML configuration file path
+--seed N                  Random seed [default: 0]
+</pre></div>
+</div>
+</section>
+<section id="input-configuration">
+<h4>Input Configuration<a class="headerlink" href="#input-configuration" title="Link to this heading"></a></h4>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--replay-csv PATH         CSV file to replay instead of ROS input
+--hand-pose-topic NAME    Topic name for hand pose (enables 6-DoF control)
+--position-magnifiers X,Y,Z  Position scaling factors [default: 2.5,2.0,0.8]
+</pre></div>
+</div>
+</section>
+</section>
+<section id="output-configuration">
+<h3>Output Configuration<a class="headerlink" href="#output-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--output-formats LIST     Output formats (ros/csv/mp4) [default: ros]
+--output-csv-path PATH    CSV output file path
+--output-mp4-path PATH    MP4 output file path
+--output-bag-path PATH    ROS bag output path
+--additional-bag-topics LIST  Additional topics to record in bag
+</pre></div>
+</div>
+</section>
+<section id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Link to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--enable-vr              Enable VR visualization
+--renderer-dimension W,H  Renderer dimensions (e.g., 640,480)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="yaml-configuration">
+<h2>YAML Configuration<a class="headerlink" href="#yaml-configuration" title="Link to this heading"></a></h2>
+<section id="camera-settings">
+<h3>Camera Settings<a class="headerlink" href="#camera-settings" title="Link to this heading"></a></h3>
+<p>Configure viewer camera:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">camera</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">azimuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">          </span><span class="c1"># Horizontal angle</span>
+<span class="w">  </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span><span class="w">       </span><span class="c1"># Distance from target</span>
+<span class="w">  </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-20</span><span class="w">      </span><span class="c1"># Vertical angle</span>
+<span class="w">  </span><span class="nt">lookat</span><span class="p">:</span><span class="w">            </span><span class="c1"># Target point</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
+</pre></div>
+</div>
+</section>
+<section id="joint-tracking">
+<h3>Joint Tracking<a class="headerlink" href="#joint-tracking" title="Link to this heading"></a></h3>
+<p>Specify joints to track:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tracked_joints</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ARTx</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">ARTy</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">ARTz</span><span class="p p-Indicator">]</span><span class="w">                        </span><span class="c1"># Translation</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ARRx</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">ARRy</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">ARRz</span><span class="p p-Indicator">]</span><span class="w">                        </span><span class="c1"># Rotation</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_joint1_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_3</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Finger joints</span>
+</pre></div>
+</div>
+</section>
+<section id="body-tracking">
+<h3>Body Tracking<a class="headerlink" href="#body-tracking" title="Link to this heading"></a></h3>
+<p>Specify bodies to track:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tracked_bodies</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">right_hand_base</span><span class="p p-Indicator">]</span><span class="w">                         </span><span class="c1"># Hand base</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_link1_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_link1_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_link1_3</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Finger links</span>
+</pre></div>
+</div>
+</section>
+<section id="sensor-tracking">
+<h3>Sensor Tracking<a class="headerlink" href="#sensor-tracking" title="Link to this heading"></a></h3>
+<p>Specify sensors to track:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">tracked_sensors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">touch_r_f_link1_4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Fingertip sensors</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">touch_r_f_link2_4</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">touch_r_f_link3_4</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="initial-states">
+<h3>Initial States<a class="headerlink" href="#initial-states" title="Link to this heading"></a></h3>
+<p>Set initial joint positions:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">initial_qpos</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">r_f_joint1_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="w">  </span><span class="nt">r_f_joint1_2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7</span>
+</pre></div>
+</div>
+<p>Set initial pose for free joints:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">initial_qpos_freejoint</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ball_joint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># pos + quat</span>
+</pre></div>
+</div>
+<p>Set initial velocities:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">initial_qvel_freejoint</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ball_joint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-4.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># linear + angular</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="node-initialization">
+<h2>Node Initialization<a class="headerlink" href="#node-initialization" title="Link to this heading"></a></h2>
+<p>The node initializes in the following sequence:</p>
+<ol class="arabic simple">
+<li><p>Process command line arguments</p></li>
+<li><p>Load MuJoCo model</p></li>
+<li><p>Parse YAML configuration (if provided)</p></li>
+<li><p>Set up ROS publishers/subscribers</p></li>
+<li><p>Configure data recording (if enabled)</p></li>
+<li><p>Start VR visualization (if enabled)</p></li>
+<li><p>Begin simulation loop</p></li>
+</ol>
+</section>
+<section id="example-configurations">
+<h2>Example Configurations<a class="headerlink" href="#example-configurations" title="Link to this heading"></a></h2>
+<section id="basic-scene">
+<h3>Basic Scene<a class="headerlink" href="#basic-scene" title="Link to this heading"></a></h3>
+<p>Minimal configuration for visualization:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config/scene_default.yaml</span>
+<span class="nt">camera</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">azimuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
+<span class="w">  </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-20</span>
+<span class="w">  </span><span class="nt">lookat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">]</span>
+
+<span class="nt">tracked_joints</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_joint1_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_4</span><span class="p p-Indicator">]</span>
+
+<span class="nt">tracked_bodies</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">right_hand_base</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_link1_4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Thumb tip</span>
+</pre></div>
+</div>
+</section>
+<section id="data-recording">
+<h3>Data Recording<a class="headerlink" href="#data-recording" title="Link to this heading"></a></h3>
+<p>Configuration with all outputs enabled:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>ros<span class="w"> </span>csv<span class="w"> </span>mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-csv-path<span class="w"> </span>output/data.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-mp4-path<span class="w"> </span>output/video.mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-bag-path<span class="w"> </span>output/recording.bag<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--additional-bag-topics<span class="w"> </span>/camera/image_raw
+</pre></div>
+</div>
+</section>
+<section id="vr-visualization">
+<h3>VR Visualization<a class="headerlink" href="#vr-visualization" title="Link to this heading"></a></h3>
+<p>Configuration for VR control:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--enable-vr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand-pose-topic<span class="w"> </span>hand_pose<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--renderer-dimension<span class="w"> </span><span class="m">1920</span>,1080
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Learn about available <a class="reference internal" href="topics_and_services.html"><span class="doc">Topics and Services</span></a></p></li>
+<li><p>Configure <a class="reference internal" href="data_recording.html"><span class="doc">Data Recording</span></a></p></li>
+<li><p>Set up <a class="reference internal" href="vr_visualization.html"><span class="doc">VR Visualization</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="ROS Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="topics_and_services.html" class="btn btn-neutral float-right" title="Topics and Services" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

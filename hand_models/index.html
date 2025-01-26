@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hand Models &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="URDF to MJCF Conversion" href="conversion.html" />
+    <link rel="prev" title="Getting Started" href="../getting-started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hand Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Hand Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hand-models">
+<h1>Hand Models<a class="headerlink" href="#hand-models" title="Link to this heading"></a></h1>
+<p>This section covers everything related to the DexHand models in MuJoCo, from model conversion to configuration and usage.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/hands_simplified_collision_geom.png"><img alt="../_images/hands_simplified_collision_geom.png" src="../_images/hands_simplified_collision_geom.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Left: Original full mesh-based collision geometries. Right: Simplified collision geometries using primitives.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#conversion-process">Conversion Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#model-hierarchy">Model Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#configuration-files">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#customization">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conversion.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="collision_models.html">Collision Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#collision-model-types">Collision Model Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#collision-groups">Collision Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#collision-exclusions">Collision Exclusions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="actuators.html">Actuators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#actuator-system">Actuator System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#default-configuration">Default Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#configuration-parameters">Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#custom-configuration">Custom Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#sensor-system-overview">Sensor System Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#components">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#site-parameters">Site Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#advanced-usage">Advanced Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="articulation.html">Articulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#basic-concepts">Basic Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#implementation">Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#advanced-features">Advanced Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#common-use-cases">Common Use Cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Hand Model Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#basic-examples">Basic Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#advanced-examples">Advanced Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#recording-examples">Recording Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#custom-configurations">Custom Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The DexHand models in MuJoCo are created through a systematic process that involves:</p>
+<ol class="arabic simple">
+<li><p>Converting URDF models to MJCF format</p></li>
+<li><p>Optimizing collision geometries</p></li>
+<li><p>Configuring actuator properties</p></li>
+<li><p>Adding sensors and sites</p></li>
+<li><p>Setting up articulation capabilities</p></li>
+</ol>
+</section>
+<section id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Link to this heading"></a></h2>
+<section id="core-components">
+<h3>Core Components<a class="headerlink" href="#core-components" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Base Link</strong>: Provides anchor point for floating base or robot arm attachment</p></li>
+<li><p><strong>Finger Links</strong>: 5 fingers with multiple joints each</p></li>
+<li><p><strong>Palm Links</strong>: Structural components of the palm</p></li>
+<li><p><strong>Sites</strong>: Points of interest for sensors and visualization</p></li>
+<li><p><strong>Actuators</strong>: Position-controlled joints with configurable parameters</p></li>
+<li><p><strong>Sensors</strong>: Touch sensors at fingertips</p></li>
+<li><p><strong>Collision Geometries</strong>: Simplified or full mesh-based</p></li>
+</ul>
+</section>
+<section id="available-models">
+<h3>Available Models<a class="headerlink" href="#available-models" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>dexhand021_right.xml</strong>: Right hand with full collision meshes</p></li>
+<li><p><strong>dexhand021_left.xml</strong>: Left hand with full collision meshes</p></li>
+<li><p><strong>dexhand021_right_simplified.xml</strong>: Right hand with optimized collision geometries</p></li>
+<li><p><strong>dexhand021_left_simplified.xml</strong>: Left hand with optimized collision geometries</p></li>
+<li><p><strong>dexhand021_right_floating.xml</strong>: Right hand with 6-DoF floating base</p></li>
+<li><p><strong>dexhand021_right_jaka_zu7.xml</strong>: Right hand mounted on JAKA Zu7 arm</p></li>
+</ul>
+<p>You can also check out <a class="reference internal" href="articulation.html"><span class="doc">Articulation</span></a> for more details on creating custom models by articulating the hand with your own robot arm.</p>
+</section>
+</section>
+<section id="joint-configuration">
+<h2>Joint Configuration<a class="headerlink" href="#joint-configuration" title="Link to this heading"></a></h2>
+<section id="hand-joint-structure">
+<h3>Hand Joint Structure<a class="headerlink" href="#hand-joint-structure" title="Link to this heading"></a></h3>
+<p>Each finger has multiple joints:</p>
+<ul class="simple">
+<li><p><strong>Joint 1</strong>: Base rotation/spread (1 DoF)</p></li>
+<li><p><strong>Joint 2-4</strong>: Bending joints (1 DoF each)</p></li>
+</ul>
+</section>
+<section id="default-joint-ranges">
+<h3>Default Joint Ranges<a class="headerlink" href="#default-joint-ranges" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bend joints (joints 2-4)</span>
+<span class="l l-Scalar l-Scalar-Plain">r&quot;[lr]_f_joint[1-5]_[2-4]&quot;</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">1.3&quot;</span><span class="w">     </span><span class="c1"># 0 to 1.3 radians</span>
+<span class="w">    </span><span class="nt">forcerange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-20</span><span class="nv"> </span><span class="s">20&quot;</span><span class="w">   </span><span class="c1"># -20 to 20 N</span>
+
+<span class="c1"># Base rotation joints</span>
+<span class="s">&quot;r_f_joint1_1&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Thumb</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">2.2&quot;</span>
+<span class="s">&quot;r_f_joint2_1&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Index</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">0.3&quot;</span>
+<span class="s">&quot;r_f_joint3_1&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Middle</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-0.0001</span><span class="nv"> </span><span class="s">0.0001&quot;</span>
+<span class="s">&quot;r_f_joint4_1&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Ring</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">0.3&quot;</span>
+<span class="s">&quot;r_f_joint5_1&quot;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="c1"># Pinky</span>
+<span class="w">    </span><span class="nt">ctrlrange</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">0.6&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>The following sections provide detailed information about each aspect of the hand models:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="conversion.html"><span class="doc">URDF to MJCF Conversion</span></a> - Converting URDF models to MJCF</p></li>
+<li><p><a class="reference internal" href="collision_models.html"><span class="doc">Collision Models</span></a> - Working with collision geometries</p></li>
+<li><p><a class="reference internal" href="actuators.html"><span class="doc">Actuators</span></a> - Configuring joint actuators</p></li>
+<li><p><a class="reference internal" href="sensors.html"><span class="doc">Sensors</span></a> - Setting up touch sensors</p></li>
+<li><p><a class="reference internal" href="articulation.html"><span class="doc">Articulation</span></a> - Attaching hands to other models</p></li>
+<li><p><a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a> - Example configurations and use cases</p></li>
+</ul>
+<p>Choose a section based on your needs, or follow them in order for a complete understanding of the hand models.</p>
+</section>
+<section id="common-tasks">
+<h2>Common Tasks<a class="headerlink" href="#common-tasks" title="Link to this heading"></a></h2>
+<section id="converting-a-urdf-model">
+<h3>Converting a URDF Model<a class="headerlink" href="#converting-a-urdf-model" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span>--urdf<span class="w"> </span>path/to/hand.urdf
+</pre></div>
+</div>
+</section>
+<section id="using-simplified-collisions">
+<h3>Using Simplified Collisions<a class="headerlink" href="#using-simplified-collisions" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span>--urdf<span class="w"> </span>hand.urdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--simplified-collision<span class="w"> </span>config/collision_geoms/dexhand021_right_simplified.yaml
+</pre></div>
+</div>
+</section>
+<section id="attaching-to-a-robot-arm">
+<h3>Attaching to a Robot Arm<a class="headerlink" href="#attaching-to-a-robot-arm" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/articulate_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--base<span class="w"> </span>robot_arm.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hand<span class="w"> </span>dexhand021_right.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>combined_model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--euler<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">90</span><span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="conversion.html" class="btn btn-neutral float-right" title="URDF to MJCF Conversion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

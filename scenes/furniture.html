@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Furniture Components &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Scene Components" href="scenery.html" />
+    <link rel="prev" title="Scene Composition" href="composition.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Scene Creation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="composition.html">Scene Composition</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Furniture Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenery.html">Scene Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Scene Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Scene Creation</a></li>
+      <li class="breadcrumb-item active">Furniture Components</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/scenes/furniture.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="furniture-components">
+<h1>Furniture Components<a class="headerlink" href="#furniture-components" title="Link to this heading"></a></h1>
+<p>Component types and usage in scene composition.</p>
+<section id="tables">
+<h2>Tables<a class="headerlink" href="#tables" title="Link to this heading"></a></h2>
+<p>Structure: <code class="docutils literal notranslate"><span class="pre">furniture_sim/[type]/[type]_{asset,body}.xml</span></code></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Assets and materials --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleTable_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Physical structure (pick one): --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleGraniteTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleMarbleTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleWoodTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Available Types:</p>
+<ul class="simple">
+<li><p>simpleTable: Basic surface with material variants</p></li>
+<li><p>studyTable: Surface with drawer/handle mechanics</p></li>
+<li><p>ventionTable: Industrial frame structure</p></li>
+</ul>
+</section>
+<section id="storage-units">
+<h2>Storage Units<a class="headerlink" href="#storage-units" title="Link to this heading"></a></h2>
+<p>Structure: <code class="docutils literal notranslate"><span class="pre">furniture_sim/[type]/[type]_{asset,body}.xml</span></code></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Cabinet with hinged door --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/hingecabinet/hingecabinet_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/hingecabinet/hingecabinet_body.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Cabinet with sliding door --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/slidecabinet/slidecabinet_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/slidecabinet/slidecabinet_body.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Available Types:</p>
+<ul class="simple">
+<li><p>hingecabinet: Hinged door mechanics</p></li>
+<li><p>slidecabinet: Linear sliding mechanism</p></li>
+<li><p>counters: Kitchen counter units</p></li>
+<li><p>bin: Storage containers</p></li>
+</ul>
+</section>
+<section id="appliances">
+<h2>Appliances<a class="headerlink" href="#appliances" title="Link to this heading"></a></h2>
+<p>Structure: <code class="docutils literal notranslate"><span class="pre">furniture_sim/[type]/[type]_[index].xml</span></code> for variants</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Microwave with version selection --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/microwave/microwave_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/microwave/microwave_body0.xml&quot;</span><span class="nt">/&gt;</span><span class="w"> </span><span class="cm">&lt;!-- Versions 0-3 --&gt;</span>
+
+<span class="cm">&lt;!-- Kettle with version selection --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/kettle/kettle_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/kettle/kettle_body0.xml&quot;</span><span class="nt">/&gt;</span><span class="w"> </span><span class="cm">&lt;!-- Versions 0-7 --&gt;</span>
+</pre></div>
+</div>
+<p>Available Types:</p>
+<ul class="simple">
+<li><p>microwave: Door and control panel mechanics</p></li>
+<li><p>kettle: Handle and pour mechanics</p></li>
+<li><p>oven: Door, knob and burner mechanics</p></li>
+</ul>
+</section>
+<section id="materials-and-textures">
+<h2>Materials and Textures<a class="headerlink" href="#materials-and-textures" title="Link to this heading"></a></h2>
+<p>Standard textures in <code class="docutils literal notranslate"><span class="pre">common/textures/</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;surface&quot;</span>
+<span class="w">         </span><span class="na">texture=</span><span class="s">&quot;wood2&quot;</span>
+<span class="w">         </span><span class="na">rgba=</span><span class="s">&quot;1 1 1 1&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Categories:</p>
+<ul class="simple">
+<li><p>wood[0-4].png: Wood textures</p></li>
+<li><p>metal[0-4].png: Metal textures</p></li>
+<li><p>stone[0-4].png: Stone textures</p></li>
+</ul>
+</section>
+<section id="contact-properties">
+<h2>Contact Properties<a class="headerlink" href="#contact-properties" title="Link to this heading"></a></h2>
+<p>Standard contact parameters:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;contact&gt;</span>
+<span class="w">    </span><span class="nt">&lt;pair</span><span class="w"> </span><span class="na">geom1=</span><span class="s">&quot;hand&quot;</span><span class="w"> </span><span class="na">geom2=</span><span class="s">&quot;furniture&quot;</span><span class="w"> </span><span class="na">friction=</span><span class="s">&quot;1 0.005 0.0001&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/contact&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="composition.html" class="btn btn-neutral float-left" title="Scene Composition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scenery.html" class="btn btn-neutral float-right" title="Scene Components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

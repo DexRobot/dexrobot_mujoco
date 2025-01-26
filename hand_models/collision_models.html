@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collision Models &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Actuators" href="actuators.html" />
+    <link rel="prev" title="URDF to MJCF Conversion" href="conversion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Collision Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">Collision Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/collision_models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="collision-models">
+<h1>Collision Models<a class="headerlink" href="#collision-models" title="Link to this heading"></a></h1>
+<p>This section covers the collision model system in DexRobot MuJoCo, including both full mesh-based collisions and simplified primitive-based collisions.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/hands_simplified_collision_geom.png"><img alt="../_images/hands_simplified_collision_geom.png" src="../_images/hands_simplified_collision_geom.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Comparison of full mesh-based (left) and simplified primitive-based (right) collision models.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="collision-model-types">
+<h2>Collision Model Types<a class="headerlink" href="#collision-model-types" title="Link to this heading"></a></h2>
+<section id="full-mesh-based-collisions">
+<h3>Full Mesh-Based Collisions<a class="headerlink" href="#full-mesh-based-collisions" title="Link to this heading"></a></h3>
+<p>The default collision model uses the full mesh geometry from the URDF:</p>
+<ul class="simple">
+<li><p>Accurate representation of hand geometry</p></li>
+<li><p>Higher computational cost</p></li>
+<li><p>Better for visualization and precise contact modeling</p></li>
+<li><p>Suitable for non-real-time applications</p></li>
+</ul>
+</section>
+<section id="simplified-primitive-based-collisions">
+<h3>Simplified Primitive-Based Collisions<a class="headerlink" href="#simplified-primitive-based-collisions" title="Link to this heading"></a></h3>
+<p>The optimized collision model uses primitive shapes:</p>
+<ul class="simple">
+<li><p>Boxes for palm and base</p></li>
+<li><p>Capsules for finger segments</p></li>
+<li><p>Significantly faster computation</p></li>
+<li><p>Suitable for real-time applications</p></li>
+<li><p>Maintains essential contact behavior</p></li>
+</ul>
+</section>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="collision-model-definition">
+<h3>Collision Model Definition<a class="headerlink" href="#collision-model-definition" title="Link to this heading"></a></h3>
+<p>Simplified collision models are defined in YAML format:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example from dexhand021_right_simplified.yaml</span>
+<span class="nt">right_hand_base</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">box</span>
+<span class="w">  </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0273</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">pos</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0022</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.11</span><span class="p p-Indicator">]</span>
+
+<span class="nt">r_f_link1_2</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">capsule</span>
+<span class="w">  </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0095</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">fromto</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.03</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.002</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<section id="box-parameters">
+<h4>Box Parameters<a class="headerlink" href="#box-parameters" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">box</span></code> - Specifies a box primitive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size:</span> <span class="pre">[x,</span> <span class="pre">y,</span> <span class="pre">z]</span></code> - Half-lengths in each dimension</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pos:</span> <span class="pre">[x,</span> <span class="pre">y,</span> <span class="pre">z]</span></code> - Center position relative to link frame</p></li>
+</ul>
+</section>
+<section id="capsule-parameters">
+<h4>Capsule Parameters<a class="headerlink" href="#capsule-parameters" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">capsule</span></code> - Specifies a capsule primitive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size:</span> <span class="pre">[radius]</span></code> - Radius of the capsule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fromto:</span> <span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">z1,</span> <span class="pre">x2,</span> <span class="pre">y2,</span> <span class="pre">z2]</span></code> - Endpoint coordinates</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="converting-with-simplified-collisions">
+<h3>Converting with Simplified Collisions<a class="headerlink" href="#converting-with-simplified-collisions" title="Link to this heading"></a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">--simplified-collision</span></code> flag with <code class="docutils literal notranslate"><span class="pre">convert_hand.py</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--urdf<span class="w"> </span>hand.urdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--simplified-collision<span class="w"> </span>config/collision_geoms/dexhand021_right_simplified.yaml
+</pre></div>
+</div>
+</section>
+<section id="manual-application">
+<h3>Manual Application<a class="headerlink" href="#manual-application" title="Link to this heading"></a></h3>
+<p>Apply simplified collisions to an existing MJCF:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dexrobot_mujoco.utils.mjcf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_geom_collisions</span>
+
+<span class="n">update_geom_collisions</span><span class="p">(</span>
+    <span class="n">xml_file_path</span><span class="o">=</span><span class="s1">&#39;model.xml&#39;</span><span class="p">,</span>
+    <span class="n">collision_yaml_path</span><span class="o">=</span><span class="s1">&#39;collision_config.yaml&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="collision-groups">
+<h2>Collision Groups<a class="headerlink" href="#collision-groups" title="Link to this heading"></a></h2>
+<p>The collision system uses different groups for visualization and collision:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Visual geometry --&gt;</span>
+<span class="nt">&lt;geom</span><span class="w"> </span><span class="na">group=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">contype=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">conaffinity=</span><span class="s">&quot;0&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Collision geometry --&gt;</span>
+<span class="nt">&lt;geom</span><span class="w"> </span><span class="na">group=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="na">contype=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">conaffinity=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<section id="group-assignments">
+<h3>Group Assignments<a class="headerlink" href="#group-assignments" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Group 1: Visual geometries (no collision)</p></li>
+<li><p>Group 3: Collision geometries</p></li>
+<li><p>Contype/Conaffinity: Contact generation properties</p></li>
+</ul>
+</section>
+</section>
+<section id="collision-exclusions">
+<h2>Collision Exclusions<a class="headerlink" href="#collision-exclusions" title="Link to this heading"></a></h2>
+<p>Some collisions are automatically excluded to prevent self-interference:</p>
+<section id="fingertip-fingertip">
+<h3>Fingertip-Fingertip<a class="headerlink" href="#fingertip-fingertip" title="Link to this heading"></a></h3>
+<p>Allows finger-finger contact:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fingertip_re</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;[lr]_f_link\d_4&quot;</span>  <span class="c1"># Matches fingertip links</span>
+<span class="n">allowed_collision_pairs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">fingertip_re</span><span class="p">,</span> <span class="n">fingertip_re</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="fingertip-palm">
+<h3>Fingertip-Palm<a class="headerlink" href="#fingertip-palm" title="Link to this heading"></a></h3>
+<p>Allows fingers to contact palm:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">palm_re</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;[lr]_p_link\d&quot;</span>  <span class="c1"># Matches palm links</span>
+<span class="n">allowed_collision_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">fingertip_re</span><span class="p">,</span> <span class="n">palm_re</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
+<p>The collision system is implemented in several utility functions:</p>
+<section id="update-geom-collisions">
+<h3>update_geom_collisions()<a class="headerlink" href="#update-geom-collisions" title="Link to this heading"></a></h3>
+<p>Updates collision properties based on YAML configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">update_geom_collisions</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">collision_yaml_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update collision properties of an MJCF XML file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to MJCF XML file</span>
+<span class="sd">        collision_yaml_path: Path to collision config YAML</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Load collision specifications</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">collision_yaml_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">collision_specs</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Disable existing collisions</span>
+    <span class="k">for</span> <span class="n">geom</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body//geom&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">collision_props_set</span><span class="p">(</span><span class="n">geom</span><span class="p">):</span>
+            <span class="n">disable_collision</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+
+    <span class="c1"># Add collision geometries</span>
+    <span class="k">for</span> <span class="n">body_name</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">collision_specs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">add_collision_geom</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="exclude-self-collisions">
+<h3>exclude_self_collisions()<a class="headerlink" href="#exclude-self-collisions" title="Link to this heading"></a></h3>
+<p>Excludes specified collision pairs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">exclude_self_collisions</span><span class="p">(</span>
+    <span class="n">xml_file_path</span><span class="p">,</span>
+    <span class="n">allowed_collision_pairs</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exclude self-collisions except allowed pairs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path: Path to MJCF XML file</span>
+<span class="sd">        allowed_collision_pairs: List of allowed patterns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Find collision pairs to exclude</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">find_collision_pairs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+    <span class="c1"># Filter allowed pairs</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">filter_allowed_pairs</span><span class="p">(</span>
+        <span class="n">pairs</span><span class="p">,</span>
+        <span class="n">allowed_collision_pairs</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Add exclusions</span>
+    <span class="n">add_collision_exclusions</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">pairs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<section id="mesh-vs-primitive-performance">
+<h3>Mesh vs. Primitive Performance<a class="headerlink" href="#mesh-vs-primitive-performance" title="Link to this heading"></a></h3>
+<p>Performance comparison on a typical system:</p>
+</section>
+<section id="optimization-tips">
+<h3>Optimization Tips<a class="headerlink" href="#optimization-tips" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Use simplified collisions for real-time applications</p></li>
+<li><p>Adjust collision margins if needed</p></li>
+<li><p>Consider contact filtering for specific scenarios</p></li>
+<li><p>Balance precision vs. performance based on needs</p></li>
+</ol>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<section id="missing-collisions">
+<h4>Missing Collisions<a class="headerlink" href="#missing-collisions" title="Link to this heading"></a></h4>
+<p>If collisions aren’t working:</p>
+<ol class="arabic simple">
+<li><p>Check collision group assignments</p></li>
+<li><p>Verify contype/conaffinity settings</p></li>
+<li><p>Review collision exclusions</p></li>
+<li><p>Validate primitive parameters</p></li>
+</ol>
+</section>
+<section id="unstable-contacts">
+<h4>Unstable Contacts<a class="headerlink" href="#unstable-contacts" title="Link to this heading"></a></h4>
+<p>If experiencing contact instability:</p>
+<ol class="arabic simple">
+<li><p>Adjust collision margins</p></li>
+<li><p>Check primitive sizes</p></li>
+<li><p>Consider using different primitive types</p></li>
+<li><p>Review solver parameters</p></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After setting up collision models:</p>
+<ul class="simple">
+<li><p>Configure <a class="reference internal" href="actuators.html"><span class="doc">Actuators</span></a></p></li>
+<li><p>Add <a class="reference internal" href="sensors.html"><span class="doc">Sensors</span></a></p></li>
+<li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="conversion.html" class="btn btn-neutral float-left" title="URDF to MJCF Conversion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="actuators.html" class="btn btn-neutral float-right" title="Actuators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
