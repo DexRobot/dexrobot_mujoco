@@ -25,8 +25,9 @@ Documentation Contents
 .. toctree::
    :maxdepth: 2
    :caption: User Guide
+   :titlesonly:
 
-   getting_started
+   getting-started
    hand_models/index
    scenes/index
    ros_integration/index

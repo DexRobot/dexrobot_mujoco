@@ -33,6 +33,7 @@ Parameters:
 - ``renderer-dimension``: Resolution (width,height)
 
 Default Settings:
+
 - Frame rate: 20 FPS
 - Server port: 5000
 - Stereo offset: 0.1m
@@ -208,6 +209,7 @@ Access Visualization
        python nodes/dexrobot_mujoco_ros.py model.xml --enable-vr
 
 2. Access visualization:
+
    - Open browser to ``http://localhost:5000/video``
    - Or embed in custom interface:
 
@@ -216,32 +218,9 @@ Access Visualization
          <img src="http://localhost:5000/video" />
 
 3. Shutdown:
+
    - Use Ctrl+C in terminal
    - Or send POST to ``/shutdown``
-
-Best Practices
-------------
-
-Performance
-^^^^^^^^^
-1. Monitor frame rate
-2. Adjust resolution as needed
-3. Consider network bandwidth
-4. Optimize image encoding
-
-Resource Management
-^^^^^^^^^^^^^^^^
-1. Clean up server on exit
-2. Monitor memory usage
-3. Handle connection errors
-4. Implement timeouts
-
-Camera Configuration
-^^^^^^^^^^^^^^^^^
-1. Adjust stereo offset for comfort
-2. Set appropriate view distances
-3. Configure camera angles
-4. Consider field of view
 
 Next Steps
 ---------
