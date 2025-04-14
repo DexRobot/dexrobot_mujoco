@@ -153,8 +153,10 @@ The conversion is implemented in the ``convert_hand_urdf()`` function:
             output_dir: Output directory for MJCF
             simplified_collision_yaml: Path to collision config
         """
-        # Basic conversion
-        urdf2mjcf(urdf_path, output_dir)
+        # Convert URDF to MJCF with enhanced fixed link handling
+        urdf2mjcf(urdf_path, output_dir, 
+                  fixed_to_body_pattern=r".*(pad|tip).*", 
+                  fixed_to_site_pattern=r".*pad.*")
 
         # Add defaults
         apply_defaults(output_path, defaults_path)
@@ -180,7 +182,11 @@ Key Functions
 
 urdf2mjcf()
 ~~~~~~~~~~
-Handles basic URDF to MJCF conversion using MuJoCo's built-in converter.
+Handles URDF to MJCF conversion using MuJoCo's built-in converter with enhanced fixed link handling.
+
+By default, MuJoCo's URDF converter ignores fixed links or converts them to mere geoms.
+This function extends the conversion by allowing fixed links to be explicitly converted
+to either MuJoCo bodies (with geoms) or MuJoCo sites, based on link name patterns.
 
 add_position_actuators()
 ~~~~~~~~~~~~~~~~~~~~~

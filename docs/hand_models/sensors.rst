@@ -21,11 +21,19 @@ Automatic Conversion
 ^^^^^^^^^^^^^^^^^^
 During URDF to MJCF conversion:
 
-1. Fixed links with "pad" in their name are converted to sites
-2. Geometry properties from the URDF are preserved
-3. Touch sensors are attached to the converted sites
+1. Fixed links with "pad" in their name are converted to both bodies and sites
+2. Fixed links with "tip" in their name are converted only to bodies
+3. Geometry properties from the URDF are preserved
+4. Touch sensors are attached to the pad sites
 
-The conversion happens automatically in the ``urdf2mjcf()`` function when the ``convert_fixed_links`` parameter is set to ``True``.
+The conversion happens automatically in the ``urdf2mjcf()`` function with the appropriate pattern parameters:
+
+.. code-block:: python
+
+    # Convert fixed links matching the patterns
+    urdf2mjcf(urdf_path, output_dir, 
+              fixed_to_body_pattern=r".*(pad|tip).*", 
+              fixed_to_site_pattern=r".*pad.*")
 
 MJCF Structure
 ^^^^^^^^^^^^
