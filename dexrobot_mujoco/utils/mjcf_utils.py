@@ -25,15 +25,19 @@ def load_meshes(mesh_dir):
     return meshes
 
 
-def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, convert_fixed_links=False, link_pattern=None):
-    """Load a URDF file and save it to an MJCF XML file.
+def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fixed_to_site_pattern=None):
+    """Load a URDF file and save it to an MJCF XML file with enhanced fixed joint handling.
+    
+    By default, MuJoCo's URDF converter ignores fixed links or converts them to mere geoms.
+    This function extends the conversion by allowing fixed links to be explicitly converted
+    to either MuJoCo bodies (with geoms) or MuJoCo sites, based on link name patterns.
 
     Args:
         urdf_path (str): The path to the URDF file.
         mjcf_dir (str): The directory to save the output MJCF file.
         mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.
-        convert_fixed_links (bool, optional): Whether to convert fixed links to sites in the MJCF. Defaults to False.
-        link_pattern (str, optional): Regex pattern to match link names that should be converted to sites. Only used if convert_fixed_links is True.
+        fixed_to_body_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo bodies.
+        fixed_to_site_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo sites.
     """
     # First convert using MuJoCo's native converter
     if mesh_dir is None:
@@ -44,18 +48,18 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, convert_fixed_links=False, lin
     output_path = f"{mjcf_dir}/{os.path.splitext(os.path.basename(urdf_path))[0]}.xml"
     mujoco.mj_saveLastXML(output_path, m)
 
-    # If convert_fixed_links is False, we're done
-    if not convert_fixed_links:
+    # If no patterns specified, we're done
+    if fixed_to_body_pattern is None and fixed_to_site_pattern is None:
         return
 
-    # Otherwise, we need to process the URDF and MJCF to convert fixed links to sites
+    # Otherwise, we need to process the URDF and MJCF to convert fixed links
 
     # Parse the original URDF to find fixed links
     urdf_tree = ET.parse(urdf_path)
     urdf_root = urdf_tree.getroot()
 
     # Find all fixed joints and their child links
-    fixed_links = {}
+    fixed_joints = []
     for joint in urdf_root.findall(".//joint"):
         if joint.get("type") == "fixed":
             parent = None
@@ -68,25 +72,30 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, convert_fixed_links=False, lin
                     child = elem.get("link")
 
             if parent and child:
-                # Only convert links that match the pattern
-                if link_pattern is None or re.match(link_pattern, child):
-                    fixed_links[child] = {
-                        "parent": parent,
-                        "xyz": None,
-                        "rpy": None
-                    }
-
-                    # Extract origin information if available
-                    origin = joint.find("origin")
-                    if origin is not None:
-                        if "xyz" in origin.attrib:
-                            fixed_links[child]["xyz"] = origin.get("xyz")
-                        if "rpy" in origin.attrib:
-                            fixed_links[child]["rpy"] = origin.get("rpy")
+                joint_info = {
+                    "parent": parent,
+                    "child": child,
+                    "xyz": None,
+                    "rpy": None,
+                    "as_body": fixed_to_body_pattern is not None and re.match(fixed_to_body_pattern, child),
+                    "as_site": fixed_to_site_pattern is not None and re.match(fixed_to_site_pattern, child)
+                }
+                
+                # Extract origin information if available
+                origin = joint.find("origin")
+                if origin is not None:
+                    if "xyz" in origin.attrib:
+                        joint_info["xyz"] = origin.get("xyz")
+                    if "rpy" in origin.attrib:
+                        joint_info["rpy"] = origin.get("rpy")
+                
+                # Only add if we need to convert this link
+                if joint_info["as_body"] or joint_info["as_site"]:
+                    fixed_joints.append(joint_info)
 
     # If no fixed links match our criteria, we're done
-    if not fixed_links:
-        logger.info("No fixed links to convert to sites")
+    if not fixed_joints:
+        logger.info("No fixed links to convert")
         return
 
     # Parse the converted MJCF
@@ -98,95 +107,124 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, convert_fixed_links=False, lin
     for body in mjcf_root.findall(".//body"):
         body_map[body.get("name")] = body
 
-    # For each fixed link, create a site in the parent body
-    for link_name, link_info in fixed_links.items():
-        parent_name = link_info["parent"]
-        if parent_name in body_map:
-            parent_body = body_map[parent_name]
-
-            # Create site attributes
-            site_attrs = {
-                "name": f"site_{link_name}",
-            }
-
-            # Add position and orientation if available
-            if link_info["xyz"]:
-                site_attrs["pos"] = link_info["xyz"]
-            if link_info["rpy"]:
-                # Convert RPY (roll-pitch-yaw) to quaternion
-                try:
-                    rpy = [float(val) for val in link_info["rpy"].split()]
-                    rotation = Rotation.from_euler('xyz', rpy)
-                    # Get quaternion with scalar (w) first, which matches MuJoCo's [w, x, y, z] format
-                    quat = rotation.as_quat(scalar_first=True)
-                    site_attrs["quat"] = " ".join(map(str, quat))
-                    logger.info(f"Converted RPY {link_info['rpy']} to quaternion {site_attrs['quat']}")
-                except Exception as e:
-                    logger.error(f"Failed to convert RPY to quaternion: {e}")
-                    # If conversion fails, don't set the quat attribute
+    # Convert fixed links as specified by patterns
+    for joint_info in fixed_joints:
+        parent_name = joint_info["parent"]
+        child_name = joint_info["child"]
+        
+        if parent_name not in body_map:
+            logger.warning(f"Parent body {parent_name} not found in MJCF for fixed joint to {child_name}")
+            continue
             
-            # Extract visual geometry from URDF
-            link_elem = urdf_root.find(f".//link[@name='{link_name}']")
-            if link_elem is None:
-                raise ValueError(f"Link {link_name} not found in URDF, but was referenced by a fixed joint")
+        parent_body = body_map[parent_name]
+
+        # Get link element from URDF for geometry information
+        link_elem = urdf_root.find(f".//link[@name='{child_name}']")
+        if link_elem is None:
+            logger.warning(f"Link {child_name} not found in URDF, but was referenced by a fixed joint")
+            continue
             
-            visual = link_elem.find(".//visual/geometry")
-            if visual is None:
-                logger.warning(f"Link {link_name} has no visual geometry defined in URDF")
-            else:
-                # Get geometry type and properties
-                # MuJoCo uses half-sizes while URDF uses full sizes, so we need to convert
-                if visual.find("box") is not None:
-                    box = visual.find("box")
-                    if "size" not in box.attrib:
-                        raise ValueError(f"Box geometry for link {link_name} missing required 'size' attribute")
-                    
-                    # Parse box size and halve the dimensions
-                    full_size = [float(val) for val in box.get("size").split()]
-                    half_size = [val / 2 for val in full_size]
-                    
-                    site_attrs["type"] = "box"
-                    site_attrs["size"] = " ".join(map(str, half_size))
-                    logger.info(f"Converted box full size {box.get('size')} to half size {site_attrs['size']}")
-                    
-                elif visual.find("sphere") is not None:
-                    sphere = visual.find("sphere")
-                    if "radius" not in sphere.attrib:
-                        raise ValueError(f"Sphere geometry for link {link_name} missing required 'radius' attribute")
-                    
-                    # For spheres, MuJoCo size is the same as URDF radius
-                    radius = float(sphere.get("radius"))
-                    
-                    site_attrs["type"] = "sphere"
-                    site_attrs["size"] = str(radius)
-                    
-                elif visual.find("cylinder") is not None:
-                    cylinder = visual.find("cylinder")
-                    if "radius" not in cylinder.attrib:
-                        raise ValueError(f"Cylinder geometry for link {link_name} missing required 'radius' attribute")
-                    if "length" not in cylinder.attrib:
-                        raise ValueError(f"Cylinder geometry for link {link_name} missing required 'length' attribute")
-                    
-                    # For cylinders, we keep radius the same but halve the length
-                    radius = float(cylinder.get("radius"))
-                    length = float(cylinder.get("length")) / 2  # Half the length
-                    
-                    site_attrs["type"] = "cylinder"
-                    site_attrs["size"] = f"{radius} {length}"
-                    logger.info(f"Converted cylinder length {cylinder.get('length')} to half length {length}")
-                else:
-                    logger.warning(f"Unknown geometry type for link {link_name}, using sphere")
-                    site_attrs["type"] = "sphere"
-                    site_attrs["size"] = "0.01"
+        # Parse visual geometry from URDF
+        visual = link_elem.find(".//visual/geometry")
+        
+        # Common position and orientation attributes for both body and site
+        pos_attrs = {}
+        if joint_info["xyz"]:
+            pos_attrs["pos"] = joint_info["xyz"]
+        if joint_info["rpy"]:
+            # Convert RPY (roll-pitch-yaw Euler angles) to quaternion
+            try:
+                # Parse RPY string to array of floats
+                rpy = [float(val) for val in joint_info["rpy"].split()]
                 
-                # Get color if available
-                material = link_elem.find(".//visual/material/color")
-                if material is not None and "rgba" in material.attrib:
-                    site_attrs["rgba"] = material.get("rgba")
+                # Use scipy's Rotation to convert from Euler angles to quaternion
+                # URDF uses 'xyz' Euler angle sequence
+                rotation = Rotation.from_euler('xyz', rpy)
+                
+                # Get quaternion with scalar first (w,x,y,z), which matches MuJoCo's format
+                quat = rotation.as_quat(scalar_first=True)
+                
+                # Format as space-separated string for MuJoCo
+                pos_attrs["quat"] = " ".join(map(str, quat))
+                logger.info(f"Converted RPY {joint_info['rpy']} to quaternion {pos_attrs['quat']}")
+            except Exception as e:
+                logger.error(f"Failed to convert RPY to quaternion: {e}")
+                logger.warning(f"Rotation information for {child_name} will be lost")
+        
+        # Process geometry information
+        geom_attrs = {}
+        if visual is not None:
+            # Get geometry type and properties
+            # MuJoCo uses half-sizes while URDF uses full sizes, so we need to convert
+            if visual.find("box") is not None:
+                box = visual.find("box")
+                if "size" not in box.attrib:
+                    logger.warning(f"Box geometry for link {child_name} missing required 'size' attribute")
+                    continue
+                
+                # Parse box size and halve the dimensions for MuJoCo
+                full_size = [float(val) for val in box.get("size").split()]
+                half_size = [val / 2 for val in full_size]
+                
+                geom_attrs["type"] = "box"
+                geom_attrs["size"] = " ".join(map(str, half_size))
+                
+            elif visual.find("sphere") is not None:
+                sphere = visual.find("sphere")
+                if "radius" not in sphere.attrib:
+                    logger.warning(f"Sphere geometry for link {child_name} missing required 'radius' attribute")
+                    continue
+                
+                # For spheres, MuJoCo size is the same as URDF radius
+                radius = float(sphere.get("radius"))
+                
+                geom_attrs["type"] = "sphere"
+                geom_attrs["size"] = str(radius)
+                
+            elif visual.find("cylinder") is not None:
+                cylinder = visual.find("cylinder")
+                if "radius" not in cylinder.attrib or "length" not in cylinder.attrib:
+                    logger.warning(f"Cylinder geometry for link {child_name} missing required attributes")
+                    continue
+                
+                # For cylinders, we keep radius the same but halve the length
+                radius = float(cylinder.get("radius"))
+                length = float(cylinder.get("length")) / 2  # Half the length
+                
+                geom_attrs["type"] = "cylinder"
+                geom_attrs["size"] = f"{radius} {length}"
+            else:
+                logger.warning(f"Unknown geometry type for link {child_name}, using defaults")
+            
+            # Get color if available
+            material = link_elem.find(".//visual/material/color")
+            if material is not None and "rgba" in material.attrib:
+                geom_attrs["rgba"] = material.get("rgba")
+        
+        # Convert to body if specified
+        if joint_info["as_body"]:
+            # Create body element with position and orientation
+            body_attrs = {"name": child_name, **pos_attrs}  # Include pos and quat
+            child_body = ET.SubElement(parent_body, "body", body_attrs)
+            
+            # Add geom to body if we have geometry info
+            if geom_attrs:
+                geom_attrs_with_name = {"name": f"geom_{child_name}", **geom_attrs}
+                ET.SubElement(child_body, "geom", geom_attrs_with_name)
+                
+            logger.info(f"Converted fixed link {child_name} to body in {parent_name} with pos={pos_attrs.get('pos', 'None')} quat={pos_attrs.get('quat', 'None')}")
+            
+            # Add to body map in case another link has this as parent
+            body_map[child_name] = child_body
+        
+        # Convert to site if specified
+        if joint_info["as_site"]:
+            # Create site attributes with position, orientation and geometry
+            site_attrs = {"name": f"site_{child_name}", **pos_attrs, **geom_attrs}
             
             # Create and add the site element to the parent body
             ET.SubElement(parent_body, "site", site_attrs)
-            logger.info(f"Converted fixed link {link_name} to site in {parent_name}")
+            logger.info(f"Converted fixed link {child_name} to site in {parent_name} with pos={pos_attrs.get('pos', 'None')} quat={pos_attrs.get('quat', 'None')}")
 
     # Write the modified MJCF back to the file
     mjcf_tree.write(output_path, encoding="utf-8", xml_declaration=True)

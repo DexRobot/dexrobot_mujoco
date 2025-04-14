@@ -40,8 +40,12 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     output_dir.mkdir(exist_ok=True)
     output_path = output_dir / f"{urdf_path.stem}.xml"
 
-    # Convert URDF to MJCF, converting fixed links with "pad", "tip", or "touch_sensor" in the name to sites
-    urdf2mjcf(str(urdf_path), str(output_dir), convert_fixed_links=True, link_pattern=r".*(pad|tip).*")
+    # Convert URDF to MJCF:
+    # - Convert both pads and tips to bodies
+    # - Convert only pads to sites (for touch sensors)
+    urdf2mjcf(str(urdf_path), str(output_dir), 
+              fixed_to_body_pattern=r".*(pad|tip).*", 
+              fixed_to_site_pattern=r".*pad.*")
 
     # Add options and defaults
     apply_defaults(
@@ -112,7 +116,7 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     for site in root.findall(".//site"):
         site_name = site.get("name")
         if site_name.startswith("site_") and "pad" in site_name:
-            # Only attach sensors to pad sites, not tip sites or others
+            # Only attach touch sensors to pad sites (not tips)
             
             # Save the site name for sensor creation
             body_name = site_name.replace("site_", "")
