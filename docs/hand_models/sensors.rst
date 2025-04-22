@@ -7,68 +7,33 @@ This section covers the sensor system in DexRobot MuJoCo, focusing on touch sens
 Sensor System Overview
 --------------------
 
-The DexHand includes touch sensors at fingertips:
+The DexHand includes touch sensors with the following characteristics:
 
-- One touch sensor per fingertip
+- Sites are created from fixed fingerpad links in the URDF
+- Touch sensors are automatically attached to these sites
 - Based on MuJoCo's built-in contact sensing
-- Configurable sensor sites
-- Real-time force feedback
-
-Components
----------
-
-Sensor Sites
-^^^^^^^^^^
-Visual and physical locations for sensors:
-
-.. code-block:: python
-
-    sensor_sites = {
-        "r_f_link1_4": {  # Thumb tip
-            "pos": "0.025 0.003 0",
-            "size": "0.01",
-            "type": "sphere"
-        },
-        # Additional fingertip sites...
-    }
-
-Touch Sensors
-^^^^^^^^^^^
-Contact force sensors at each site:
-
-.. code-block:: python
-
-    sensor_info = {
-        "touch_r_f_link1_4": {  # Thumb sensor
-            "site": "site_r_f_link1_4"
-        },
-        # Additional touch sensors...
-    }
+- Provides real-time force feedback
 
 Implementation
 ------------
 
-Adding Sites
-^^^^^^^^^^
-Sites are added using the ``add_sites()`` function:
+Automatic Conversion
+^^^^^^^^^^^^^^^^^^
+During URDF to MJCF conversion:
+
+1. Fixed links with "pad" in their name are converted to both bodies and sites
+2. Fixed links with "tip" in their name are converted only to bodies
+3. Geometry properties from the URDF are preserved
+4. Touch sensors are attached to the pad sites
+
+The conversion happens automatically in the ``urdf2mjcf()`` function with the appropriate pattern parameters:
 
 .. code-block:: python
 
-    def add_sites(xml_file_path, site_info):
-        """Add sites to specific bodies.
-
-        Args:
-            xml_file_path: Path to MJCF XML file
-            site_info: Dictionary of site configurations
-        """
-        tree = ET.parse(xml_file_path)
-        root = tree.getroot()
-
-        # Add sites to specified bodies
-        for body_name, details in site_info.items():
-            body = find_body(root, body_name)
-            if body is not None:
-                add_site_to_body(body, body_name, details)
+    # Convert fixed links matching the patterns
+    urdf2mjcf(urdf_path, output_dir, 
+              fixed_to_body_pattern=r".*(pad|tip).*", 
+              fixed_to_site_pattern=r".*pad.*")
 
 MJCF Structure
 ^^^^^^^^^^^^
@@ -76,38 +41,27 @@ Generated site and sensor elements:
 
 .. code-block:: xml
 
-    <!-- Site definition -->
-    <site name="site_r_f_link1_4"
+    <!-- Site definition (converted from fixed link) -->
+    <site name="site_finger_pad"
           pos="0.025 0.003 0"
           size="0.01"
           type="sphere"/>
 
     <!-- Sensor definition -->
     <sensor>
-        <touch name="touch_r_f_link1_4"
-               site="site_r_f_link1_4"/>
+        <touch name="touch_finger_pad"
+               site="site_finger_pad"/>
     </sensor>
 
 Site Parameters
 -------------
 
-Position (pos)
-^^^^^^^^^^^^
-- Specified relative to link frame
-- Format: "x y z"
-- Typical fingertip offset
+The site properties are automatically derived from the URDF fixed link properties:
 
-Size
-^^^^
-- Sphere radius for site visualization
-- Also affects contact detection area
-- Default: 0.01 (1cm)
-
-Type
-^^^^
-- Visual representation type
-- Usually "sphere" for fingertips
-- Other options: "box", "cylinder"
+- **Position and orientation**: Preserved from the fixed joint in the URDF
+- **Type**: Based on the geometry type in the URDF (box, sphere, cylinder)
+- **Size**: Converted from URDF conventions to MuJoCo conventions
+- **Visual properties**: Colors are preserved from the URDF
 
 Usage
 -----

@@ -21,3 +21,5 @@ tracked_bodies:
 - [r_f_link3_1, r_f_link3_2, r_f_link3_3, r_f_link3_4]
 - [r_f_link4_1, r_f_link4_2, r_f_link4_3, r_f_link4_4]
 - [r_f_link5_1, r_f_link5_2, r_f_link5_3, r_f_link5_4]
+tracked_sensors:
+- [touch_r_f_link1_pad, touch_r_f_link2_pad, touch_r_f_link3_pad, touch_r_f_link4_pad, touch_r_f_link5_pad]

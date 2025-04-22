@@ -9,6 +9,9 @@ python convert_hand.py --urdf ../../dexrobot_urdf/urdf/dexhand021_right_simplifi
 # Articulate with floating base to create floating hand
 python articulate_hand.py --base ../dexrobot_mujoco/models/floating_base.xml --hand ../dexrobot_mujoco/models/dexhand021_right.xml --output ../dexrobot_mujoco/models/dexhand021_right_floating.xml --euler 0 90 0
 
+# Articulate with floating base to create floating hand with simplified mesh
+python articulate_hand.py --base ../dexrobot_mujoco/models/floating_base.xml --hand ../dexrobot_mujoco/models/dexhand021_right_simplified.xml --output ../dexrobot_mujoco/models/dexhand021_right_simplified_floating.xml --euler 0 90 0
+
 # Articulate with JAKA Zu7 to create an arm-hand system
 python articulate_hand.py --base ../dexrobot_mujoco/models/jaka_zu7_right.xml --hand ../dexrobot_mujoco/models/dexhand021_right_simplified.xml --output ../dexrobot_mujoco/models/dexhand021_right_jaka_zu7.xml --euler 0 0 0
 

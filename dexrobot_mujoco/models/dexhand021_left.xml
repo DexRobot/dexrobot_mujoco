@@ -6,7 +6,7 @@
   <option gravity="0 0 -9.81" iterations="100" solver="Newton" integrator="implicit" timestep="0.001"/>
   <default>
     <joint damping="1"/>
-    <geom condim="3" solref="0.02 1" solimp="0.9 0.95 0.001" friction="2 2 2"/>
+    <geom condim="3" solref="0.01 0.9" solimp="0.9 0.999 0.005" friction="3. 2. 2."/>
   </default>
   <size njmax="1000" nconmax="1000"/>
   <compiler angle="radian" meshdir="../meshes/dexhand021/"/>
@@ -109,7 +109,7 @@
             <geom quat="0.000796327 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link1_3_2"/>
             <geom quat="0.000796327 1 0 0" type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link1_3_2"/>
             <body name="l_f_link1_4" pos="0.025 0 0">
-              <inertial pos="0.016544 0.00270681 -0.000471799" quat="0.365069 0.507513 0.475008 0.619292" mass="0.00767734" diaginertia="9.8841e-07 9.09456e-07 3.92637e-07"/>
+              <inertial pos="0.0193624 0.002222 -0.000878398" quat="0.090377 0.684877 0.10385 0.715535" mass="0.00867734" diaginertia="1.30473e-06 1.27325e-06 4.27206e-07"/>
               <joint name="l_f_joint1_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom quat="0.000796327 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link1_4"/>
               <geom quat="0.000796327 1 0 0" type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link1_4"/>
@@ -118,8 +118,16 @@
               <geom quat="0.000796327 1 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link1_4_2"/>
               <geom quat="0.000796327 1 0 0" type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link1_4_2"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
-              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1"/>
-              <site name="site_l_f_link1_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0.001" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0.001" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+              <body name="l_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_l_f_link1_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
+              </body>
+              <body name="l_f_link1_pad" pos="0.026 0.0025 0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                <geom name="geom_l_f_link1_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              </body>
+              <site name="site_l_f_link1_pad" pos="0.026 0.0025 0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
             </body>
           </body>
         </body>
@@ -148,7 +156,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link2_3_2"/>
             <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link2_3_2"/>
             <body name="l_f_link2_4" pos="0.025 0 0">
-              <inertial pos="0.0165327 -0.00269728 0.000649365" quat="0.616193 0.478635 0.507867 0.365085" mass="0.0076892" diaginertia="9.75666e-07 9.11773e-07 3.80946e-07"/>
+              <inertial pos="0.0193485 -0.00255949 -7.94241e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
               <joint name="l_f_joint2_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link2_4"/>
               <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link2_4"/>
@@ -157,8 +165,16 @@
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link2_4_2"/>
               <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link2_4_2"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
-              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1"/>
-              <site name="site_l_f_link2_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+              <body name="l_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_l_f_link2_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
+              </body>
+              <body name="l_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                <geom name="geom_l_f_link2_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              </body>
+              <site name="site_l_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
             </body>
           </body>
         </body>
@@ -187,7 +203,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link3_3_2"/>
             <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link3_3_2"/>
             <body name="l_f_link3_4" pos="0.025 0 0">
-              <inertial pos="0.0165327 -0.00269728 0.000649365" quat="0.616193 0.478635 0.507867 0.365085" mass="0.0076892" diaginertia="9.75666e-07 9.11773e-07 3.80946e-07"/>
+              <inertial pos="0.0193485 -0.00255949 -7.94241e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
               <joint name="l_f_joint3_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link3_4"/>
               <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link3_4"/>
@@ -196,8 +212,16 @@
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link3_4_2"/>
               <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link3_4_2"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
-              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1"/>
-              <site name="site_l_f_link3_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+              <body name="l_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_l_f_link3_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
+              </body>
+              <body name="l_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                <geom name="geom_l_f_link3_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              </body>
+              <site name="site_l_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
             </body>
           </body>
         </body>
@@ -226,7 +250,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link4_3_2"/>
             <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link4_3_2"/>
             <body name="l_f_link4_4" pos="0.025 0 0">
-              <inertial pos="0.0165327 -0.00269728 0.000649365" quat="0.616193 0.478635 0.507867 0.365085" mass="0.0076892" diaginertia="9.75666e-07 9.11773e-07 3.80946e-07"/>
+              <inertial pos="0.0193485 -0.00255949 -7.94241e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
               <joint name="l_f_joint4_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link4_4"/>
               <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link4_4"/>
@@ -235,8 +259,16 @@
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link4_4_2"/>
               <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link4_4_2"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
-              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1"/>
-              <site name="site_l_f_link4_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+              <body name="l_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_l_f_link4_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
+              </body>
+              <body name="l_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                <geom name="geom_l_f_link4_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              </body>
+              <site name="site_l_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
             </body>
           </body>
         </body>
@@ -265,7 +297,7 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link5_3_2"/>
             <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link5_3_2"/>
             <body name="l_f_link5_4" pos="0.025 0 0">
-              <inertial pos="0.0165327 -0.00269728 0.000649365" quat="0.616193 0.478635 0.507867 0.365085" mass="0.0076892" diaginertia="9.75666e-07 9.11773e-07 3.80946e-07"/>
+              <inertial pos="0.0193485 -0.00255949 -7.94249e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
               <joint name="l_f_joint5_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="l_f_link5_4"/>
               <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="l_f_link5_4"/>
@@ -274,8 +306,16 @@
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="l_f_link5_4_2"/>
               <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="l_f_link5_4_2"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
-              <geom size="0.002" pos="0.02 0 0" rgba="1 0 0 1"/>
-              <site name="site_l_f_link5_4" pos="0.025 0.003 0" size="0.01" type="sphere"/>
+              <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+              <body name="l_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_l_f_link5_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
+              </body>
+              <body name="l_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                <geom name="geom_l_f_link5_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              </body>
+              <site name="site_l_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
             </body>
           </body>
         </body>
@@ -305,212 +345,467 @@
     <position name="act_l_f_joint5_1" joint="l_f_joint5_1" kp="20" kv="1" ctrlrange="0 0.6" forcerange="-20 20"/>
   </actuator>
   <sensor>
-    <touch name="touch_l_f_link1_4" site="site_l_f_link1_4"/>
-    <touch name="touch_l_f_link2_4" site="site_l_f_link2_4"/>
-    <touch name="touch_l_f_link3_4" site="site_l_f_link3_4"/>
-    <touch name="touch_l_f_link4_4" site="site_l_f_link4_4"/>
-    <touch name="touch_l_f_link5_4" site="site_l_f_link5_4"/>
+    <touch name="touch_l_f_link1_pad" site="site_l_f_link1_pad"/>
+    <touch name="touch_l_f_link2_pad" site="site_l_f_link2_pad"/>
+    <touch name="touch_l_f_link3_pad" site="site_l_f_link3_pad"/>
+    <touch name="touch_l_f_link4_pad" site="site_l_f_link4_pad"/>
+    <touch name="touch_l_f_link5_pad" site="site_l_f_link5_pad"/>
   </sensor>
   <contact>
     <exclude body1="left_hand_base" body2="l_f_link1_1"/>
     <exclude body1="left_hand_base" body2="l_f_link1_2"/>
     <exclude body1="left_hand_base" body2="l_f_link1_3"/>
     <exclude body1="left_hand_base" body2="l_f_link1_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_tip"/>
+    <exclude body1="left_hand_base" body2="l_f_link1_pad"/>
     <exclude body1="left_hand_base" body2="l_f_link2_1"/>
     <exclude body1="left_hand_base" body2="l_f_link2_2"/>
     <exclude body1="left_hand_base" body2="l_f_link2_3"/>
     <exclude body1="left_hand_base" body2="l_f_link2_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_tip"/>
+    <exclude body1="left_hand_base" body2="l_f_link2_pad"/>
     <exclude body1="left_hand_base" body2="l_f_link3_1"/>
     <exclude body1="left_hand_base" body2="l_f_link3_2"/>
     <exclude body1="left_hand_base" body2="l_f_link3_3"/>
     <exclude body1="left_hand_base" body2="l_f_link3_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_tip"/>
+    <exclude body1="left_hand_base" body2="l_f_link3_pad"/>
     <exclude body1="left_hand_base" body2="l_f_link4_1"/>
     <exclude body1="left_hand_base" body2="l_f_link4_2"/>
     <exclude body1="left_hand_base" body2="l_f_link4_3"/>
     <exclude body1="left_hand_base" body2="l_f_link4_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_tip"/>
+    <exclude body1="left_hand_base" body2="l_f_link4_pad"/>
     <exclude body1="left_hand_base" body2="l_f_link5_1"/>
     <exclude body1="left_hand_base" body2="l_f_link5_2"/>
     <exclude body1="left_hand_base" body2="l_f_link5_3"/>
     <exclude body1="left_hand_base" body2="l_f_link5_4"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_tip"/>
+    <exclude body1="left_hand_base" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link1_tip"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link1_pad"/>
     <exclude body1="l_f_link1_1" body2="l_f_link2_1"/>
     <exclude body1="l_f_link1_1" body2="l_f_link2_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link2_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link1_1" body2="l_f_link3_1"/>
     <exclude body1="l_f_link1_1" body2="l_f_link3_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link3_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link1_1" body2="l_f_link4_1"/>
     <exclude body1="l_f_link1_1" body2="l_f_link4_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link4_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link1_1" body2="l_f_link5_1"/>
     <exclude body1="l_f_link1_1" body2="l_f_link5_2"/>
     <exclude body1="l_f_link1_1" body2="l_f_link5_3"/>
     <exclude body1="l_f_link1_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_1" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link1_2" body2="l_f_link1_3"/>
     <exclude body1="l_f_link1_2" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link1_tip"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link1_pad"/>
     <exclude body1="l_f_link1_2" body2="l_f_link2_1"/>
     <exclude body1="l_f_link1_2" body2="l_f_link2_2"/>
     <exclude body1="l_f_link1_2" body2="l_f_link2_3"/>
     <exclude body1="l_f_link1_2" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link1_2" body2="l_f_link3_1"/>
     <exclude body1="l_f_link1_2" body2="l_f_link3_2"/>
     <exclude body1="l_f_link1_2" body2="l_f_link3_3"/>
     <exclude body1="l_f_link1_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link1_2" body2="l_f_link4_1"/>
     <exclude body1="l_f_link1_2" body2="l_f_link4_2"/>
     <exclude body1="l_f_link1_2" body2="l_f_link4_3"/>
     <exclude body1="l_f_link1_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link1_2" body2="l_f_link5_1"/>
     <exclude body1="l_f_link1_2" body2="l_f_link5_2"/>
     <exclude body1="l_f_link1_2" body2="l_f_link5_3"/>
     <exclude body1="l_f_link1_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_2" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link1_3" body2="l_f_link1_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link1_tip"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link1_pad"/>
     <exclude body1="l_f_link1_3" body2="l_f_link2_1"/>
     <exclude body1="l_f_link1_3" body2="l_f_link2_2"/>
     <exclude body1="l_f_link1_3" body2="l_f_link2_3"/>
     <exclude body1="l_f_link1_3" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link1_3" body2="l_f_link3_1"/>
     <exclude body1="l_f_link1_3" body2="l_f_link3_2"/>
     <exclude body1="l_f_link1_3" body2="l_f_link3_3"/>
     <exclude body1="l_f_link1_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link1_3" body2="l_f_link4_1"/>
     <exclude body1="l_f_link1_3" body2="l_f_link4_2"/>
     <exclude body1="l_f_link1_3" body2="l_f_link4_3"/>
     <exclude body1="l_f_link1_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link1_3" body2="l_f_link5_1"/>
     <exclude body1="l_f_link1_3" body2="l_f_link5_2"/>
     <exclude body1="l_f_link1_3" body2="l_f_link5_3"/>
     <exclude body1="l_f_link1_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_3" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link1_tip"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link1_pad"/>
     <exclude body1="l_f_link1_4" body2="l_f_link2_1"/>
     <exclude body1="l_f_link1_4" body2="l_f_link2_2"/>
     <exclude body1="l_f_link1_4" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link1_4" body2="l_f_link3_1"/>
     <exclude body1="l_f_link1_4" body2="l_f_link3_2"/>
     <exclude body1="l_f_link1_4" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link1_4" body2="l_f_link4_1"/>
     <exclude body1="l_f_link1_4" body2="l_f_link4_2"/>
     <exclude body1="l_f_link1_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link1_4" body2="l_f_link5_1"/>
     <exclude body1="l_f_link1_4" body2="l_f_link5_2"/>
     <exclude body1="l_f_link1_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_4" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link1_pad"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link2_pad"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link3_pad"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_tip" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_1"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_2"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_3"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link2_pad"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link3_pad"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link1_pad" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link2_1" body2="l_f_link2_2"/>
     <exclude body1="l_f_link2_1" body2="l_f_link2_3"/>
     <exclude body1="l_f_link2_1" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link2_1" body2="l_f_link3_1"/>
     <exclude body1="l_f_link2_1" body2="l_f_link3_2"/>
     <exclude body1="l_f_link2_1" body2="l_f_link3_3"/>
     <exclude body1="l_f_link2_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link2_1" body2="l_f_link4_1"/>
     <exclude body1="l_f_link2_1" body2="l_f_link4_2"/>
     <exclude body1="l_f_link2_1" body2="l_f_link4_3"/>
     <exclude body1="l_f_link2_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link2_1" body2="l_f_link5_1"/>
     <exclude body1="l_f_link2_1" body2="l_f_link5_2"/>
     <exclude body1="l_f_link2_1" body2="l_f_link5_3"/>
     <exclude body1="l_f_link2_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_1" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link2_2" body2="l_f_link2_3"/>
     <exclude body1="l_f_link2_2" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link2_2" body2="l_f_link3_1"/>
     <exclude body1="l_f_link2_2" body2="l_f_link3_2"/>
     <exclude body1="l_f_link2_2" body2="l_f_link3_3"/>
     <exclude body1="l_f_link2_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link2_2" body2="l_f_link4_1"/>
     <exclude body1="l_f_link2_2" body2="l_f_link4_2"/>
     <exclude body1="l_f_link2_2" body2="l_f_link4_3"/>
     <exclude body1="l_f_link2_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link2_2" body2="l_f_link5_1"/>
     <exclude body1="l_f_link2_2" body2="l_f_link5_2"/>
     <exclude body1="l_f_link2_2" body2="l_f_link5_3"/>
     <exclude body1="l_f_link2_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_2" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link2_3" body2="l_f_link2_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link2_3" body2="l_f_link3_1"/>
     <exclude body1="l_f_link2_3" body2="l_f_link3_2"/>
     <exclude body1="l_f_link2_3" body2="l_f_link3_3"/>
     <exclude body1="l_f_link2_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link2_3" body2="l_f_link4_1"/>
     <exclude body1="l_f_link2_3" body2="l_f_link4_2"/>
     <exclude body1="l_f_link2_3" body2="l_f_link4_3"/>
     <exclude body1="l_f_link2_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link2_3" body2="l_f_link5_1"/>
     <exclude body1="l_f_link2_3" body2="l_f_link5_2"/>
     <exclude body1="l_f_link2_3" body2="l_f_link5_3"/>
     <exclude body1="l_f_link2_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_3" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link2_tip"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link2_pad"/>
     <exclude body1="l_f_link2_4" body2="l_f_link3_1"/>
     <exclude body1="l_f_link2_4" body2="l_f_link3_2"/>
     <exclude body1="l_f_link2_4" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link2_4" body2="l_f_link4_1"/>
     <exclude body1="l_f_link2_4" body2="l_f_link4_2"/>
     <exclude body1="l_f_link2_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link2_4" body2="l_f_link5_1"/>
     <exclude body1="l_f_link2_4" body2="l_f_link5_2"/>
     <exclude body1="l_f_link2_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_4" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link2_pad"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link3_pad"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_tip" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_1"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_2"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_3"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link3_pad"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link2_pad" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link3_1" body2="l_f_link3_2"/>
     <exclude body1="l_f_link3_1" body2="l_f_link3_3"/>
     <exclude body1="l_f_link3_1" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link3_1" body2="l_f_link4_1"/>
     <exclude body1="l_f_link3_1" body2="l_f_link4_2"/>
     <exclude body1="l_f_link3_1" body2="l_f_link4_3"/>
     <exclude body1="l_f_link3_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link3_1" body2="l_f_link5_1"/>
     <exclude body1="l_f_link3_1" body2="l_f_link5_2"/>
     <exclude body1="l_f_link3_1" body2="l_f_link5_3"/>
     <exclude body1="l_f_link3_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_1" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link3_2" body2="l_f_link3_3"/>
     <exclude body1="l_f_link3_2" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link3_2" body2="l_f_link4_1"/>
     <exclude body1="l_f_link3_2" body2="l_f_link4_2"/>
     <exclude body1="l_f_link3_2" body2="l_f_link4_3"/>
     <exclude body1="l_f_link3_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link3_2" body2="l_f_link5_1"/>
     <exclude body1="l_f_link3_2" body2="l_f_link5_2"/>
     <exclude body1="l_f_link3_2" body2="l_f_link5_3"/>
     <exclude body1="l_f_link3_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_2" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link3_3" body2="l_f_link3_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link3_3" body2="l_f_link4_1"/>
     <exclude body1="l_f_link3_3" body2="l_f_link4_2"/>
     <exclude body1="l_f_link3_3" body2="l_f_link4_3"/>
     <exclude body1="l_f_link3_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link3_3" body2="l_f_link5_1"/>
     <exclude body1="l_f_link3_3" body2="l_f_link5_2"/>
     <exclude body1="l_f_link3_3" body2="l_f_link5_3"/>
     <exclude body1="l_f_link3_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_3" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link3_tip"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link3_pad"/>
     <exclude body1="l_f_link3_4" body2="l_f_link4_1"/>
     <exclude body1="l_f_link3_4" body2="l_f_link4_2"/>
     <exclude body1="l_f_link3_4" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link3_4" body2="l_f_link5_1"/>
     <exclude body1="l_f_link3_4" body2="l_f_link5_2"/>
     <exclude body1="l_f_link3_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_4" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link3_pad"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_tip" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_1"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_2"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_3"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link3_pad" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link4_1" body2="l_f_link4_2"/>
     <exclude body1="l_f_link4_1" body2="l_f_link4_3"/>
     <exclude body1="l_f_link4_1" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link4_1" body2="l_f_link5_1"/>
     <exclude body1="l_f_link4_1" body2="l_f_link5_2"/>
     <exclude body1="l_f_link4_1" body2="l_f_link5_3"/>
     <exclude body1="l_f_link4_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_1" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link4_2" body2="l_f_link4_3"/>
     <exclude body1="l_f_link4_2" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link4_2" body2="l_f_link5_1"/>
     <exclude body1="l_f_link4_2" body2="l_f_link5_2"/>
     <exclude body1="l_f_link4_2" body2="l_f_link5_3"/>
     <exclude body1="l_f_link4_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_2" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link4_3" body2="l_f_link4_4"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link4_3" body2="l_f_link5_1"/>
     <exclude body1="l_f_link4_3" body2="l_f_link5_2"/>
     <exclude body1="l_f_link4_3" body2="l_f_link5_3"/>
     <exclude body1="l_f_link4_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_3" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link4_tip"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link4_pad"/>
     <exclude body1="l_f_link4_4" body2="l_f_link5_1"/>
     <exclude body1="l_f_link4_4" body2="l_f_link5_2"/>
     <exclude body1="l_f_link4_4" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_4" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link4_pad"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_tip" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_1"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_2"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_3"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link4_pad" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link5_1" body2="l_f_link5_2"/>
     <exclude body1="l_f_link5_1" body2="l_f_link5_3"/>
     <exclude body1="l_f_link5_1" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link5_1" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link5_1" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link5_2" body2="l_f_link5_3"/>
     <exclude body1="l_f_link5_2" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link5_2" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link5_2" body2="l_f_link5_pad"/>
     <exclude body1="l_f_link5_3" body2="l_f_link5_4"/>
+    <exclude body1="l_f_link5_3" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link5_3" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link5_4" body2="l_f_link5_tip"/>
+    <exclude body1="l_f_link5_4" body2="l_f_link5_pad"/>
+    <exclude body1="l_f_link5_tip" body2="l_f_link5_pad"/>
   </contact>
 </mujoco>

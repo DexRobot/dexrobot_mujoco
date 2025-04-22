@@ -5,201 +5,456 @@
     <exclude body1="right_hand_base" body2="r_f_link1_2"/>
     <exclude body1="right_hand_base" body2="r_f_link1_3"/>
     <exclude body1="right_hand_base" body2="r_f_link1_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link1_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link1_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link2_1"/>
     <exclude body1="right_hand_base" body2="r_f_link2_2"/>
     <exclude body1="right_hand_base" body2="r_f_link2_3"/>
     <exclude body1="right_hand_base" body2="r_f_link2_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link2_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link2_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link3_1"/>
     <exclude body1="right_hand_base" body2="r_f_link3_2"/>
     <exclude body1="right_hand_base" body2="r_f_link3_3"/>
     <exclude body1="right_hand_base" body2="r_f_link3_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link3_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link3_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link4_1"/>
     <exclude body1="right_hand_base" body2="r_f_link4_2"/>
     <exclude body1="right_hand_base" body2="r_f_link4_3"/>
     <exclude body1="right_hand_base" body2="r_f_link4_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link4_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link4_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link5_1"/>
     <exclude body1="right_hand_base" body2="r_f_link5_2"/>
     <exclude body1="right_hand_base" body2="r_f_link5_3"/>
     <exclude body1="right_hand_base" body2="r_f_link5_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link5_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_tip" body2="r_f_link5_pad"/>
   </contact>
 </mujocoinclude>

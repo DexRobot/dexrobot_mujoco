@@ -2,6 +2,8 @@ import os
 import argparse
 from pathlib import Path
 import yaml
+import xml.etree.ElementTree as ET
+import subprocess
 from dexrobot_mujoco.utils.mjcf_utils import (
     urdf2mjcf,
     get_body_names,
@@ -38,8 +40,12 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     output_dir.mkdir(exist_ok=True)
     output_path = output_dir / f"{urdf_path.stem}.xml"
 
-    # Convert URDF to MJCF
-    urdf2mjcf(str(urdf_path), str(output_dir))
+    # Convert URDF to MJCF:
+    # - Convert both pads and tips to bodies
+    # - Convert only pads to sites (for touch sensors)
+    urdf2mjcf(str(urdf_path), str(output_dir), 
+              fixed_to_body_pattern=r".*(pad|tip).*", 
+              fixed_to_site_pattern=r".*pad.*")
 
     # Add options and defaults
     apply_defaults(
@@ -101,15 +107,31 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     else:
         raise ValueError("Could not determine handedness of the hand model")
 
-    # Configure touch sensors
-    sensor_sites = {
-        name: {"pos": "0.025 0.003 0", "size": "0.01", "type": "sphere"} for name in fingertip_names
-    }
-    add_sites(str(output_path), sensor_sites)
+    # Get all site names from the converted MJCF
+    tree = ET.parse(str(output_path))
+    root = tree.getroot()
 
+    # Find pad sites that were created from fixed links (they start with "site_")
+    sensor_sites = {}
+    for site in root.findall(".//site"):
+        site_name = site.get("name")
+        if site_name.startswith("site_") and "pad" in site_name:
+            # Only attach touch sensors to pad sites (not tips)
+            
+            # Save the site name for sensor creation
+            body_name = site_name.replace("site_", "")
+            sensor_sites[body_name] = site_name
+
+    # Write back any modifications to sites
+    tree.write(str(output_path), encoding="utf-8", xml_declaration=True)
+    subprocess.run(["xmllint", "--format", str(output_path), "--output", str(output_path)])
+
+    # Configure touch sensors for the automatically created sites
     sensor_info = {
-        f"touch_{link}": {"site": f"site_{link}"} for link in sensor_sites.keys()
+        f"touch_{body_name}": {"site": site_name} for body_name, site_name in sensor_sites.items()
     }
+
+    # Add the touch sensors
     add_touch_sensors(str(output_path), sensor_info)
 
     # Add a base body to wrap everything else
