@@ -97,7 +97,12 @@
                                 <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                                <site name="site_r_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="1 0 0 1"/>
+                                <body name="r_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                                  <geom name="geom_r_f_link1_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                                  <geom name="geom_r_f_link1_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
                                 <site name="site_r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
                                 <geom name="col_r_f_link1_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 -0.001 0.027 -0.007 -0.001"/>
                               </body>
@@ -130,7 +135,12 @@
                                 <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                                <site name="site_r_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="1 0 0 1"/>
+                                <body name="r_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                                  <geom name="geom_r_f_link2_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                                  <geom name="geom_r_f_link2_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
                                 <site name="site_r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
                                 <geom name="col_r_f_link2_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                               </body>
@@ -163,7 +173,12 @@
                                 <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                                <site name="site_r_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="1 0 0 1"/>
+                                <body name="r_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                                  <geom name="geom_r_f_link3_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                                  <geom name="geom_r_f_link3_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
                                 <site name="site_r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
                                 <geom name="col_r_f_link3_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                               </body>
@@ -196,7 +211,12 @@
                                 <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                                <site name="site_r_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="1 0 0 1"/>
+                                <body name="r_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                                  <geom name="geom_r_f_link4_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                                  <geom name="geom_r_f_link4_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
                                 <site name="site_r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
                                 <geom name="col_r_f_link4_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                               </body>
@@ -229,7 +249,12 @@
                                 <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                                 <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                                <site name="site_r_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="1 0 0 1"/>
+                                <body name="r_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
+                                  <geom name="geom_r_f_link5_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
+                                  <geom name="geom_r_f_link5_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
                                 <site name="site_r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
                                 <geom name="col_r_f_link5_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                               </body>
@@ -290,201 +315,456 @@
     <exclude body1="right_hand_base" body2="r_f_link1_2"/>
     <exclude body1="right_hand_base" body2="r_f_link1_3"/>
     <exclude body1="right_hand_base" body2="r_f_link1_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link1_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link1_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link2_1"/>
     <exclude body1="right_hand_base" body2="r_f_link2_2"/>
     <exclude body1="right_hand_base" body2="r_f_link2_3"/>
     <exclude body1="right_hand_base" body2="r_f_link2_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link2_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link2_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link3_1"/>
     <exclude body1="right_hand_base" body2="r_f_link3_2"/>
     <exclude body1="right_hand_base" body2="r_f_link3_3"/>
     <exclude body1="right_hand_base" body2="r_f_link3_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link3_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link3_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link4_1"/>
     <exclude body1="right_hand_base" body2="r_f_link4_2"/>
     <exclude body1="right_hand_base" body2="r_f_link4_3"/>
     <exclude body1="right_hand_base" body2="r_f_link4_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link4_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link4_pad"/>
     <exclude body1="right_hand_base" body2="r_f_link5_1"/>
     <exclude body1="right_hand_base" body2="r_f_link5_2"/>
     <exclude body1="right_hand_base" body2="r_f_link5_3"/>
     <exclude body1="right_hand_base" body2="r_f_link5_4"/>
+    <exclude body1="right_hand_base" body2="r_f_link5_tip"/>
+    <exclude body1="right_hand_base" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link1_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link1_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link1_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link1_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link2_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link2_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link2_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link2_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link3_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link3_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link3_pad"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_1"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_2"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_3"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link3_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link4_3" body2="r_f_link4_4"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link4_tip"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link4_pad"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_1"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_2"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_3"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link4_pad" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_1" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_1" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_2" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_2" body2="r_f_link5_pad"/>
     <exclude body1="r_f_link5_3" body2="r_f_link5_4"/>
+    <exclude body1="r_f_link5_3" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_4" body2="r_f_link5_tip"/>
+    <exclude body1="r_f_link5_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_tip" body2="r_f_link5_pad"/>
   </contact>
 </mujoco>
