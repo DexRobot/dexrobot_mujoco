@@ -69,7 +69,7 @@ Usage
 
 Converting with Simplified Collisions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Use the ``--simplified-collision`` flag with ``convert_hand.py``:
+Use the ``--simplified-collision`` flag with ``convert_hand.py``. The conversion now supports both body elements (for physics simulation) and site elements (for sensors) for fixed links:
 
 .. code-block:: bash
 
@@ -140,6 +140,27 @@ Implementation
 ------------
 
 The collision system is implemented in several utility functions:
+
+Fixed-Link Conversion
+^^^^^^^^^^^^^^^^^^^^^^
+The enhanced URDF to MJCF conversion now supports dual representation of fixed links like finger pads and tips. For Isaac Gym compatibility, these elements are converted to bodies with geoms, while maintaining site elements for sensor attachments:
+
+.. code-block:: python
+
+    # In the urdf2mjcf function:
+    def urdf2mjcf(urdf_path, output_dir, 
+                  fixed_to_body_pattern=r".*(pad|tip).*", 
+                  fixed_to_site_pattern=r".*pad.*"):
+        """Convert URDF to MJCF with enhanced fixed link handling.
+        
+        Args:
+            urdf_path: Path to input URDF
+            output_dir: Output directory
+            fixed_to_body_pattern: Regex pattern for fixed links to convert to bodies
+            fixed_to_site_pattern: Regex pattern for fixed links to convert to sites
+        """
+        # Process fixed links matching patterns as both bodies (for physics) 
+        # and sites (for sensors)
 
 update_geom_collisions()
 ^^^^^^^^^^^^^^^^^^^^^^
