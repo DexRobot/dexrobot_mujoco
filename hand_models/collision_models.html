@@ -160,7 +160,7 @@
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
 <section id="converting-with-simplified-collisions">
 <h3>Converting with Simplified Collisions<a class="headerlink" href="#converting-with-simplified-collisions" title="Link to this heading"></a></h3>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">--simplified-collision</span></code> flag with <code class="docutils literal notranslate"><span class="pre">convert_hand.py</span></code>:</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">--simplified-collision</span></code> flag with <code class="docutils literal notranslate"><span class="pre">convert_hand.py</span></code>. The conversion now supports both body elements (for physics simulation) and site elements (for sensors) for fixed links:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/convert_hand.py<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--urdf<span class="w"> </span>hand.urdf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--simplified-collision<span class="w"> </span>config/collision_geoms/dexhand021_right_simplified.yaml
@@ -226,6 +226,26 @@
 <section id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading"></a></h2>
 <p>The collision system is implemented in several utility functions:</p>
+<section id="fixed-link-conversion">
+<h3>Fixed-Link Conversion<a class="headerlink" href="#fixed-link-conversion" title="Link to this heading"></a></h3>
+<p>The enhanced URDF to MJCF conversion now supports dual representation of fixed links like finger pads and tips. For Isaac Gym compatibility, these elements are converted to bodies with geoms, while maintaining site elements for sensor attachments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In the urdf2mjcf function:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
+              <span class="n">fixed_to_body_pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;.*(pad|tip).*&quot;</span><span class="p">,</span>
+              <span class="n">fixed_to_site_pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;.*pad.*&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert URDF to MJCF with enhanced fixed link handling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        urdf_path: Path to input URDF</span>
+<span class="sd">        output_dir: Output directory</span>
+<span class="sd">        fixed_to_body_pattern: Regex pattern for fixed links to convert to bodies</span>
+<span class="sd">        fixed_to_site_pattern: Regex pattern for fixed links to convert to sites</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Process fixed links matching patterns as both bodies (for physics)</span>
+    <span class="c1"># and sites (for sensors)</span>
+</pre></div>
+</div>
+</section>
 <section id="update-geom-collisions">
 <h3>update_geom_collisions()<a class="headerlink" href="#update-geom-collisions" title="Link to this heading"></a></h3>
 <p>Updates collision properties based on YAML configuration:</p>

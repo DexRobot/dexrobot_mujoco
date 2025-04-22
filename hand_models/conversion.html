@@ -231,8 +231,10 @@
 <span class="sd">        output_dir: Output directory for MJCF</span>
 <span class="sd">        simplified_collision_yaml: Path to collision config</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Basic conversion</span>
-    <span class="n">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+    <span class="c1"># Convert URDF to MJCF with enhanced fixed link handling</span>
+    <span class="n">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
+              <span class="n">fixed_to_body_pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;.*(pad|tip).*&quot;</span><span class="p">,</span>
+              <span class="n">fixed_to_site_pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;.*pad.*&quot;</span><span class="p">)</span>
 
     <span class="c1"># Add defaults</span>
     <span class="n">apply_defaults</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">defaults_path</span><span class="p">)</span>
@@ -258,7 +260,10 @@
 <h3>Key Functions<a class="headerlink" href="#key-functions" title="Link to this heading"></a></h3>
 <section id="urdf2mjcf">
 <h4>urdf2mjcf()<a class="headerlink" href="#urdf2mjcf" title="Link to this heading"></a></h4>
-<p>Handles basic URDF to MJCF conversion using MuJoCo’s built-in converter.</p>
+<p>Handles URDF to MJCF conversion using MuJoCo’s built-in converter with enhanced fixed link handling.</p>
+<p>By default, MuJoCo’s URDF converter ignores fixed links or converts them to mere geoms.
+This function extends the conversion by allowing fixed links to be explicitly converted
+to either MuJoCo bodies (with geoms) or MuJoCo sites, based on link name patterns.</p>
 </section>
 <section id="add-position-actuators">
 <h4>add_position_actuators()<a class="headerlink" href="#add-position-actuators" title="Link to this heading"></a></h4>

@@ -82,6 +82,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 
 
@@ -106,21 +108,212 @@
 
 <div class="viewcode-block" id="urdf2mjcf">
 <a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.urdf2mjcf">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">mjcf_dir</span><span class="p">,</span> <span class="n">mesh_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a URDF file and save it to an MJCF XML file.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">urdf2mjcf</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">mjcf_dir</span><span class="p">,</span> <span class="n">mesh_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixed_to_body_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixed_to_site_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a URDF file and save it to an MJCF XML file with enhanced fixed joint handling.</span>
+<span class="sd">    </span>
+<span class="sd">    By default, MuJoCo&#39;s URDF converter ignores fixed links or converts them to mere geoms.</span>
+<span class="sd">    This function extends the conversion by allowing fixed links to be explicitly converted</span>
+<span class="sd">    to either MuJoCo bodies (with geoms) or MuJoCo sites, based on link name patterns.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        urdf_path (str): The path to the URDF file.</span>
 <span class="sd">        mjcf_dir (str): The directory to save the output MJCF file.</span>
 <span class="sd">        mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.</span>
+<span class="sd">        fixed_to_body_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo bodies.</span>
+<span class="sd">        fixed_to_site_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo sites.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># First convert using MuJoCo&#39;s native converter</span>
     <span class="k">if</span> <span class="n">mesh_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjModel</span><span class="o">.</span><span class="n">from_xml_path</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjModel</span><span class="o">.</span><span class="n">from_xml_path</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">,</span> <span class="n">load_meshes</span><span class="p">(</span><span class="n">mesh_dir</span><span class="p">))</span>
-    <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_saveLastXML</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mjcf_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">,</span> <span class="n">m</span>
-    <span class="p">)</span></div>
+
+    <span class="n">output_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mjcf_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.xml&quot;</span>
+    <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_saveLastXML</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+    <span class="c1"># If no patterns specified, we&#39;re done</span>
+    <span class="k">if</span> <span class="n">fixed_to_body_pattern</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fixed_to_site_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Otherwise, we need to process the URDF and MJCF to convert fixed links</span>
+
+    <span class="c1"># Parse the original URDF to find fixed links</span>
+    <span class="n">urdf_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">urdf_path</span><span class="p">)</span>
+    <span class="n">urdf_root</span> <span class="o">=</span> <span class="n">urdf_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find all fixed joints and their child links</span>
+    <span class="n">fixed_joints</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">urdf_root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//joint&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;fixed&quot;</span><span class="p">:</span>
+            <span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">joint</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;parent&quot;</span><span class="p">:</span>
+                    <span class="n">parent</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;child&quot;</span><span class="p">:</span>
+                    <span class="n">child</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">parent</span> <span class="ow">and</span> <span class="n">child</span><span class="p">:</span>
+                <span class="n">joint_info</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">parent</span><span class="p">,</span>
+                    <span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">child</span><span class="p">,</span>
+                    <span class="s2">&quot;xyz&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;rpy&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;as_body&quot;</span><span class="p">:</span> <span class="n">fixed_to_body_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">fixed_to_body_pattern</span><span class="p">,</span> <span class="n">child</span><span class="p">),</span>
+                    <span class="s2">&quot;as_site&quot;</span><span class="p">:</span> <span class="n">fixed_to_site_pattern</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">fixed_to_site_pattern</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+                <span class="p">}</span>
+                
+                <span class="c1"># Extract origin information if available</span>
+                <span class="n">origin</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;origin&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;xyz&quot;</span> <span class="ow">in</span> <span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                        <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xyz&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;rpy&quot;</span> <span class="ow">in</span> <span class="n">origin</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                        <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rpy&quot;</span><span class="p">)</span>
+                
+                <span class="c1"># Only add if we need to convert this link</span>
+                <span class="k">if</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;as_body&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;as_site&quot;</span><span class="p">]:</span>
+                    <span class="n">fixed_joints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">joint_info</span><span class="p">)</span>
+
+    <span class="c1"># If no fixed links match our criteria, we&#39;re done</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fixed_joints</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No fixed links to convert&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Parse the converted MJCF</span>
+    <span class="n">mjcf_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+    <span class="n">mjcf_root</span> <span class="o">=</span> <span class="n">mjcf_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="c1"># Find all bodies and create a map from body name to body element</span>
+    <span class="n">body_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">body</span> <span class="ow">in</span> <span class="n">mjcf_root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//body&quot;</span><span class="p">):</span>
+        <span class="n">body_map</span><span class="p">[</span><span class="n">body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">body</span>
+
+    <span class="c1"># Convert fixed links as specified by patterns</span>
+    <span class="k">for</span> <span class="n">joint_info</span> <span class="ow">in</span> <span class="n">fixed_joints</span><span class="p">:</span>
+        <span class="n">parent_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span>
+        <span class="n">child_name</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">parent_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">body_map</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parent body </span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2"> not found in MJCF for fixed joint to </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+            
+        <span class="n">parent_body</span> <span class="o">=</span> <span class="n">body_map</span><span class="p">[</span><span class="n">parent_name</span><span class="p">]</span>
+
+        <span class="c1"># Get link element from URDF for geometry information</span>
+        <span class="n">link_elem</span> <span class="o">=</span> <span class="n">urdf_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.//link[@name=&#39;</span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">&#39;]&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">link_elem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> not found in URDF, but was referenced by a fixed joint&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+            
+        <span class="c1"># Parse visual geometry from URDF</span>
+        <span class="n">visual</span> <span class="o">=</span> <span class="n">link_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//visual/geometry&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Common position and orientation attributes for both body and site</span>
+        <span class="n">pos_attrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">]:</span>
+            <span class="n">pos_attrs</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;xyz&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">]:</span>
+            <span class="c1"># Convert RPY (roll-pitch-yaw Euler angles) to quaternion</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Parse RPY string to array of floats</span>
+                <span class="n">rpy</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;rpy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+                
+                <span class="c1"># Use scipy&#39;s Rotation to convert from Euler angles to quaternion</span>
+                <span class="c1"># URDF uses &#39;xyz&#39; Euler angle sequence</span>
+                <span class="n">rotation</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="n">rpy</span><span class="p">)</span>
+                
+                <span class="c1"># Get quaternion with scalar first (w,x,y,z), which matches MuJoCo&#39;s format</span>
+                <span class="n">quat</span> <span class="o">=</span> <span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(</span><span class="n">scalar_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                
+                <span class="c1"># Format as space-separated string for MuJoCo</span>
+                <span class="n">pos_attrs</span><span class="p">[</span><span class="s2">&quot;quat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">quat</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted RPY </span><span class="si">{</span><span class="n">joint_info</span><span class="p">[</span><span class="s1">&#39;rpy&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> to quaternion </span><span class="si">{</span><span class="n">pos_attrs</span><span class="p">[</span><span class="s1">&#39;quat&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to convert RPY to quaternion: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rotation information for </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> will be lost&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Process geometry information</span>
+        <span class="n">geom_attrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">visual</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Get geometry type and properties</span>
+            <span class="c1"># MuJoCo uses half-sizes while URDF uses full sizes, so we need to convert</span>
+            <span class="k">if</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">box</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Box geometry for link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> missing required &#39;size&#39; attribute&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                
+                <span class="c1"># Parse box size and halve the dimensions for MuJoCo</span>
+                <span class="n">full_size</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+                <span class="n">half_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">full_size</span><span class="p">]</span>
+                
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;box&quot;</span>
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">half_size</span><span class="p">))</span>
+                
+            <span class="k">elif</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;sphere&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sphere</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;sphere&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sphere</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sphere geometry for link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> missing required &#39;radius&#39; attribute&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                
+                <span class="c1"># For spheres, MuJoCo size is the same as URDF radius</span>
+                <span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">))</span>
+                
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sphere&quot;</span>
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;cylinder&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cylinder</span> <span class="o">=</span> <span class="n">visual</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;cylinder&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;radius&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cylinder</span><span class="o">.</span><span class="n">attrib</span> <span class="ow">or</span> <span class="s2">&quot;length&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cylinder</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cylinder geometry for link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> missing required attributes&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                
+                <span class="c1"># For cylinders, we keep radius the same but halve the length</span>
+                <span class="n">radius</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;radius&quot;</span><span class="p">))</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Half the length</span>
+                
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cylinder&quot;</span>
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">radius</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown geometry type for link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">, using defaults&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Get color if available</span>
+            <span class="n">material</span> <span class="o">=</span> <span class="n">link_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//visual/material/color&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">material</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;rgba&quot;</span> <span class="ow">in</span> <span class="n">material</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">geom_attrs</span><span class="p">[</span><span class="s2">&quot;rgba&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">material</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rgba&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Convert to body if specified</span>
+        <span class="k">if</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;as_body&quot;</span><span class="p">]:</span>
+            <span class="c1"># Create body element with position and orientation</span>
+            <span class="n">body_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">child_name</span><span class="p">,</span> <span class="o">**</span><span class="n">pos_attrs</span><span class="p">}</span>  <span class="c1"># Include pos and quat</span>
+            <span class="n">child_body</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parent_body</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="n">body_attrs</span><span class="p">)</span>
+            
+            <span class="c1"># Add geom to body if we have geometry info</span>
+            <span class="k">if</span> <span class="n">geom_attrs</span><span class="p">:</span>
+                <span class="n">geom_attrs_with_name</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;geom_</span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">geom_attrs</span><span class="p">}</span>
+                <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">child_body</span><span class="p">,</span> <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="n">geom_attrs_with_name</span><span class="p">)</span>
+                
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted fixed link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> to body in </span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2"> with pos=</span><span class="si">{</span><span class="n">pos_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> quat=</span><span class="si">{</span><span class="n">pos_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;quat&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Add to body map in case another link has this as parent</span>
+            <span class="n">body_map</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child_body</span>
+        
+        <span class="c1"># Convert to site if specified</span>
+        <span class="k">if</span> <span class="n">joint_info</span><span class="p">[</span><span class="s2">&quot;as_site&quot;</span><span class="p">]:</span>
+            <span class="c1"># Create site attributes with position, orientation and geometry</span>
+            <span class="n">site_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;site_</span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">pos_attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">geom_attrs</span><span class="p">}</span>
+            
+            <span class="c1"># Create and add the site element to the parent body</span>
+            <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parent_body</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span><span class="p">,</span> <span class="n">site_attrs</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converted fixed link </span><span class="si">{</span><span class="n">child_name</span><span class="si">}</span><span class="s2"> to site in </span><span class="si">{</span><span class="n">parent_name</span><span class="si">}</span><span class="s2"> with pos=</span><span class="si">{</span><span class="n">pos_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> quat=</span><span class="si">{</span><span class="n">pos_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;quat&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Write the modified MJCF back to the file</span>
+    <span class="n">mjcf_tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Format the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;xmllint&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;--output&quot;</span><span class="p">,</span> <span class="n">output_path</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="get_joint_names">
@@ -525,10 +718,12 @@
             <span class="k">if</span> <span class="s2">&quot;file&quot;</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="c1"># Get absolute path considering meshdir</span>
                 <span class="n">mesh_file</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
-                <span class="n">abs_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">meshdir</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">))</span>
+                <span class="n">original_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">meshdir</span><span class="p">,</span> <span class="n">mesh_file</span><span class="p">)</span>
+                <span class="n">abs_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">original_mesh_path</span><span class="p">)</span>
                 <span class="c1"># Convert to relative path from output XML</span>
                 <span class="n">rel_mesh_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">abs_mesh_path</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
                 <span class="n">mesh</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">rel_mesh_path</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updated mesh path: </span><span class="si">{</span><span class="n">mesh_file</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">abs_mesh_path</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">rel_mesh_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Update mesh paths in both parent and child assets</span>
     <span class="n">parent_asset</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;asset&quot;</span><span class="p">)</span>
