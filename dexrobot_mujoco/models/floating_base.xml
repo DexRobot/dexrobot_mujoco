@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujoco model="floating_base">
   <worldbody>
-    <body name="floating_base">
+    <body name="floating_base_root">
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01" />
-      <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
+      <body name="floating_base" pos="0 0 0">
+        <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01" />
+        <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
       <body name="ARTx_child" pos="0 0 0">
         <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
         <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
@@ -24,6 +26,7 @@
             </body>
           </body>
         </body>
+      </body>
       </body>
     </body>
   </worldbody>
