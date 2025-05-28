@@ -14,6 +14,7 @@ from dexrobot_mujoco.utils.mjcf_utils import (
     apply_defaults,
     exclude_self_collisions,
     update_geom_collisions,
+    add_joint_limits,
 )
 
 
@@ -46,6 +47,9 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     urdf2mjcf(str(urdf_path), str(output_dir), 
               fixed_to_body_pattern=r".*(pad|tip).*", 
               fixed_to_site_pattern=r".*pad.*")
+
+    # Add limited="true" to all joints with range (required for Isaac Gym)
+    add_joint_limits(str(output_path))
 
     # Add options and defaults
     apply_defaults(

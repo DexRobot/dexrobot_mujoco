@@ -963,3 +963,36 @@ def update_geom_collisions(xml_file_path, collision_yaml_path):
     subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
 
     logger.info(f"Updated collision properties in {xml_file_path}")
+
+
+def add_joint_limits(xml_file_path):
+    """Add limited="true" attribute to all joints that have range specified.
+    
+    This is required for Isaac Gym to properly recognize joint limits.
+    MuJoCo's native URDF converter doesn't add the limited attribute even when 
+    range is specified.
+    
+    Args:
+        xml_file_path (str): Path to the MJCF XML file to modify
+    """
+    # Parse the XML file
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+    
+    joints_modified = 0
+    
+    # Find all joints with range attribute and add limited="true"
+    for joint in root.findall(".//joint"):
+        if joint.get("range") is not None and joint.get("limited") is None:
+            joint.set("limited", "true")
+            joints_modified += 1
+            joint_name = joint.get("name", "unnamed")
+            logger.info(f"Added limited='true' to joint: {joint_name}")
+    
+    # Save the modified XML
+    tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
+    
+    # Format the XML file
+    subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
+    
+    logger.info(f"Added limited='true' to {joints_modified} joints in {xml_file_path}")

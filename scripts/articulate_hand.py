@@ -4,7 +4,7 @@ import os
 import argparse
 import numpy as np
 from scipy.spatial.transform import Rotation as R
-from dexrobot_mujoco.utils.mjcf_utils import articulate, add_ground
+from dexrobot_mujoco.utils.mjcf_utils import articulate, add_ground, add_joint_limits
 
 def quaternion_from_euler(roll, pitch, yaw):
     """Convert Euler angles to quaternion."""
@@ -68,6 +68,9 @@ def main():
         pos=pos_str,
         quat=quat_str
     )
+
+    # Add limited="true" to all joints with range (required for Isaac Gym)
+    add_joint_limits(args.output)
 
     # Optionally add ground
     if args.add_ground:
