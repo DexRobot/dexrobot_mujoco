@@ -243,26 +243,26 @@
     <position name="act_ARRx" joint="ARRx" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
     <position name="act_ARRy" joint="ARRy" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
     <position name="act_ARRz" joint="ARRz" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
-    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="20" kv="1" ctrlrange="0 2.2" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="20" kv="1" ctrlrange="-0.0001 0.0001" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="20" kv="1" ctrlrange="0 0.6" forcerange="-20 20"/>
+    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="1000" kv="50" ctrlrange="0 2.2" forcerange="-200 200"/>
+    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="1000" kv="50" ctrlrange="-0.0001 0.0001" forcerange="-200 200"/>
+    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200"/>
+    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="1000" kv="50" ctrlrange="0 0.6" forcerange="-200 200"/>
   </actuator>
   <asset>
     <mesh name="right_hand_base" file="../meshes/dexhand021_simplified/right_hand_base.STL"/>

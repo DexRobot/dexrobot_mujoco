@@ -60,41 +60,41 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     actuator_config = {
         # Bend joints
         r"[lr]_f_joint[1-5]_[2-4]": {
-            "kp": "20",
-            "kv": "0.1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 1.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
         # Rotation/spread joints
         r"[lr]_f_joint1_1": {  # thumb
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 2.2",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
         r"[lr]_f_joint2_1": {  # index
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
         r"[lr]_f_joint3_1": {  # middle
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "-0.0001 0.0001",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
         r"[lr]_f_joint4_1": {  # ring
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
         r"[lr]_f_joint5_1": {  # pinky
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.6",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
         },
     }
     add_position_actuators(str(output_path), actuator_config)
