@@ -113,7 +113,7 @@
                         </body>
                         <body name="r_f_link2_1" pos="0.006966 0.034912 0.1644" quat="0.707105 0 -0.707108 0">
                           <inertial pos="0.00700207 9.3578e-08 0.000968546" quat="0.602139 0.37074 0.370772 0.602087" mass="0.00409704" diaginertia="3.18125e-07 2.71726e-07 2.04208e-07"/>
-                          <joint name="r_f_joint2_1" pos="0 0 0" axis="0 0 1" range="0 0.6" actuatorfrcrange="-10 10" limited="true"/>
+                          <joint name="r_f_joint2_1" pos="0 0 0" axis="0 0 1" range="0 0.3" actuatorfrcrange="-10 10" limited="true"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.79216 0.81961 0.93333 1" mesh="r_f_link2_1"/>
                           <geom type="mesh" rgba="0.79216 0.81961 0.93333 1" mesh="r_f_link2_1" contype="0" conaffinity="0" group="1" density="0"/>
                           <body name="r_f_link2_2" pos="0.017 0 0" quat="0.707105 -0.707108 0 0">
@@ -189,7 +189,7 @@
                         </body>
                         <body name="r_f_link4_1" pos="0.006966 -0.013688 0.1644" quat="-2.59734e-06 0.707105 2.59735e-06 0.707108">
                           <inertial pos="0.00700206 -9.456e-08 -0.000968554" quat="0.370772 0.602087 0.602139 0.37074" mass="0.00409704" diaginertia="3.18126e-07 2.71726e-07 2.04209e-07"/>
-                          <joint name="r_f_joint4_1" pos="0 0 0" axis="0 0 1" range="0 0.6" actuatorfrcrange="-10 10" limited="true"/>
+                          <joint name="r_f_joint4_1" pos="0 0 0" axis="0 0 1" range="0 0.3" actuatorfrcrange="-10 10" limited="true"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.79216 0.81961 0.93333 1" mesh="r_f_link4_1"/>
                           <geom type="mesh" rgba="0.79216 0.81961 0.93333 1" mesh="r_f_link4_1" contype="0" conaffinity="0" group="1" density="0"/>
                           <body name="r_f_link4_2" pos="0.017 0 0" quat="0.707105 0.707108 0 0">
