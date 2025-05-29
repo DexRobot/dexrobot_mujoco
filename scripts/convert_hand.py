@@ -15,6 +15,7 @@ from dexrobot_mujoco.utils.mjcf_utils import (
     exclude_self_collisions,
     update_geom_collisions,
     add_joint_limits,
+    add_compiler_angle_radian,
 )
 
 
@@ -50,6 +51,9 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
 
     # Add limited="true" to all joints with range (required for Isaac Gym)
     add_joint_limits(str(output_path))
+    
+    # Add angle="radian" to compiler for consistent angle interpretation
+    add_compiler_angle_radian(str(output_path))
 
     # Add options and defaults
     apply_defaults(

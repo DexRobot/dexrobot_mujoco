@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujoco model="floating_base_dexhand021_right">
-  <compiler meshdir=""/>
   <size njmax="1000" nconmax="1000"/>
   <default>
     <joint damping="1"/>
@@ -10,6 +9,7 @@
   <visual>
     <global offwidth="1920" offheight="1080"/>
   </visual>
+  <compiler angle="radian" meshdir=""/>
   <worldbody>
     <body name="floating_base_root">
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01"/>

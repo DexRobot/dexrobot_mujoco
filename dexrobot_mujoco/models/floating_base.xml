@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujoco model="floating_base">
+  <compiler angle="radian"/>
   <worldbody>
     <body name="floating_base_root">
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01"/>
