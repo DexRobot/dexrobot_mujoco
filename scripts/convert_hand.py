@@ -10,6 +10,7 @@ from dexrobot_mujoco.utils.mjcf_utils import (
     add_trunk_body,
     add_position_actuators,
     add_touch_sensors,
+    add_ts_touch_sensors,
     add_sites,
     apply_defaults,
     exclude_self_collisions,
@@ -134,12 +135,15 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     subprocess.run(["xmllint", "--format", str(output_path), "--output", str(output_path)])
 
     # Configure touch sensors for the automatically created sites
-    sensor_info = {
-        f"touch_{body_name}": {"site": site_name} for body_name, site_name in sensor_sites.items()
-    }
-
-    # Add the touch sensors
-    add_touch_sensors(str(output_path), sensor_info)
+    if enable_ts_sensor:
+        # Add TS touch sensors (rangefinder + user sensors)
+        add_ts_touch_sensors(str(output_path), sensor_sites)
+    else:
+        # Add regular touch sensors
+        sensor_info = {
+            f"touch_{body_name}": {"site": site_name} for body_name, site_name in sensor_sites.items()
+        }
+        add_touch_sensors(str(output_path), sensor_info)
 
     # Add a base body to wrap everything else
     add_trunk_body(str(output_path), f"{handedness}_hand_base")

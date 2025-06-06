@@ -347,6 +347,96 @@ def add_touch_sensors(xml_path, sensor_info):
     subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
 
 
+def add_ts_touch_sensors(xml_path, sensor_sites):
+    """
+    Add TS touch sensors (rangefinder + user sensors) and visual components to the given MJCF XML file.
+    Each TS sensor consists of a rangefinder sensor, a user sensor with 11 dimensions, and red visual meshes.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+        sensor_sites (dict): Dictionary mapping body names to site names for TS sensors.
+            key (str): The body name.
+            value (str): The site name for the TS sensor.
+
+    """
+    # Load the MJCF XML file
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    # Add TS sensor mesh assets
+    asset_element = root.find("asset")
+    if asset_element is not None:
+        # Check if TS meshes are already added
+        existing_meshes = [mesh.get("name") for mesh in asset_element.findall("mesh")]
+        ts_meshes = ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
+        
+        for i, mesh_name in enumerate(ts_meshes, 1):
+            if mesh_name not in existing_meshes:
+                mesh_element = ET.SubElement(asset_element, "mesh", name=mesh_name)
+                mesh_element.set("file", f"F{i}b.stl")
+                mesh_element.set("scale", "0.01 0.01 0.01")
+
+    # Find or create the sensor element
+    sensor_element = root.find("sensor")
+    if sensor_element is None:
+        sensor_element = ET.SubElement(root, "sensor")
+
+    # Process each site and add TS sensors and visual components
+    for body_name, site_name in sensor_sites.items():
+        # Create rangefinder sensor
+        rf_name = f"rf_{body_name}"
+        rangefinder = ET.SubElement(sensor_element, "rangefinder", name=rf_name)
+        rangefinder.set("site", site_name)
+        rangefinder.set("cutoff", "0.1")
+        
+        # Create user sensor with 11 dimensions for TS-F-A sensor
+        user_name = f"TS-F-A-{body_name}"
+        user_sensor = ET.SubElement(sensor_element, "user", name=user_name)
+        user_sensor.set("dim", "11")
+
+        # Add visual TS sensor components to the finger pad body
+        # Find the finger pad body (e.g., r_f_link1_pad)
+        pad_body = None
+        for body in root.iter("body"):
+            if body.get("name") == body_name:
+                pad_body = body
+                break
+        
+        if pad_body is not None:
+            # Create a wrapper body for TS sensor positioning like in dextactisim
+            # This positions the TS sensors relative to the finger pad surface
+            ts_wrapper = ET.SubElement(pad_body, "body", name=f"ts_wrapper_{body_name}")
+            ts_wrapper.set("pos", "0.005 0.0 0.003")  # Position on pad surface
+            ts_wrapper.set("quat", "0.7071 0.0 0.7071 0.0")  # Rotate to align with pad
+            
+            # Add TS sensor visual meshes as child bodies with red color
+            # Position them relative to the wrapper based on dextactisim reference
+            ts_positions = [
+                ("f1", "0 0 0.002"),
+                ("f2", "0 0 0.0019"), 
+                ("f3", "0.0005 0 0.002"),
+                ("f4", "0 0 0.0025"),
+                ("f5", "-0.00001 0 0.0029"),
+                ("f6", "0.0005 0 0.0029"),
+                ("f7", "0 0 0.0014")
+            ]
+            
+            for mesh_name, pos in ts_positions:
+                ts_body = ET.SubElement(ts_wrapper, "body", name=f"ts_{mesh_name}_{body_name}")
+                ts_body.set("pos", pos)
+                
+                # Add red visual geom for TS sensor - make it visible
+                ts_geom = ET.SubElement(ts_body, "geom", type="mesh")
+                ts_geom.set("rgba", "1 0.3 0.3 1")  # Bright red color
+                ts_geom.set("mesh", mesh_name)
+
+    # Save the modified MJCF XML back to the file
+    tree.write(xml_path, encoding="utf-8", xml_declaration=True)
+
+    # Call xmllint to prettify the XML file
+    subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
+
+
 def add_sites(xml_file_path, site_info):
     """
     Add sites to specific bodies in the MJCF XML file.
