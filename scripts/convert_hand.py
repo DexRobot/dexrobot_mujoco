@@ -17,7 +17,7 @@ from dexrobot_mujoco.utils.mjcf_utils import (
 )
 
 
-def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None):
+def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None, enable_ts_sensor=False):
     """Convert URDF to MJCF and add necessary configurations for the hand model.
 
     Args:
@@ -25,6 +25,7 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
         output_dir (str, optional): Output directory for MJCF file. If not provided, uses default path.
         simplified_collision_yaml (str): Path to YAML file containing simplified collision model.
             If provided, this will be used instead of generating full collision model.
+        enable_ts_sensor (bool): If True, generate model with ts_sensor suffix.
     """
     # Set up paths
     current_dir = Path(__file__).parent
@@ -38,14 +39,20 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     # Set up output paths
     output_dir = current_dir / "../dexrobot_mujoco/models"
     output_dir.mkdir(exist_ok=True)
-    output_path = output_dir / f"{urdf_path.stem}.xml"
+    
+    # Add ts_sensor suffix if enabled
+    base_name = urdf_path.stem
+    if enable_ts_sensor:
+        base_name = f"{base_name}_ts_sensor"
+    output_path = output_dir / f"{base_name}.xml"
 
     # Convert URDF to MJCF:
     # - Convert both pads and tips to bodies
     # - Convert only pads to sites (for touch sensors)
     urdf2mjcf(str(urdf_path), str(output_dir), 
               fixed_to_body_pattern=r".*(pad|tip).*", 
-              fixed_to_site_pattern=r".*pad.*")
+              fixed_to_site_pattern=r".*pad.*",
+              enable_ts_sensor=enable_ts_sensor)
 
     # Add options and defaults
     apply_defaults(
@@ -160,10 +167,11 @@ def main():
     parser = argparse.ArgumentParser(description="Convert hand URDF to MJCF format")
     parser.add_argument("--urdf", type=str, help="Input URDF file path")
     parser.add_argument("--simplified-collisions", type=str, help="Path to simplified collision YAML file")
+    parser.add_argument("--enable-ts-sensor", action="store_true", help="Enable ts_sensor suffix for generated model")
 
     args = parser.parse_args()
 
-    convert_hand_urdf(args.urdf, simplified_collision_yaml=args.simplified_collisions)
+    convert_hand_urdf(args.urdf, simplified_collision_yaml=args.simplified_collisions, enable_ts_sensor=args.enable_ts_sensor)
 
 
 if __name__ == "__main__":

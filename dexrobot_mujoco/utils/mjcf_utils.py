@@ -25,7 +25,7 @@ def load_meshes(mesh_dir):
     return meshes
 
 
-def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fixed_to_site_pattern=None):
+def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fixed_to_site_pattern=None, enable_ts_sensor=False):
     """Load a URDF file and save it to an MJCF XML file with enhanced fixed joint handling.
     
     By default, MuJoCo's URDF converter ignores fixed links or converts them to mere geoms.
@@ -38,6 +38,7 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fi
         mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.
         fixed_to_body_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo bodies.
         fixed_to_site_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo sites.
+        enable_ts_sensor (bool): If True, generate model with ts_sensor suffix.
     """
     # First convert using MuJoCo's native converter
     if mesh_dir is None:
@@ -45,7 +46,11 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fi
     else:
         m = mujoco.MjModel.from_xml_path(urdf_path, load_meshes(mesh_dir))
 
-    output_path = f"{mjcf_dir}/{os.path.splitext(os.path.basename(urdf_path))[0]}.xml"
+    # Generate output filename with ts_sensor suffix if enabled
+    base_name = os.path.splitext(os.path.basename(urdf_path))[0]
+    if enable_ts_sensor:
+        base_name = f"{base_name}_ts_sensor"
+    output_path = f"{mjcf_dir}/{base_name}.xml"
     mujoco.mj_saveLastXML(output_path, m)
 
     # If no patterns specified, we're done
