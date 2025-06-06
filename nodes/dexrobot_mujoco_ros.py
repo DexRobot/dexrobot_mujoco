@@ -1,7 +1,7 @@
 from ros_compat import ROSNode
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float32MultiArray, Float64MultiArray, MultiArrayDimension
 from std_srvs.srv import Trigger
 import cv2
 
@@ -41,6 +41,7 @@ class MujocoJointController(ROSNode):
         enable_vr=False,
         renderer_dimension=None,
         seed=0,
+        enable_ts_sensor=False,
     ):
         """
         Node for controlling the joints of a Mujoco model using ROS2 messages.
@@ -64,6 +65,8 @@ class MujocoJointController(ROSNode):
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
             renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
+            enable_ts_sensor (bool): Whether to enable TS sensor data publishing. When enabled, will publish to 
+                /left_hand/touch_sensors and/or /right_hand/touch_sensors topics.
         """
         super().__init__("mujoco_joint_controller")
         self.logger.info("Mujoco Joint Controller Node has been started.")
@@ -79,6 +82,7 @@ class MujocoJointController(ROSNode):
         self.output_mp4_path = output_mp4_path
         self.output_bag_path = output_bag_path
         self.enable_vr = enable_vr
+        self.enable_ts_sensor = enable_ts_sensor
 
         # Load Mujoco model
         self.mj = MJControlVRWrapper(
@@ -87,6 +91,16 @@ class MujocoJointController(ROSNode):
             renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,
         )
+
+        # Determine hand type(s) from model path for TS sensor topics
+        self.hand_types = []
+        model_name = os.path.basename(self.model_path).lower()
+        if 'left' in model_name:
+            self.hand_types.append('left')
+        if 'right' in model_name:
+            self.hand_types.append('right')
+        if not self.hand_types:  # If neither left nor right detected, assume both
+            self.hand_types = ['left', 'right']
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -171,6 +185,13 @@ class MujocoJointController(ROSNode):
         ]
         self.tracked_joint_states_ref = {name: 0.0 for name in self.tracked_joint_names}
 
+        # Setup TS sensor mapping if enabled
+        if self.enable_ts_sensor:
+            self.logger.info("TS sensor publishing enabled")
+            self._setup_ts_sensor_mapping()
+        else:
+            self.logger.info("TS sensor publishing disabled")
+
         # timer, publisher and buffer for publishing / logging data
         if self.output_formats:
             self.output_timer = self.create_timer(0.01, self.output_data)
@@ -186,10 +207,21 @@ class MujocoJointController(ROSNode):
             self.touch_sensor_publisher = self.create_publisher(
                 Float32MultiArray, "touch_sensors", 10
             )
+            
+            # Setup TS sensor publishers if enabled
+            self.ts_sensor_publishers = {}
+            if self.enable_ts_sensor:
+                for hand_type in self.hand_types:
+                    topic_name = f"/{hand_type}_hand/touch_sensors"
+                    self.ts_sensor_publishers[hand_type] = self.create_publisher(
+                        Float64MultiArray, topic_name, 10
+                    )
+                    self.logger.info(f"Created TS sensor publisher for topic: {topic_name}")
         else:
             self.joint_state_publisher = None
             self.body_pose_publisher = None
             self.touch_sensor_publisher = None
+            self.ts_sensor_publishers = {}
         if "csv" in self.output_formats:
             if self.output_csv_path is not None:
                 self.csv_columns = [
@@ -357,6 +389,10 @@ class MujocoJointController(ROSNode):
             touch_data_array.data = all_sensor_data
             self.touch_sensor_publisher.publish(touch_data_array)
 
+            # Publish TS sensor data if enabled
+            if self.enable_ts_sensor:
+                self._publish_ts_sensor_data()
+
         if 'csv' in self.output_formats:
             self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
             self.csv_data_count += 1
@@ -420,6 +456,123 @@ class MujocoJointController(ROSNode):
             self.logger.info("Stopped the Flask server.")
         self.logger.info('Simulation stopped.')
 
+
+    def _setup_ts_sensor_mapping(self):
+        """Setup finger mapping for TS sensors."""
+        # Finger mapping consistent with pyzlg_hand
+        self.finger_mapping = {
+            "th": 0,  # Thumb  
+            "ff": 1,  # Index finger
+            "mf": 2,  # Middle finger
+            "rf": 3,  # Ring finger
+            "lf": 4,  # Little finger
+        }
+        
+        # Map MuJoCo sensor names to finger indices
+        self.ts_sensor_mapping = {}
+        
+        # First, detect which hands actually have TS sensors in the model
+        available_hand_types = []
+        for hand_type in self.hand_types:
+            hand_prefix = 'l' if hand_type == 'left' else 'r'
+            test_sensor_name = f"TS-F-A-{hand_prefix}_f_link1_pad"
+            try:
+                self.mj.model.sensor(test_sensor_name).id
+                available_hand_types.append(hand_type)
+                self.logger.info(f"Found TS sensors for {hand_type} hand")
+            except:
+                self.logger.info(f"No TS sensors found for {hand_type} hand")
+        
+        # Only setup mapping for hands that actually have TS sensors
+        for hand_type in available_hand_types:
+            hand_prefix = 'l' if hand_type == 'left' else 'r'
+            self.ts_sensor_mapping[hand_type] = {}
+            
+            # Map finger numbers (1-5) to finger names (th, ff, mf, rf, lf)
+            finger_names = ['th', 'ff', 'mf', 'rf', 'lf']
+            for i, finger_name in enumerate(finger_names):
+                finger_num = i + 1
+                
+                # TS sensor names (user sensors with 11 dimensions)
+                ts_sensor_name = f"TS-F-A-{hand_prefix}_f_link{finger_num}_pad"
+                # Rangefinder sensors for distance measurement
+                rf_sensor_name = f"rf_{hand_prefix}_f_link{finger_num}_pad"
+                
+                try:
+                    ts_sensor_id = self.mj.model.sensor(ts_sensor_name).id
+                    rf_sensor_id = self.mj.model.sensor(rf_sensor_name).id
+                    
+                    self.ts_sensor_mapping[hand_type][finger_name] = {
+                        'ts_sensor_id': ts_sensor_id,
+                        'ts_sensor_addr': self.mj.model.sensor_adr[ts_sensor_id],
+                        'rf_sensor_id': rf_sensor_id,
+                        'finger_idx': i
+                    }
+                except Exception as e:
+                    self.logger.info(f"Could not find TS sensors for {hand_type} hand finger {finger_name}: {e}")
+        
+        # Update hand_types to only include hands with TS sensors
+        self.hand_types = available_hand_types
+
+    def _publish_ts_sensor_data(self):
+        """Publish TS sensor data in pyzlg_hand format."""
+        current_time = time.time()  # Use system time
+        
+        for hand_type in self.hand_types:
+            if hand_type not in self.ts_sensor_mapping:
+                continue
+                
+            # Create Float64MultiArray message
+            touch_msg = Float64MultiArray()
+            touch_msg.layout.dim = [
+                MultiArrayDimension(label="fingers", size=5, stride=7),
+                MultiArrayDimension(label="data", size=7, stride=1)
+            ]
+            touch_msg.data = [0.0] * 35  # 5 fingers × 7 values per finger
+            
+            # Populate data for each finger
+            for finger_name, sensor_info in self.ts_sensor_mapping[hand_type].items():
+                finger_idx = sensor_info['finger_idx']
+                
+                # Get TS sensor data (11 dimensions)
+                ts_addr = sensor_info['ts_sensor_addr']
+                ts_data = self.mj.data.sensordata[ts_addr:ts_addr+11]
+                
+                # Get rangefinder data for proximity
+                rf_id = sensor_info['rf_sensor_id']
+                rf_data = self.mj.data.sensordata[rf_id]
+                
+                # Convert TS sensor data to pyzlg_hand format
+                # Based on dextactisim, TS sensor data includes force components
+                # For now, map basic values - this may need calibration
+                normal_force = float(ts_data[0]) if len(ts_data) > 0 else 0.0
+                tangential_force = float(ts_data[1]) if len(ts_data) > 1 else 0.0
+                normal_force_delta = float(ts_data[2]) if len(ts_data) > 2 else 0.0
+                tangential_force_delta = float(ts_data[3]) if len(ts_data) > 3 else 0.0
+                
+                # Direction calculation (simplified - may need more sophisticated processing)
+                direction = -1  # Default to invalid direction
+                if len(ts_data) > 4 and ts_data[4] != 0:
+                    # Convert force direction to angle (0-359 degrees)
+                    direction = float((np.arctan2(ts_data[5], ts_data[4]) * 180 / np.pi) % 360) if len(ts_data) > 5 else -1
+                
+                # Proximity from rangefinder (convert to appropriate units)
+                proximity = float(rf_data * 1000)  # Convert to mm or appropriate units
+                
+                # Fill the message data array
+                base_idx = finger_idx * 7
+                touch_msg.data[base_idx] = current_time
+                touch_msg.data[base_idx + 1] = normal_force
+                touch_msg.data[base_idx + 2] = normal_force_delta
+                touch_msg.data[base_idx + 3] = tangential_force
+                touch_msg.data[base_idx + 4] = tangential_force_delta
+                touch_msg.data[base_idx + 5] = direction
+                touch_msg.data[base_idx + 6] = proximity
+            
+            # Publish the message
+            if hand_type in self.ts_sensor_publishers:
+                self.ts_sensor_publishers[hand_type].publish(touch_msg)
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -470,6 +623,7 @@ def main():
         help="Renderer dimension as width,height (e.g. 640,480)",
     )
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
+    parser.add_argument("--enable-ts-sensor", action="store_true", help="Enable TS sensor data publishing to /left_hand/touch_sensors and /right_hand/touch_sensors topics")
     args = parser.parse_args()
 
     # Convert renderer dimension string to tuple or None
@@ -489,6 +643,7 @@ def main():
         enable_vr=args.enable_vr,
         renderer_dimension=renderer_dim,
         seed=args.seed,
+        enable_ts_sensor=args.enable_ts_sensor,
     )
 
     try:
