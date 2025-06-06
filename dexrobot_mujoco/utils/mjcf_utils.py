@@ -374,7 +374,7 @@ def add_ts_touch_sensors(xml_path, sensor_sites):
             if mesh_name not in existing_meshes:
                 mesh_element = ET.SubElement(asset_element, "mesh", name=mesh_name)
                 mesh_element.set("file", f"F{i}b.stl")
-                mesh_element.set("scale", "0.01 0.01 0.01")
+                mesh_element.set("scale", ".001 .001 .001")
 
     # Find or create the sensor element
     sensor_element = root.find("sensor")
@@ -394,31 +394,33 @@ def add_ts_touch_sensors(xml_path, sensor_sites):
         user_sensor = ET.SubElement(sensor_element, "user", name=user_name)
         user_sensor.set("dim", "11")
 
-        # Add visual TS sensor components to the finger pad body
-        # Find the finger pad body (e.g., r_f_link1_pad)
-        pad_body = None
+        # Add visual TS sensor components to the finger tip body (not pad body!)
+        # In dextactisim, TS sensors are mounted on finger tip bodies (e.g., l_f_link2_4)
+        # Find the corresponding finger tip body (e.g., r_f_link1_4 for r_f_link1_pad)
+        tip_body_name = body_name.replace("_pad", "_4")  # Convert pad name to tip name
+        tip_body = None
         for body in root.iter("body"):
-            if body.get("name") == body_name:
-                pad_body = body
+            if body.get("name") == tip_body_name:
+                tip_body = body
                 break
         
-        if pad_body is not None:
-            # Create a wrapper body for TS sensor positioning like in dextactisim
-            # This positions the TS sensors relative to the finger pad surface
-            ts_wrapper = ET.SubElement(pad_body, "body", name=f"ts_wrapper_{body_name}")
-            ts_wrapper.set("pos", "0.005 0.0 0.003")  # Position on pad surface
-            ts_wrapper.set("quat", "0.7071 0.0 0.7071 0.0")  # Rotate to align with pad
+        if tip_body is not None:
+            # Create a wrapper body for TS sensor positioning exactly like dextactisim
+            # In dextactisim, wrapper is directly on finger tip at: pos="0.0425 -0.0188 -0.0055"
+            ts_wrapper = ET.SubElement(tip_body, "body", name=f"ts_wrapper_{body_name}")
+            ts_wrapper.set("pos", "0.0425 -0.0188 -0.0055")  # Exact dextactisim wrapper position
+            ts_wrapper.set("quat", "0.69101 -0.15003 -0.69101 -0.15003")  # Keep exact dextactisim rotation
             
-            # Add TS sensor visual meshes as child bodies with red color
-            # Position them relative to the wrapper based on dextactisim reference
+            # Add TS sensor visual meshes using exact dextactisim positions
+            # These positions are verified to work correctly in dextactisim
             ts_positions = [
-                ("f1", "0 0 0.002"),
-                ("f2", "0 0 0.0019"), 
-                ("f3", "0.0005 0 0.002"),
-                ("f4", "0 0 0.0025"),
-                ("f5", "-0.00001 0 0.0029"),
-                ("f6", "0.0005 0 0.0029"),
-                ("f7", "0 0 0.0014")
+                ("f1", "0 0 0.02"),
+                ("f2", "0 0 0.0192"), 
+                ("f3", "0.00545 0 0.02"),
+                ("f4", "0 0 0.02465"),
+                ("f5", "-0.0001 0 0.0285"),
+                ("f6", "0.0055 0 0.0285"),
+                ("f7", "0 0 0.01362")
             ]
             
             for mesh_name, pos in ts_positions:
