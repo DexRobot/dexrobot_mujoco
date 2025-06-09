@@ -19,9 +19,7 @@ import requests
 import signal
 from threading import Thread
 import cv2
-from dexrobot_mujoco.utils.mj_control_utils import MJControlWrapper
-from dexrobot_mujoco.utils.ts_sensor_manager import TSSensorManager
-from dexrobot_mujoco.utils.vr_manager import VRManager
+from dexrobot_mujoco.wrapper import MJSimWrapper, TSSensorManager, VRManager
 from dexrobot_mujoco.utils.angle_utils import adjust_angles
 
 def float_list(x):
@@ -96,7 +94,7 @@ class MujocoJointController(ROSNode):
                 raise RuntimeError("TS sensor initialization failed")
         
         # Load Mujoco model
-        self.mj = MJControlWrapper(
+        self.mj = MJSimWrapper(
             os.path.join(os.getcwd(), self.model_path),
             renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,

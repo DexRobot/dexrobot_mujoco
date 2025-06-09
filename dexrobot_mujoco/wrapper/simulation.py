@@ -10,10 +10,10 @@ from loguru import logger
 logger.remove()
 logger.add(sys.stderr, level="INFO")
 
-from .mjcf_utils import load_meshes
+from ..utils.mjcf_utils import load_meshes
 
 
-class MJControlWrapper:
+class MJSimWrapper:
     """Wrapper for communicating with Mujoco simulator."""
 
     def __init__(self, model_path, mesh_dir=None, renderer_dimension=None, seed=0):
