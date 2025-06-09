@@ -3,22 +3,22 @@
   <worldbody>
     <body name="floating_base">
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01" />
-      <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
+      <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" />
       <body name="ARTx_child" pos="0 0 0">
         <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
-        <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
+        <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" />
         <body name="ARTy_child" pos="0 0 0">
           <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
-          <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500" />
+          <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" />
           <body name="ARTz_child" pos="0 0 0">
             <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
-            <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100" />
+            <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" />
             <body name="ARRx_child" pos="0 0 0">
               <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
-              <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100" />
+              <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" />
               <body name="ARRy_child" pos="0 0 0">
                 <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001" />
-                <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100" />
+                <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" />
                 <body name="hand_base" />
               </body>
             </body>
@@ -28,11 +28,11 @@
     </body>
   </worldbody>
   <actuator>
-    <position name="act_ARTx" joint="ARTx" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500" />
-    <position name="act_ARTy" joint="ARTy" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500" />
-    <position name="act_ARTz" joint="ARTz" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500" />
-    <position name="act_ARRx" joint="ARRx" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100" />
-    <position name="act_ARRy" joint="ARRy" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100" />
-    <position name="act_ARRz" joint="ARRz" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100" />
+    <position name="act_ARTx" joint="ARTx" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true" />
+    <position name="act_ARTy" joint="ARTy" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true" />
+    <position name="act_ARTz" joint="ARTz" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true" />
+    <position name="act_ARRx" joint="ARRx" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true" />
+    <position name="act_ARRy" joint="ARRy" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true" />
+    <position name="act_ARRz" joint="ARRz" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true" />
   </actuator>
 </mujoco>

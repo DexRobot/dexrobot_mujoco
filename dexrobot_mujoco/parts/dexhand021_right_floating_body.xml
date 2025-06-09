@@ -2,22 +2,22 @@
 <mujocoinclude>
   <body name="floating_base">
     <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01"/>
-    <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500"/>
+    <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1"/>
     <body name="ARTx_child" pos="0 0 0">
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-      <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500"/>
+      <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1"/>
       <body name="ARTy_child" pos="0 0 0">
         <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-        <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-500 500"/>
+        <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" damping="20" armature="0.01" frictionloss="0.1"/>
         <body name="ARTz_child" pos="0 0 0">
           <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-          <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100"/>
+          <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1"/>
           <body name="ARRx_child" pos="0 0 0">
             <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-            <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100"/>
+            <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1"/>
             <body name="ARRy_child" pos="0 0 0">
               <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-              <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1" forcelimited="true" forcerange="-100 100"/>
+              <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" damping="20" armature="0.01" frictionloss="0.1"/>
               <body name="hand_base">
                 <body name="right_hand_base" pos="0 0 0" quat="0.7071067811865476 0.0 0.7071067811865475 0.0">
                   <geom pos="0 0 -0.17" quat="0.707388 0 0 -0.706825" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_p_link0"/>
@@ -58,21 +58,45 @@
                         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="r_f_link1_3_2"/>
                         <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="r_f_link1_3_2"/>
                         <body name="r_f_link1_4" pos="0.025 0 0">
-                          <inertial pos="0.0193624 -0.00256773 0.00110888" quat="0.2638 0.691979 0.183116 0.646563" mass="0.00867734" diaginertia="1.28899e-06 1.28389e-06 3.95612e-07"/>
+                          <inertial pos="0.0193624 -0.00251011 0.000993641" quat="0.247962 0.697753 0.16982 0.650244" mass="0.00867734" diaginertia="1.29878e-06 1.28008e-06 4.02422e-07"/>
                           <joint name="r_f_joint1_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link1_4"/>
                           <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link1_4"/>
                           <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
                           <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0.001" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0.001" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1"/>
                           <body name="r_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                             <geom name="geom_r_f_link1_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
                           </body>
-                          <body name="r_f_link1_pad" pos="0.026 0.0025 0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                            <geom name="geom_r_f_link1_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <body name="r_f_link1_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                            <geom name="geom_r_f_link1_pad" type="sphere" size="0.002" rgba="0 1 0 1"/>
                           </body>
-                          <site name="site_r_f_link1_pad" pos="0.026 0.0025 0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link1_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link1_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                          <body name="ts_wrapper_r_f_link1_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                            <body name="force1_f1" pos="0 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1"/>
+                            </body>
+                            <body name="force1_f2" pos="0 0 0.0192">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2"/>
+                            </body>
+                            <body name="force1_f3" pos="0.00545 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3"/>
+                            </body>
+                            <body name="force1_f4" pos="0 0 0.02465">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4"/>
+                            </body>
+                            <body name="force1_f5" pos="-0.0001 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5"/>
+                            </body>
+                            <body name="force1_f6" pos="0.0055 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6"/>
+                            </body>
+                            <body name="force1_f7" pos="0 0 0.01362">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7"/>
+                            </body>
+                          </body>
                         </body>
                       </body>
                     </body>
@@ -101,21 +125,45 @@
                         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="r_f_link2_3_2"/>
                         <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="r_f_link2_3_2"/>
                         <body name="r_f_link2_4" pos="0.025 0 0">
-                          <inertial pos="0.0193485 -0.00255949 -7.94241e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
+                          <inertial pos="0.0193485 -0.00250195 -7.94241e-07" quat="0.043694 0.705641 -0.0457364 0.705741" mass="0.0086892" diaginertia="1.2936e-06 1.28537e-06 4.01505e-07"/>
                           <joint name="r_f_joint2_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link2_4"/>
                           <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link2_4"/>
                           <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
                           <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1"/>
                           <body name="r_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                             <geom name="geom_r_f_link2_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
                           </body>
-                          <body name="r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                            <geom name="geom_r_f_link2_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <body name="r_f_link2_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                            <geom name="geom_r_f_link2_pad" type="sphere" size="0.002" rgba="0 1 0 1"/>
                           </body>
-                          <site name="site_r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link2_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link2_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                          <body name="ts_wrapper_r_f_link2_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                            <body name="force2_f1" pos="0 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1"/>
+                            </body>
+                            <body name="force2_f2" pos="0 0 0.0192">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2"/>
+                            </body>
+                            <body name="force2_f3" pos="0.00545 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3"/>
+                            </body>
+                            <body name="force2_f4" pos="0 0 0.02465">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4"/>
+                            </body>
+                            <body name="force2_f5" pos="-0.0001 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5"/>
+                            </body>
+                            <body name="force2_f6" pos="0.0055 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6"/>
+                            </body>
+                            <body name="force2_f7" pos="0 0 0.01362">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7"/>
+                            </body>
+                          </body>
                         </body>
                       </body>
                     </body>
@@ -144,21 +192,45 @@
                         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="r_f_link3_3_2"/>
                         <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="r_f_link3_3_2"/>
                         <body name="r_f_link3_4" pos="0.025 0 0">
-                          <inertial pos="0.0193485 -0.00255949 -7.94242e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
+                          <inertial pos="0.0193485 -0.00250195 -7.94242e-07" quat="0.043694 0.705641 -0.0457364 0.705741" mass="0.0086892" diaginertia="1.2936e-06 1.28537e-06 4.01505e-07"/>
                           <joint name="r_f_joint3_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link3_4"/>
                           <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link3_4"/>
                           <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
                           <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1"/>
                           <body name="r_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                             <geom name="geom_r_f_link3_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
                           </body>
-                          <body name="r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                            <geom name="geom_r_f_link3_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <body name="r_f_link3_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                            <geom name="geom_r_f_link3_pad" type="sphere" size="0.002" rgba="0 1 0 1"/>
                           </body>
-                          <site name="site_r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link3_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link3_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                          <body name="ts_wrapper_r_f_link3_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                            <body name="force3_f1" pos="0 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1"/>
+                            </body>
+                            <body name="force3_f2" pos="0 0 0.0192">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2"/>
+                            </body>
+                            <body name="force3_f3" pos="0.00545 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3"/>
+                            </body>
+                            <body name="force3_f4" pos="0 0 0.02465">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4"/>
+                            </body>
+                            <body name="force3_f5" pos="-0.0001 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5"/>
+                            </body>
+                            <body name="force3_f6" pos="0.0055 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6"/>
+                            </body>
+                            <body name="force3_f7" pos="0 0 0.01362">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7"/>
+                            </body>
+                          </body>
                         </body>
                       </body>
                     </body>
@@ -187,21 +259,45 @@
                         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link4_3_1"/>
                         <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link4_3_1"/>
                         <body name="r_f_link4_4" pos="0.025 0 0">
-                          <inertial pos="0.0193485 -0.00255949 -7.94241e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
+                          <inertial pos="0.0193485 -0.00250195 -7.94241e-07" quat="0.043694 0.705641 -0.0457364 0.705741" mass="0.0086892" diaginertia="1.2936e-06 1.28537e-06 4.01505e-07"/>
                           <joint name="r_f_joint4_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link4_4"/>
                           <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link4_4"/>
                           <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
                           <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1"/>
                           <body name="r_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                             <geom name="geom_r_f_link4_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
                           </body>
-                          <body name="r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                            <geom name="geom_r_f_link4_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <body name="r_f_link4_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                            <geom name="geom_r_f_link4_pad" type="sphere" size="0.002" rgba="0 1 0 1"/>
                           </body>
-                          <site name="site_r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link4_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link4_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                          <body name="ts_wrapper_r_f_link4_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                            <body name="force4_f1" pos="0 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1"/>
+                            </body>
+                            <body name="force4_f2" pos="0 0 0.0192">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2"/>
+                            </body>
+                            <body name="force4_f3" pos="0.00545 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3"/>
+                            </body>
+                            <body name="force4_f4" pos="0 0 0.02465">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4"/>
+                            </body>
+                            <body name="force4_f5" pos="-0.0001 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5"/>
+                            </body>
+                            <body name="force4_f6" pos="0.0055 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6"/>
+                            </body>
+                            <body name="force4_f7" pos="0 0 0.01362">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7"/>
+                            </body>
+                          </body>
                         </body>
                       </body>
                     </body>
@@ -230,21 +326,45 @@
                         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.9 0.9 0.9 1" mesh="r_f_link5_3_2"/>
                         <geom type="mesh" rgba="0.9 0.9 0.9 1" mesh="r_f_link5_3_2"/>
                         <body name="r_f_link5_4" pos="0.025 0 0">
-                          <inertial pos="0.0193485 -0.00255949 -7.94249e-07" quat="0.0419787 0.705389 -0.0494777 0.705845" mass="0.0086892" diaginertia="1.28832e-06 1.28613e-06 3.95468e-07"/>
+                          <inertial pos="0.0193485 -0.00250195 -7.94249e-07" quat="0.043694 0.705641 -0.0457363 0.705741" mass="0.0086892" diaginertia="1.2936e-06 1.28537e-06 4.01505e-07"/>
                           <joint name="r_f_joint5_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
                           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_f_link5_4"/>
                           <geom type="mesh" rgba="0.3 0.3 0.3 1" mesh="r_f_link5_4"/>
                           <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
                           <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-                          <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+                          <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1"/>
                           <body name="r_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                             <geom name="geom_r_f_link5_tip" type="sphere" size="0.002" rgba="1 0 0 1"/>
                           </body>
-                          <body name="r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                            <geom name="geom_r_f_link5_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <body name="r_f_link5_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                            <geom name="geom_r_f_link5_pad" type="sphere" size="0.002" rgba="0 1 0 1"/>
                           </body>
-                          <site name="site_r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link5_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+                          <site name="site_r_f_link5_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                          <body name="ts_wrapper_r_f_link5_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                            <body name="force5_f1" pos="0 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1"/>
+                            </body>
+                            <body name="force5_f2" pos="0 0 0.0192">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2"/>
+                            </body>
+                            <body name="force5_f3" pos="0.00545 0 0.02">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3"/>
+                            </body>
+                            <body name="force5_f4" pos="0 0 0.02465">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4"/>
+                            </body>
+                            <body name="force5_f5" pos="-0.0001 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5"/>
+                            </body>
+                            <body name="force5_f6" pos="0.0055 0 0.0285">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6"/>
+                            </body>
+                            <body name="force5_f7" pos="0 0 0.01362">
+                              <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7"/>
+                            </body>
+                          </body>
                         </body>
                       </body>
                     </body>

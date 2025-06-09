@@ -19,11 +19,11 @@ This guide provides a workaround using Conda and RoboStack to create a Python 3.
    ```bash
    conda create -n tashan_env python=3.8
    conda activate tashan_env
-   
+
    # Add RoboStack channel
    conda config --add channels conda-forge
    conda config --add channels robostack
-   
+
    # Install ROS Foxy base
    conda install ros-foxy-ros-base
    ```
@@ -32,13 +32,13 @@ This guide provides a workaround using Conda and RoboStack to create a Python 3.
    ```bash
    # Install specific spdlog version
    conda install spdlog=1.8.2
-   
+
    # Upgrade numpy via pip
    pip install --upgrade numpy
-   
+
    # Install MuJoCo 3.2.3
    pip install mujoco==3.2.3
-   
+
    # Install dexrobot_mujoco with TaShan support
    cd /path/to/dexrobot_mujoco
    pip install -e .[tashan]
@@ -48,10 +48,10 @@ This guide provides a workaround using Conda and RoboStack to create a Python 3.
    ```bash
    # Ensure LD_LIBRARY_PATH includes conda libraries
    export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
-   
+
    # Set RMW implementation
-   export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-   
+   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
    # Source ROS setup
    source $CONDA_PREFIX/setup.bash
    ```
@@ -60,10 +60,10 @@ This guide provides a workaround using Conda and RoboStack to create a Python 3.
    ```bash
    # Check Python version
    python --version  # Should show Python 3.8.x
-   
+
    # Check MuJoCo version
    python -c "import mujoco; print(mujoco.__version__)"  # Should show 3.2.3
-   
+
    # Check ROS
    ros2 topic list  # Should work without errors
    ```

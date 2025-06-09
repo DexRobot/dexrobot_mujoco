@@ -3,11 +3,11 @@
     <include file="../parts/defaults.xml" />
 
     <include file="scene_sim/topfloor_scene.xml" />
-    <include file="../parts/dexhand021_right_jaka_zu7_ts_sensor_asset.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_asset.xml" />
 
     <worldbody>
         <body name="arm_hand_base" pos="0 0 0">
-            <include file="../parts/dexhand021_right_jaka_zu7_ts_sensor_body.xml" />
+            <include file="../parts/dexhand021_right_jaka_zu7_body.xml" />
         </body>
         <body name="ball" pos="2.0 -0.2 0">
             <inertial pos="0 0 0" mass="0.03" diaginertia="0.000072 0.000072 0.000072" />
@@ -16,7 +16,7 @@
         </body>
     </worldbody>
 
-    <include file="../parts/dexhand021_right_jaka_zu7_ts_sensor_actuator.xml" />
-    <include file="../parts/dexhand021_right_jaka_zu7_ts_sensor_sensor.xml" />
-    <include file="../parts/dexhand021_right_jaka_zu7_ts_sensor_contact.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_actuator.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_sensor.xml" />
+    <include file="../parts/dexhand021_right_jaka_zu7_contact.xml" />
 </mujoco>

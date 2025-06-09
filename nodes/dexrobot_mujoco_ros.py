@@ -1,7 +1,7 @@
 from ros_compat import ROSNode
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
-from std_msgs.msg import Float32MultiArray, Float64MultiArray
+from std_msgs.msg import Float32MultiArray, MultiArrayDimension
 from std_srvs.srv import Trigger
 import cv2
 import mujoco
@@ -19,7 +19,9 @@ import requests
 import signal
 from threading import Thread
 import cv2
-from dexrobot_mujoco.utils.mj_control_vr_utils import MJControlVRWrapper
+from dexrobot_mujoco.utils.mj_control_utils import MJControlWrapper
+from dexrobot_mujoco.utils.ts_sensor_manager import TSSensorManager
+from dexrobot_mujoco.utils.vr_manager import VRManager
 from dexrobot_mujoco.utils.angle_utils import adjust_angles
 
 def float_list(x):
@@ -66,9 +68,9 @@ class MujocoJointController(ROSNode):
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
             renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
-            enable_ts_sensor (bool): Whether to publish TS sensor data or regular MuJoCo sensor data. When enabled, 
-                will publish TS sensor data to /left_hand/touch_sensors and/or /right_hand/touch_sensors topics.
-                When disabled, will publish regular MuJoCo sensor data to the same topics.
+            enable_ts_sensor (bool): Whether to substitute touch sensor data with TS sensor data.
+                When True, touch_* sensor readings will be replaced with corresponding touch_*_ts 
+                sensor data (11 dimensions per sensor). Requires TS sensor hardware to be available.
         """
         super().__init__("mujoco_joint_controller")
         self.logger.info("Mujoco Joint Controller Node has been started.")
@@ -86,40 +88,36 @@ class MujocoJointController(ROSNode):
         self.enable_vr = enable_vr
         self.enable_ts_sensor = enable_ts_sensor
 
+        # Initialize TS sensor callback before loading model if needed
+        if self.enable_ts_sensor:
+            if not TSSensorManager.initialize_before_model_load():
+                self.logger.error("Failed to initialize TS sensor callback")
+                self.logger.error("Make sure you have Python 3.8 and MuJoCo 3.2.3 installed.")
+                raise RuntimeError("TS sensor initialization failed")
+        
         # Load Mujoco model
-        self.mj = MJControlVRWrapper(
+        self.mj = MJControlWrapper(
             os.path.join(os.getcwd(), self.model_path),
-            enable_vr=self.enable_vr,
             renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,
         )
 
-        # Determine hand type(s) from actual bodies in the loaded model
-        self.hand_types = []
+        # Initialize TS sensor manager if requested
+        if self.enable_ts_sensor:
+            try:
+                ts_manager = TSSensorManager(self.mj)
+                self.mj.set_sensor_manager(ts_manager)
+                self.logger.info("TS sensor support enabled and library loaded successfully")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize TS sensor support: {e}")
+                self.logger.error("Make sure you have Python 3.8 and MuJoCo 3.2.3 installed.")
+                raise
         
-        # Check for left and right hand bodies in the model
-        left_hand_found = False
-        right_hand_found = False
-        
-        for i in range(self.mj.model.nbody):
-            body_name = mujoco.mj_id2name(self.mj.model, mujoco.mjtObj.mjOBJ_BODY, i)
-            if body_name:
-                body_name_lower = body_name.lower()
-                if 'left_hand' in body_name_lower or 'l_f_link' in body_name_lower:
-                    left_hand_found = True
-                elif 'right_hand' in body_name_lower or 'r_f_link' in body_name_lower:
-                    right_hand_found = True
-        
-        if left_hand_found:
-            self.hand_types.append('left')
-        if right_hand_found:
-            self.hand_types.append('right')
-        
-        # Log detected hands
-        if self.hand_types:
-            self.logger.info(f"Detected hands in model: {', '.join(self.hand_types)}")
-        else:
-            self.logger.warning("No hand bodies detected in model")
+        # Initialize VR manager if requested
+        if self.enable_vr:
+            vr_manager = VRManager(self.mj)
+            self.mj.set_vr_manager(vr_manager)
+            self.logger.info("VR support enabled")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -131,7 +129,7 @@ class MujocoJointController(ROSNode):
 
         # timer for VR images
         if self.enable_vr:
-            self.vr_timer = self.create_timer(0.05, self.mj.update_vr_images)
+            self.vr_timer = self.create_timer(0.05, self.mj.vr_manager.update_vr_images)
             # Start Flask server thread
             self.flask_thread = Thread(target=self.run_flask)
             self.flask_thread.start()
@@ -204,12 +202,6 @@ class MujocoJointController(ROSNode):
         ]
         self.tracked_joint_states_ref = {name: 0.0 for name in self.tracked_joint_names}
 
-        # Setup TS sensor mapping if enabled
-        if self.enable_ts_sensor:
-            self.logger.info("TS sensor publishing enabled")
-            self._setup_ts_sensor_mapping()
-        else:
-            self.logger.info("TS sensor publishing disabled")
 
         # timer, publisher and buffer for publishing / logging data
         if self.output_formats:
@@ -226,21 +218,15 @@ class MujocoJointController(ROSNode):
             self.touch_sensor_publisher = self.create_publisher(
                 Float32MultiArray, "touch_sensors", 10
             )
-            
-            # Setup hand-specific touch sensor publishers
-            self.ts_sensor_publishers = {}
-            for hand_type in self.hand_types:
-                topic_name = f"/{hand_type}_hand/touch_sensors"
-                self.ts_sensor_publishers[hand_type] = self.create_publisher(
-                    Float64MultiArray, topic_name, 10
+            if self.enable_ts_sensor:
+                self.ts_force_publisher = self.create_publisher(
+                    Float32MultiArray, "ts_forces", 10
                 )
-                sensor_type = "TS" if self.enable_ts_sensor else "MuJoCo"
-                self.logger.info(f"Created {sensor_type} sensor publisher for topic: {topic_name}")
         else:
             self.joint_state_publisher = None
             self.body_pose_publisher = None
             self.touch_sensor_publisher = None
-            self.ts_sensor_publishers = {}
+            self.ts_force_publisher = None
         if "csv" in self.output_formats:
             if self.output_csv_path is not None:
                 self.csv_columns = [
@@ -251,6 +237,16 @@ class MujocoJointController(ROSNode):
                     *[f'{name}_quat' for name in self.tracked_body_names],
                     *[f'{name}' for name in self.tracked_sensor_names],
                 ]
+                
+                # Add TS force columns if enabled
+                if self.enable_ts_sensor:
+                    # Add columns for each TS sensor (3 force dimensions each)
+                    for i in range(1, 6):  # Assuming 5 TS sensors (TS-F-A-1 through TS-F-A-5)
+                        self.csv_columns.extend([
+                            f'TS-F-A-{i}_normal_force',
+                            f'TS-F-A-{i}_tangential_magnitude',
+                            f'TS-F-A-{i}_tangential_direction_deg'
+                        ])
                 self.csv_data_count = 0
                 self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
                 self.csv_path = self.output_csv_path
@@ -377,10 +373,30 @@ class MujocoJointController(ROSNode):
         joint_vel = self.mj.data.qvel[self.tracked_joint_qvel_idx]
         body_pos = self.mj.data.xpos[self.tracked_body_ids]
         body_quat = self.mj.data.xquat[self.tracked_body_ids]
+        
+        # Collect regular sensor data
         all_sensor_data = []
         for sensor_name in self.tracked_sensor_names:
             sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
             all_sensor_data.extend(sensor_data)
+        
+        # Collect TS force data if enabled
+        ts_force_data_flat = []
+        if self.enable_ts_sensor:
+            try:
+                # Get all TS force data as a dict
+                force_dict = self.mj.sensor_manager.get_all_force_data()
+                # Sort by sensor ID and flatten into a single array
+                for sensor_id in sorted(force_dict.keys()):
+                    force_data = force_dict[sensor_id]
+                    ts_force_data_flat.extend([
+                        force_data.normal,
+                        force_data.tangential_magnitude,
+                        force_data.tangential_direction
+                    ])
+            except Exception as e:
+                self.logger.error(f"Failed to read TS force data: {e}")
+                # Continue without TS data rather than crashing
 
         if "ros" in self.output_formats:
             joint_state_msg = JointState()
@@ -407,16 +423,32 @@ class MujocoJointController(ROSNode):
             touch_data_array = Float32MultiArray()
             touch_data_array.data = all_sensor_data
             self.touch_sensor_publisher.publish(touch_data_array)
-
-            # Publish TS sensor data if enabled, otherwise publish normal touch sensor data
-            if self.enable_ts_sensor:
-                self._publish_ts_sensor_data()
-            else:
-                # Publish normal MuJoCo touch sensor data to hand-specific topics
-                self._publish_mujoco_touch_sensor_data()
+            
+            # Publish TS force data if enabled
+            if self.enable_ts_sensor and ts_force_data_flat:
+                force_msg = Float32MultiArray()
+                
+                # Set up 2D array layout: 5 sensors x 3 force components
+                force_msg.layout.dim.append(MultiArrayDimension())
+                force_msg.layout.dim[0].label = "sensor"
+                force_msg.layout.dim[0].size = 5
+                force_msg.layout.dim[0].stride = 15  # Total elements
+                
+                force_msg.layout.dim.append(MultiArrayDimension())
+                force_msg.layout.dim[1].label = "force_component"
+                force_msg.layout.dim[1].size = 3
+                force_msg.layout.dim[1].stride = 3
+                
+                # Data is already in the right order from ts_force_data_flat
+                force_msg.data = ts_force_data_flat
+                
+                self.ts_force_publisher.publish(force_msg)
 
         if 'csv' in self.output_formats:
-            self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
+            csv_row_data = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
+            if self.enable_ts_sensor:
+                csv_row_data.extend(ts_force_data_flat)
+            self.csv_buffer.loc[self.csv_data_count] = csv_row_data
             self.csv_data_count += 1
 
         if "mp4" in self.output_formats:
@@ -448,7 +480,7 @@ class MujocoJointController(ROSNode):
         @self.app.route("/video")
         def video():
             return Response(
-                self.mj.generate_encoded_frames(),
+                self.mj.vr_manager.generate_encoded_frames(),
                 mimetype="multipart/x-mixed-replace; boundary=frame",
             )
 
@@ -479,120 +511,6 @@ class MujocoJointController(ROSNode):
         self.logger.info('Simulation stopped.')
 
 
-    def _setup_ts_sensor_mapping(self):
-        """Setup TS sensor mapping for available hands."""
-        self.ts_sensor_mapping = {}
-        
-        # Detect which hands actually have TS sensors in the model
-        available_hand_types = []
-        for hand_type in self.hand_types:
-            hand_prefix = 'l' if hand_type == 'left' else 'r'
-            test_sensor_name = f"TS-F-A-{hand_prefix}_f_link1_pad"
-            try:
-                self.mj.model.sensor(test_sensor_name).id
-                available_hand_types.append(hand_type)
-                self.logger.info(f"Found TS sensors for {hand_type} hand")
-            except:
-                self.logger.info(f"No TS sensors found for {hand_type} hand")
-        
-        # Setup TS sensor mapping for hands with TS sensors
-        for hand_type in available_hand_types:
-            hand_prefix = 'l' if hand_type == 'left' else 'r'
-            self.ts_sensor_mapping[hand_type] = []
-            
-            # Collect all TS sensors for this hand (5 fingers)
-            for finger_num in range(1, 6):
-                ts_sensor_name = f"TS-F-A-{hand_prefix}_f_link{finger_num}_pad"
-                rf_sensor_name = f"rf_{hand_prefix}_f_link{finger_num}_pad"
-                
-                try:
-                    ts_sensor_id = self.mj.model.sensor(ts_sensor_name).id
-                    rf_sensor_id = self.mj.model.sensor(rf_sensor_name).id
-                    
-                    self.ts_sensor_mapping[hand_type].append({
-                        'ts_sensor_id': ts_sensor_id,
-                        'ts_sensor_addr': self.mj.model.sensor_adr[ts_sensor_id],
-                        'ts_sensor_dim': 11,  # TS sensor has 11 dimensions
-                        'rf_sensor_id': rf_sensor_id
-                    })
-                except Exception as e:
-                    self.logger.warning(f"Could not find TS sensors for {hand_type} hand finger {finger_num}: {e}")
-        
-        # Update hand_types to only include hands with TS sensors if TS is enabled
-        if self.enable_ts_sensor:
-            self.hand_types = available_hand_types
-
-    def _publish_ts_sensor_data(self):
-        """Publish TS sensor data in dextactisim format (21 dimensions total)."""
-        for hand_type in self.hand_types:
-            if hand_type not in self.ts_sensor_mapping:
-                continue
-                
-            # Replicate dextactisim format exactly:
-            # sdata = Data.sensordata[[1,2, 12,13, 23,24, 34,35, 45,46] + user1_data_id_range]
-            # Total: 10 fixed indices + 11 TS sensor values = 21 dimensions
-            
-            all_sensor_data = []
-            
-            # Part 1: 10 elements from fixed indices [1,2, 12,13, 23,24, 34,35, 45,46]
-            # These correspond to force data from multiple fingers
-            fixed_indices = [1, 2, 12, 13, 23, 24, 34, 35, 45, 46]
-            for idx in fixed_indices:
-                if idx < len(self.mj.data.sensordata):
-                    all_sensor_data.append(float(self.mj.data.sensordata[idx]))
-                else:
-                    all_sensor_data.append(0.0)  # Safety fallback
-            
-            # Part 2: 11 elements from first TS sensor (complete TS-F-A data)
-            # [0] Proximity, [1] Normal force, [2] Tangential force, [3] Direction, [4-10] Capacitance F1-F7
-            if self.ts_sensor_mapping[hand_type]:
-                first_ts_info = self.ts_sensor_mapping[hand_type][0]
-                ts_addr = first_ts_info['ts_sensor_addr']
-                ts_dim = first_ts_info['ts_sensor_dim']  # Should be 11
-                
-                # Get all 11 TS sensor values
-                for i in range(ts_dim):
-                    ts_value = self.mj.data.sensordata[ts_addr + i]
-                    all_sensor_data.append(float(ts_value))
-            else:
-                # Safety fallback: add 11 zeros if no TS sensor found
-                all_sensor_data.extend([0.0] * 11)
-            
-            # Total should be 21 elements (10 + 11)
-            # Create Float64MultiArray message
-            touch_msg = Float64MultiArray()
-            touch_msg.data = all_sensor_data
-            
-            # Publish the message
-            if hand_type in self.ts_sensor_publishers:
-                self.ts_sensor_publishers[hand_type].publish(touch_msg)
-    
-    def _publish_mujoco_touch_sensor_data(self):
-        """Publish normal MuJoCo touch sensor data to hand-specific topics."""
-        # Collect data from regular touch sensors (not the tracked_sensor_names which includes TS sensors)
-        all_sensor_data = []
-        
-        # Find all regular touch sensors in the model
-        import mujoco
-        for i in range(self.mj.model.nsensor):
-            sensor_name = mujoco.mj_id2name(self.mj.model, mujoco.mjtObj.mjOBJ_SENSOR, i)
-            if sensor_name and sensor_name.startswith('touch_'):
-                # Check if this sensor belongs to the detected hands
-                for hand_type in self.hand_types:
-                    hand_prefix = 'l_' if hand_type == 'left' else 'r_'
-                    if hand_prefix in sensor_name:
-                        sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
-                        all_sensor_data.extend(sensor_data)
-                        break
-        
-        # Publish to each hand's topic if sensor data is available
-        if all_sensor_data:
-            for hand_type in self.hand_types:
-                touch_msg = Float64MultiArray()
-                touch_msg.data = all_sensor_data
-                
-                if hand_type in self.ts_sensor_publishers:
-                    self.ts_sensor_publishers[hand_type].publish(touch_msg)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -644,7 +562,9 @@ def main():
         help="Renderer dimension as width,height (e.g. 640,480)",
     )
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
-    parser.add_argument("--enable-ts-sensor", action="store_true", help="Publish TS sensor data instead of regular MuJoCo sensor data to /left_hand/touch_sensors and /right_hand/touch_sensors topics")
+    parser.add_argument("--enable-ts-sensor", action="store_true", 
+                        help="Replace touch sensor data with TS sensor data (11 dims per sensor). "
+                             "Requires TS sensor hardware and Python 3.8 + MuJoCo 3.2.3")
     args = parser.parse_args()
 
     # Convert renderer dimension string to tuple or None

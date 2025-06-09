@@ -8,26 +8,33 @@
     <mesh name="r_a_link4" file="../meshes/jaka_zu7/link4.STL"/>
     <mesh name="r_a_link5" file="../meshes/jaka_zu7/link5.STL"/>
     <mesh name="r_a_link6" file="../meshes/jaka_zu7/link6.STL"/>
-    <mesh name="right_hand_base" content_type="model/stl" file="../meshes/dexhand021_simplified/right_hand_base.STL"/>
-    <mesh name="r_f_link1_1" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link1_1.STL"/>
-    <mesh name="r_f_link1_2" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link1_2.STL"/>
-    <mesh name="r_f_link1_3" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link1_3.STL"/>
-    <mesh name="r_f_link1_4" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link1_4.STL"/>
-    <mesh name="r_f_link2_1" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link2_1.STL"/>
-    <mesh name="r_f_link2_2" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link2_2.STL"/>
-    <mesh name="r_f_link2_3" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link2_3.STL"/>
-    <mesh name="r_f_link2_4" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link2_4.STL"/>
-    <mesh name="r_f_link3_1" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link3_1.STL"/>
-    <mesh name="r_f_link3_2" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link3_2.STL"/>
-    <mesh name="r_f_link3_3" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link3_3.STL"/>
-    <mesh name="r_f_link3_4" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link3_4.STL"/>
-    <mesh name="r_f_link4_1" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link4_1.STL"/>
-    <mesh name="r_f_link4_2" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link4_2.STL"/>
-    <mesh name="r_f_link4_3" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link4_3.STL"/>
-    <mesh name="r_f_link4_4" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link4_4.STL"/>
-    <mesh name="r_f_link5_1" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link5_1.STL"/>
-    <mesh name="r_f_link5_2" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link5_2.STL"/>
-    <mesh name="r_f_link5_3" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link5_3.STL"/>
-    <mesh name="r_f_link5_4" content_type="model/stl" file="../meshes/dexhand021_simplified/r_f_link5_4.STL"/>
+    <mesh name="right_hand_base" file="../meshes/dexhand021_simplified/right_hand_base.STL"/>
+    <mesh name="r_f_link1_1" file="../meshes/dexhand021_simplified/r_f_link1_1.STL"/>
+    <mesh name="r_f_link1_2" file="../meshes/dexhand021_simplified/r_f_link1_2.STL"/>
+    <mesh name="r_f_link1_3" file="../meshes/dexhand021_simplified/r_f_link1_3.STL"/>
+    <mesh name="r_f_link1_4" file="../meshes/dexhand021_simplified/r_f_link1_4.STL"/>
+    <mesh name="r_f_link2_1" file="../meshes/dexhand021_simplified/r_f_link2_1.STL"/>
+    <mesh name="r_f_link2_2" file="../meshes/dexhand021_simplified/r_f_link2_2.STL"/>
+    <mesh name="r_f_link2_3" file="../meshes/dexhand021_simplified/r_f_link2_3.STL"/>
+    <mesh name="r_f_link2_4" file="../meshes/dexhand021_simplified/r_f_link2_4.STL"/>
+    <mesh name="r_f_link3_1" file="../meshes/dexhand021_simplified/r_f_link3_1.STL"/>
+    <mesh name="r_f_link3_2" file="../meshes/dexhand021_simplified/r_f_link3_2.STL"/>
+    <mesh name="r_f_link3_3" file="../meshes/dexhand021_simplified/r_f_link3_3.STL"/>
+    <mesh name="r_f_link3_4" file="../meshes/dexhand021_simplified/r_f_link3_4.STL"/>
+    <mesh name="r_f_link4_1" file="../meshes/dexhand021_simplified/r_f_link4_1.STL"/>
+    <mesh name="r_f_link4_2" file="../meshes/dexhand021_simplified/r_f_link4_2.STL"/>
+    <mesh name="r_f_link4_3" file="../meshes/dexhand021_simplified/r_f_link4_3.STL"/>
+    <mesh name="r_f_link4_4" file="../meshes/dexhand021_simplified/r_f_link4_4.STL"/>
+    <mesh name="r_f_link5_1" file="../meshes/dexhand021_simplified/r_f_link5_1.STL"/>
+    <mesh name="r_f_link5_2" file="../meshes/dexhand021_simplified/r_f_link5_2.STL"/>
+    <mesh name="r_f_link5_3" file="../meshes/dexhand021_simplified/r_f_link5_3.STL"/>
+    <mesh name="r_f_link5_4" file="../meshes/dexhand021_simplified/r_f_link5_4.STL"/>
+    <mesh name="f1" file="../meshes/dexhand021_simplified/F1b.stl" scale=".001 .001 .001"/>
+    <mesh name="f2" file="../meshes/dexhand021_simplified/F2b.stl" scale=".001 .001 .001"/>
+    <mesh name="f3" file="../meshes/dexhand021_simplified/F3b.stl" scale=".001 .001 .001"/>
+    <mesh name="f4" file="../meshes/dexhand021_simplified/F4b.stl" scale=".001 .001 .001"/>
+    <mesh name="f5" file="../meshes/dexhand021_simplified/F5b.stl" scale=".001 .001 .001"/>
+    <mesh name="f6" file="../meshes/dexhand021_simplified/F6b.stl" scale=".001 .001 .001"/>
+    <mesh name="f7" file="../meshes/dexhand021_simplified/F7b.stl" scale=".001 .001 .001"/>
   </asset>
 </mujocoinclude>

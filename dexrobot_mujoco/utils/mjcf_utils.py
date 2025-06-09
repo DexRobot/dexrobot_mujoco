@@ -25,7 +25,7 @@ def load_meshes(mesh_dir):
     return meshes
 
 
-def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fixed_to_site_pattern=None, enable_ts_sensor=False):
+def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fixed_to_site_pattern=None):
     """Load a URDF file and save it to an MJCF XML file with enhanced fixed joint handling.
     
     By default, MuJoCo's URDF converter ignores fixed links or converts them to mere geoms.
@@ -38,7 +38,6 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fi
         mesh_dir (str, optional): The directory containing the mesh files. When not provided, the default search rule of MuJoCo is used.
         fixed_to_body_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo bodies.
         fixed_to_site_pattern (str, optional): Regex pattern to match fixed link names that should be converted to MuJoCo sites.
-        enable_ts_sensor (bool): If True, generate model with ts_sensor suffix.
     """
     # First convert using MuJoCo's native converter
     if mesh_dir is None:
@@ -46,10 +45,8 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fi
     else:
         m = mujoco.MjModel.from_xml_path(urdf_path, load_meshes(mesh_dir))
 
-    # Generate output filename with ts_sensor suffix if enabled
+    # Generate output filename
     base_name = os.path.splitext(os.path.basename(urdf_path))[0]
-    if enable_ts_sensor:
-        base_name = f"{base_name}_ts_sensor"
     output_path = f"{mjcf_dir}/{base_name}.xml"
     mujoco.mj_saveLastXML(output_path, m)
 
@@ -347,90 +344,88 @@ def add_touch_sensors(xml_path, sensor_info):
     subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
 
 
-def add_ts_touch_sensors(xml_path, sensor_sites):
+def add_rangefinder_sensors(xml_path, sensor_info):
     """
-    Add TS touch sensors (rangefinder + user sensors) and visual components to the given MJCF XML file.
-    Each TS sensor consists of a rangefinder sensor, a user sensor with 11 dimensions, and red visual meshes.
+    Add rangefinder sensors to the given MJCF XML file.
 
     Args:
         xml_path (str): The path to the MJCF XML file.
-        sensor_sites (dict): Dictionary mapping body names to site names for TS sensors.
-            key (str): The body name.
-            value (str): The site name for the TS sensor.
+        sensor_info (dict): Dictionary containing the sensor information.
+            key (str): The sensor name.
+            value (dict): A set of properties to add to the <rangefinder> element.
+                Must include 'site' property for rangefinder sensors.
 
+    Example:
+        sensor_info = {
+            "rf1": {"site": "site_r_f_link1_4", "cutoff": "0.1"},
+            "rf2": {"site": "site_r_f_link2_4", "cutoff": "0.1"},
+        }
     """
     # Load the MJCF XML file
     tree = ET.parse(xml_path)
     root = tree.getroot()
-
-    # Add TS sensor mesh assets
-    asset_element = root.find("asset")
-    if asset_element is not None:
-        # Check if TS meshes are already added
-        existing_meshes = [mesh.get("name") for mesh in asset_element.findall("mesh")]
-        ts_meshes = ["f1", "f2", "f3", "f4", "f5", "f6", "f7"]
-        
-        for i, mesh_name in enumerate(ts_meshes, 1):
-            if mesh_name not in existing_meshes:
-                mesh_element = ET.SubElement(asset_element, "mesh", name=mesh_name)
-                mesh_element.set("file", f"F{i}b.stl")
-                mesh_element.set("scale", ".001 .001 .001")
 
     # Find or create the sensor element
     sensor_element = root.find("sensor")
     if sensor_element is None:
         sensor_element = ET.SubElement(root, "sensor")
 
-    # Process each site and add TS sensors and visual components
-    for body_name, site_name in sensor_sites.items():
-        # Create rangefinder sensor
-        rf_name = f"rf_{body_name}"
-        rangefinder = ET.SubElement(sensor_element, "rangefinder", name=rf_name)
-        rangefinder.set("site", site_name)
-        rangefinder.set("cutoff", "0.1")
+    # Process each sensor and its properties
+    for name, properties in sensor_info.items():
+        # Create the rangefinder sensor element
+        rangefinder_attrs = {
+            "name": name,
+        }
+        # Update with provided properties
+        for prop_name, prop_value in properties.items():
+            rangefinder_attrs[prop_name] = str(prop_value)
         
-        # Create user sensor with 11 dimensions for TS-F-A sensor
-        user_name = f"TS-F-A-{body_name}"
-        user_sensor = ET.SubElement(sensor_element, "user", name=user_name)
-        user_sensor.set("dim", "11")
+        rangefinder_sensor = ET.SubElement(sensor_element, "rangefinder", **rangefinder_attrs)
 
-        # Add visual TS sensor components to the finger tip body (not pad body!)
-        # In dextactisim, TS sensors are mounted on finger tip bodies (e.g., l_f_link2_4)
-        # Find the corresponding finger tip body (e.g., r_f_link1_4 for r_f_link1_pad)
-        tip_body_name = body_name.replace("_pad", "_4")  # Convert pad name to tip name
-        tip_body = None
-        for body in root.iter("body"):
-            if body.get("name") == tip_body_name:
-                tip_body = body
-                break
+    # Save the modified MJCF XML back to the file
+    tree.write(xml_path, encoding="utf-8", xml_declaration=True)
+
+    # Call xmllint to prettify the XML file
+    subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
+
+
+def add_user_sensors(xml_path, sensor_info):
+    """
+    Add user-defined sensors to the given MJCF XML file.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+        sensor_info (dict): Dictionary containing the sensor information.
+            key (str): The sensor name.
+            value (dict): A set of properties to add to the <user> element.
+                Must include 'dim' property for user sensors.
+
+    Example:
+        sensor_info = {
+            "TS-F-A-1": {"dim": "11", "noise": "0.0"},
+            "TS-F-A-2": {"dim": "11", "noise": "0.0"},
+        }
+    """
+    # Load the MJCF XML file
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    # Find or create the sensor element
+    sensor_element = root.find("sensor")
+    if sensor_element is None:
+        sensor_element = ET.SubElement(root, "sensor")
+
+    # Process each sensor and its properties
+    for name, properties in sensor_info.items():
+        # Create the user sensor element with required attributes
+        user_attrs = {
+            "name": name,
+        }
+        # Update with provided properties
+        for prop_name, prop_value in properties.items():
+            user_attrs[prop_name] = str(prop_value)
         
-        if tip_body is not None:
-            # Create a wrapper body for TS sensor positioning exactly like dextactisim
-            # In dextactisim, wrapper is directly on finger tip at: pos="0.0425 -0.0188 -0.0055"
-            ts_wrapper = ET.SubElement(tip_body, "body", name=f"ts_wrapper_{body_name}")
-            ts_wrapper.set("pos", "0.0425 -0.0188 -0.0055")  # Exact dextactisim wrapper position
-            ts_wrapper.set("quat", "0.69101 -0.15003 -0.69101 -0.15003")  # Keep exact dextactisim rotation
-            
-            # Add TS sensor visual meshes using exact dextactisim positions
-            # These positions are verified to work correctly in dextactisim
-            ts_positions = [
-                ("f1", "0 0 0.02"),
-                ("f2", "0 0 0.0192"), 
-                ("f3", "0.00545 0 0.02"),
-                ("f4", "0 0 0.02465"),
-                ("f5", "-0.0001 0 0.0285"),
-                ("f6", "0.0055 0 0.0285"),
-                ("f7", "0 0 0.01362")
-            ]
-            
-            for mesh_name, pos in ts_positions:
-                ts_body = ET.SubElement(ts_wrapper, "body", name=f"ts_{mesh_name}_{body_name}")
-                ts_body.set("pos", pos)
-                
-                # Add red visual geom for TS sensor - make it visible
-                ts_geom = ET.SubElement(ts_body, "geom", type="mesh")
-                ts_geom.set("rgba", "1 0.3 0.3 1")  # Bright red color
-                ts_geom.set("mesh", mesh_name)
+        user_sensor = ET.SubElement(sensor_element, "user", **user_attrs)
 
     # Save the modified MJCF XML back to the file
     tree.write(xml_path, encoding="utf-8", xml_declaration=True)
@@ -494,7 +489,8 @@ def apply_defaults(mjcf_xml_path, defaults_xml_path):
     defaults_tree = ET.parse(defaults_xml_path)
     defaults_root = defaults_tree.getroot()
 
-    # Apply defaults_root as a child to root
+    # Apply defaults_root elements as children to root
+    # Works with both <mujoco> and <mujocoinclude> root elements
     for i, element in enumerate(defaults_root):
         root.insert(i, element)
 
