@@ -21,9 +21,6 @@ tracked_bodies:
 - [r_f_link3_1, r_f_link3_2, r_f_link3_3, r_f_link3_4]
 - [r_f_link4_1, r_f_link4_2, r_f_link4_3, r_f_link4_4]
 - [r_f_link5_1, r_f_link5_2, r_f_link5_3, r_f_link5_4]
-tracked_sensors:
-- [TS-F-A-r_f_link1_pad, TS-F-A-r_f_link2_pad, TS-F-A-r_f_link3_pad, TS-F-A-r_f_link4_pad, TS-F-A-r_f_link5_pad]
-- [rf_r_f_link1_pad, rf_r_f_link2_pad, rf_r_f_link3_pad, rf_r_f_link4_pad, rf_r_f_link5_pad]
 initial_qpos_freejoint:
   ball_joint: [2.0, -0.2, 0.0, 1.0, 0.0, 0.0, 0.0]
 initial_qvel_freejoint:
