@@ -447,6 +447,11 @@
     <user name="TS-F-A-l_f_link4_pad" dim="11"/>
     <rangefinder name="rf_l_f_link5_pad" site="site_l_f_link5_pad" cutoff="0.1"/>
     <user name="TS-F-A-l_f_link5_pad" dim="11"/>
+    <touch name="touch_l_f_link1_pad" site="site_l_f_link1_pad"/>
+    <touch name="touch_l_f_link2_pad" site="site_l_f_link2_pad"/>
+    <touch name="touch_l_f_link3_pad" site="site_l_f_link3_pad"/>
+    <touch name="touch_l_f_link4_pad" site="site_l_f_link4_pad"/>
+    <touch name="touch_l_f_link5_pad" site="site_l_f_link5_pad"/>
   </sensor>
   <contact>
     <exclude body1="left_hand_base" body2="l_f_link1_1"/>
