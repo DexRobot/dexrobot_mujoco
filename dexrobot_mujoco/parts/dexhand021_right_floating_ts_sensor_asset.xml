@@ -58,5 +58,12 @@
     <mesh name="r_p_link5" content_type="model/stl" file="../meshes/dexhand021/r_p_link5.STL"/>
     <mesh name="r_p_link6" content_type="model/stl" file="../meshes/dexhand021/r_p_link6.STL"/>
     <mesh name="r_p_link2" content_type="model/stl" file="../meshes/dexhand021/r_p_link2.STL"/>
+    <mesh name="f1" file="../meshes/dexhand021/F1b.stl" scale=".001 .001 .001"/>
+    <mesh name="f2" file="../meshes/dexhand021/F2b.stl" scale=".001 .001 .001"/>
+    <mesh name="f3" file="../meshes/dexhand021/F3b.stl" scale=".001 .001 .001"/>
+    <mesh name="f4" file="../meshes/dexhand021/F4b.stl" scale=".001 .001 .001"/>
+    <mesh name="f5" file="../meshes/dexhand021/F5b.stl" scale=".001 .001 .001"/>
+    <mesh name="f6" file="../meshes/dexhand021/F6b.stl" scale=".001 .001 .001"/>
+    <mesh name="f7" file="../meshes/dexhand021/F7b.stl" scale=".001 .001 .001"/>
   </asset>
 </mujocoinclude>

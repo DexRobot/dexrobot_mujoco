@@ -11,63 +11,63 @@
   <size njmax="1000" nconmax="1000"/>
   <compiler angle="radian" meshdir="../meshes/dexhand021/"/>
   <asset>
-    <mesh name="r_p_link0" file="r_p_link0.STL"/>
-    <mesh name="r_f_link1_1" file="r_f_link1_1.STL"/>
-    <mesh name="r_f_link1_2" file="r_f_link1_2.STL"/>
-    <mesh name="r_f_link1_3" file="r_f_link1_3.STL"/>
-    <mesh name="r_f_link1_4" file="r_f_link1_4.STL"/>
-    <mesh name="r_f_link1_4_1" file="r_f_link1_4_1.STL"/>
-    <mesh name="r_f_link1_4_2" file="r_f_link1_4_2.STL"/>
-    <mesh name="r_f_link1_3_1" file="r_f_link1_3_1.STL"/>
-    <mesh name="r_f_link1_3_2" file="r_f_link1_3_2.STL"/>
-    <mesh name="r_f_link1_2_1" file="r_f_link1_2_1.STL"/>
-    <mesh name="r_f_link1_2_2" file="r_f_link1_2_2.STL"/>
-    <mesh name="r_f_link2_1" file="r_f_link2_1.STL"/>
-    <mesh name="r_f_link2_2" file="r_f_link2_2.STL"/>
-    <mesh name="r_f_link2_3" file="r_f_link2_3.STL"/>
-    <mesh name="r_f_link2_4" file="r_f_link2_4.STL"/>
-    <mesh name="r_f_link2_4_1" file="r_f_link2_4_1.STL"/>
-    <mesh name="r_f_link2_4_2" file="r_f_link2_4_2.STL"/>
-    <mesh name="r_f_link2_3_1" file="r_f_link2_3_1.STL"/>
-    <mesh name="r_f_link2_3_2" file="r_f_link2_3_2.STL"/>
-    <mesh name="r_f_link2_2_1" file="r_f_link2_2_1.STL"/>
-    <mesh name="r_f_link2_2_2" file="r_f_link2_2_2.STL"/>
-    <mesh name="r_f_link3_1" file="r_f_link3_1.STL"/>
-    <mesh name="r_f_link3_2" file="r_f_link3_2.STL"/>
-    <mesh name="r_f_link3_3" file="r_f_link3_3.STL"/>
-    <mesh name="r_f_link3_4" file="r_f_link3_4.STL"/>
-    <mesh name="r_f_link3_4_1" file="r_f_link3_4_1.STL"/>
-    <mesh name="r_f_link3_4_2" file="r_f_link3_4_2.STL"/>
-    <mesh name="r_f_link3_3_1" file="r_f_link3_3_1.STL"/>
-    <mesh name="r_f_link3_3_2" file="r_f_link3_3_2.STL"/>
-    <mesh name="r_f_link3_2_1" file="r_f_link3_2_1.STL"/>
-    <mesh name="r_f_link3_2_2" file="r_f_link3_2_2.STL"/>
-    <mesh name="r_f_link4_1" file="r_f_link4_1.STL"/>
-    <mesh name="r_f_link4_2" file="r_f_link4_2.STL"/>
-    <mesh name="r_f_link4_3" file="r_f_link4_3.STL"/>
-    <mesh name="r_f_link4_4" file="r_f_link4_4.STL"/>
-    <mesh name="r_f_link4_4_1" file="r_f_link4_4_1.STL"/>
-    <mesh name="r_f_link4_4_2" file="r_f_link4_4_2.STL"/>
-    <mesh name="r_f_link4_3_2" file="r_f_link4_3_2.STL"/>
-    <mesh name="r_f_link4_3_1" file="r_f_link4_3_1.STL"/>
-    <mesh name="r_f_link4_2_1" file="r_f_link4_2_1.STL"/>
-    <mesh name="r_f_link4_2_2" file="r_f_link4_2_2.STL"/>
-    <mesh name="r_f_link5_1" file="r_f_link5_1.STL"/>
-    <mesh name="r_f_link5_2" file="r_f_link5_2.STL"/>
-    <mesh name="r_f_link5_3" file="r_f_link5_3.STL"/>
-    <mesh name="r_f_link5_4" file="r_f_link5_4.STL"/>
-    <mesh name="r_f_link5_4_1" file="r_f_link5_4_1.STL"/>
-    <mesh name="r_f_link5_4_2" file="r_f_link5_4_2.STL"/>
-    <mesh name="r_f_link5_3_1" file="r_f_link5_3_1.STL"/>
-    <mesh name="r_f_link5_3_2" file="r_f_link5_3_2.STL"/>
-    <mesh name="r_f_link5_2_1" file="r_f_link5_2_1.STL"/>
-    <mesh name="r_f_link5_2_2" file="r_f_link5_2_2.STL"/>
-    <mesh name="r_p_link1" file="r_p_link1.STL"/>
-    <mesh name="r_p_link3" file="r_p_link3.STL"/>
-    <mesh name="r_p_link4" file="r_p_link4.STL"/>
-    <mesh name="r_p_link5" file="r_p_link5.STL"/>
-    <mesh name="r_p_link6" file="r_p_link6.STL"/>
-    <mesh name="r_p_link2" file="r_p_link2.STL"/>
+    <mesh name="r_p_link0" content_type="model/stl" file="r_p_link0.STL"/>
+    <mesh name="r_f_link1_1" content_type="model/stl" file="r_f_link1_1.STL"/>
+    <mesh name="r_f_link1_2" content_type="model/stl" file="r_f_link1_2.STL"/>
+    <mesh name="r_f_link1_3" content_type="model/stl" file="r_f_link1_3.STL"/>
+    <mesh name="r_f_link1_4" content_type="model/stl" file="r_f_link1_4.STL"/>
+    <mesh name="r_f_link1_4_1" content_type="model/stl" file="r_f_link1_4_1.STL"/>
+    <mesh name="r_f_link1_4_2" content_type="model/stl" file="r_f_link1_4_2.STL"/>
+    <mesh name="r_f_link1_3_1" content_type="model/stl" file="r_f_link1_3_1.STL"/>
+    <mesh name="r_f_link1_3_2" content_type="model/stl" file="r_f_link1_3_2.STL"/>
+    <mesh name="r_f_link1_2_1" content_type="model/stl" file="r_f_link1_2_1.STL"/>
+    <mesh name="r_f_link1_2_2" content_type="model/stl" file="r_f_link1_2_2.STL"/>
+    <mesh name="r_f_link2_1" content_type="model/stl" file="r_f_link2_1.STL"/>
+    <mesh name="r_f_link2_2" content_type="model/stl" file="r_f_link2_2.STL"/>
+    <mesh name="r_f_link2_3" content_type="model/stl" file="r_f_link2_3.STL"/>
+    <mesh name="r_f_link2_4" content_type="model/stl" file="r_f_link2_4.STL"/>
+    <mesh name="r_f_link2_4_1" content_type="model/stl" file="r_f_link2_4_1.STL"/>
+    <mesh name="r_f_link2_4_2" content_type="model/stl" file="r_f_link2_4_2.STL"/>
+    <mesh name="r_f_link2_3_1" content_type="model/stl" file="r_f_link2_3_1.STL"/>
+    <mesh name="r_f_link2_3_2" content_type="model/stl" file="r_f_link2_3_2.STL"/>
+    <mesh name="r_f_link2_2_1" content_type="model/stl" file="r_f_link2_2_1.STL"/>
+    <mesh name="r_f_link2_2_2" content_type="model/stl" file="r_f_link2_2_2.STL"/>
+    <mesh name="r_f_link3_1" content_type="model/stl" file="r_f_link3_1.STL"/>
+    <mesh name="r_f_link3_2" content_type="model/stl" file="r_f_link3_2.STL"/>
+    <mesh name="r_f_link3_3" content_type="model/stl" file="r_f_link3_3.STL"/>
+    <mesh name="r_f_link3_4" content_type="model/stl" file="r_f_link3_4.STL"/>
+    <mesh name="r_f_link3_4_1" content_type="model/stl" file="r_f_link3_4_1.STL"/>
+    <mesh name="r_f_link3_4_2" content_type="model/stl" file="r_f_link3_4_2.STL"/>
+    <mesh name="r_f_link3_3_1" content_type="model/stl" file="r_f_link3_3_1.STL"/>
+    <mesh name="r_f_link3_3_2" content_type="model/stl" file="r_f_link3_3_2.STL"/>
+    <mesh name="r_f_link3_2_1" content_type="model/stl" file="r_f_link3_2_1.STL"/>
+    <mesh name="r_f_link3_2_2" content_type="model/stl" file="r_f_link3_2_2.STL"/>
+    <mesh name="r_f_link4_1" content_type="model/stl" file="r_f_link4_1.STL"/>
+    <mesh name="r_f_link4_2" content_type="model/stl" file="r_f_link4_2.STL"/>
+    <mesh name="r_f_link4_3" content_type="model/stl" file="r_f_link4_3.STL"/>
+    <mesh name="r_f_link4_4" content_type="model/stl" file="r_f_link4_4.STL"/>
+    <mesh name="r_f_link4_4_1" content_type="model/stl" file="r_f_link4_4_1.STL"/>
+    <mesh name="r_f_link4_4_2" content_type="model/stl" file="r_f_link4_4_2.STL"/>
+    <mesh name="r_f_link4_3_2" content_type="model/stl" file="r_f_link4_3_2.STL"/>
+    <mesh name="r_f_link4_3_1" content_type="model/stl" file="r_f_link4_3_1.STL"/>
+    <mesh name="r_f_link4_2_1" content_type="model/stl" file="r_f_link4_2_1.STL"/>
+    <mesh name="r_f_link4_2_2" content_type="model/stl" file="r_f_link4_2_2.STL"/>
+    <mesh name="r_f_link5_1" content_type="model/stl" file="r_f_link5_1.STL"/>
+    <mesh name="r_f_link5_2" content_type="model/stl" file="r_f_link5_2.STL"/>
+    <mesh name="r_f_link5_3" content_type="model/stl" file="r_f_link5_3.STL"/>
+    <mesh name="r_f_link5_4" content_type="model/stl" file="r_f_link5_4.STL"/>
+    <mesh name="r_f_link5_4_1" content_type="model/stl" file="r_f_link5_4_1.STL"/>
+    <mesh name="r_f_link5_4_2" content_type="model/stl" file="r_f_link5_4_2.STL"/>
+    <mesh name="r_f_link5_3_1" content_type="model/stl" file="r_f_link5_3_1.STL"/>
+    <mesh name="r_f_link5_3_2" content_type="model/stl" file="r_f_link5_3_2.STL"/>
+    <mesh name="r_f_link5_2_1" content_type="model/stl" file="r_f_link5_2_1.STL"/>
+    <mesh name="r_f_link5_2_2" content_type="model/stl" file="r_f_link5_2_2.STL"/>
+    <mesh name="r_p_link1" content_type="model/stl" file="r_p_link1.STL"/>
+    <mesh name="r_p_link3" content_type="model/stl" file="r_p_link3.STL"/>
+    <mesh name="r_p_link4" content_type="model/stl" file="r_p_link4.STL"/>
+    <mesh name="r_p_link5" content_type="model/stl" file="r_p_link5.STL"/>
+    <mesh name="r_p_link6" content_type="model/stl" file="r_p_link6.STL"/>
+    <mesh name="r_p_link2" content_type="model/stl" file="r_p_link2.STL"/>
   </asset>
   <worldbody>
     <body name="right_hand_base" pos="0 0 0" quat="1 0 0 0">
