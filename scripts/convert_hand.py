@@ -60,7 +60,7 @@ def _remove_detailed_collision_geometry(mjcf_path):
     subprocess.run(["xmllint", "--format", mjcf_path, "--output", mjcf_path])
 
 
-def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None, enable_ts_sensor=False):
+def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None):
     """Convert URDF to MJCF and add necessary configurations for the hand model.
 
     Args:
@@ -68,7 +68,6 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
         output_dir (str, optional): Output directory for MJCF file. If not provided, uses default path.
         simplified_collision_yaml (str): Path to YAML file containing simplified collision model.
             If provided, this will be used instead of generating full collision model.
-        enable_ts_sensor (bool): If True, generate model with ts_sensor suffix.
     """
     # Set up paths
     current_dir = Path(__file__).parent
@@ -83,10 +82,8 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     output_dir = current_dir / "../dexrobot_mujoco/models"
     output_dir.mkdir(exist_ok=True)
     
-    # Add ts_sensor suffix if enabled
-    base_name = urdf_path.stem
-    if enable_ts_sensor:
-        base_name = f"{base_name}_ts_sensor"
+    # Always add ts_sensor suffix
+    base_name = f"{urdf_path.stem}_ts_sensor"
     output_path = output_dir / f"{base_name}.xml"
 
     # Convert URDF to MJCF:
@@ -95,7 +92,7 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     urdf2mjcf(str(urdf_path), str(output_dir), 
               fixed_to_body_pattern=r".*(pad|tip).*", 
               fixed_to_site_pattern=r".*pad.*",
-              enable_ts_sensor=enable_ts_sensor)
+              enable_ts_sensor=True)
 
     # Add options and defaults
     apply_defaults(
@@ -176,16 +173,15 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     tree.write(str(output_path), encoding="utf-8", xml_declaration=True)
     subprocess.run(["xmllint", "--format", str(output_path), "--output", str(output_path)])
 
-    # Configure touch sensors for the automatically created sites
-    if enable_ts_sensor:
-        # Add TS touch sensors (rangefinder + user sensors)
-        add_ts_touch_sensors(str(output_path), sensor_sites)
-    else:
-        # Add regular touch sensors
-        sensor_info = {
-            f"touch_{body_name}": {"site": site_name} for body_name, site_name in sensor_sites.items()
-        }
-        add_touch_sensors(str(output_path), sensor_info)
+    # Always add both TS touch sensors and regular touch sensors
+    # TS sensors provide tactile sensor data
+    add_ts_touch_sensors(str(output_path), sensor_sites)
+    
+    # Regular touch sensors provide basic contact sensing (visualization/sensing only, no physics)
+    sensor_info = {
+        f"touch_{body_name}": {"site": site_name} for body_name, site_name in sensor_sites.items()
+    }
+    add_touch_sensors(str(output_path), sensor_info)
 
     # Add a base body to wrap everything else
     add_trunk_body(str(output_path), f"{handedness}_hand_base")
@@ -217,11 +213,10 @@ def main():
     parser = argparse.ArgumentParser(description="Convert hand URDF to MJCF format")
     parser.add_argument("--urdf", type=str, help="Input URDF file path")
     parser.add_argument("--simplified-collisions", type=str, help="Path to simplified collision YAML file")
-    parser.add_argument("--enable-ts-sensor", action="store_true", help="Enable ts_sensor suffix for generated model")
 
     args = parser.parse_args()
 
-    convert_hand_urdf(args.urdf, simplified_collision_yaml=args.simplified_collisions, enable_ts_sensor=args.enable_ts_sensor)
+    convert_hand_urdf(args.urdf, simplified_collision_yaml=args.simplified_collisions)
 
 
 if __name__ == "__main__":

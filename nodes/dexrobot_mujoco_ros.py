@@ -66,8 +66,9 @@ class MujocoJointController(ROSNode):
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
             renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
-            enable_ts_sensor (bool): Whether to enable TS sensor data publishing. When enabled, will publish to 
-                /left_hand/touch_sensors and/or /right_hand/touch_sensors topics.
+            enable_ts_sensor (bool): Whether to publish TS sensor data or regular MuJoCo sensor data. When enabled, 
+                will publish TS sensor data to /left_hand/touch_sensors and/or /right_hand/touch_sensors topics.
+                When disabled, will publish regular MuJoCo sensor data to the same topics.
         """
         super().__init__("mujoco_joint_controller")
         self.logger.info("Mujoco Joint Controller Node has been started.")
@@ -633,7 +634,7 @@ def main():
         help="Renderer dimension as width,height (e.g. 640,480)",
     )
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
-    parser.add_argument("--enable-ts-sensor", action="store_true", help="Enable TS sensor data publishing to /left_hand/touch_sensors and /right_hand/touch_sensors topics")
+    parser.add_argument("--enable-ts-sensor", action="store_true", help="Publish TS sensor data instead of regular MuJoCo sensor data to /left_hand/touch_sensors and /right_hand/touch_sensors topics")
     args = parser.parse_args()
 
     # Convert renderer dimension string to tuple or None
