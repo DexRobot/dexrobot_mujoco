@@ -569,11 +569,21 @@ class MujocoJointController(ROSNode):
     
     def _publish_mujoco_touch_sensor_data(self):
         """Publish normal MuJoCo touch sensor data to hand-specific topics."""
-        # Get normal MuJoCo sensor data that's already collected
+        # Collect data from regular touch sensors (not the tracked_sensor_names which includes TS sensors)
         all_sensor_data = []
-        for sensor_name in self.tracked_sensor_names:
-            sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
-            all_sensor_data.extend(sensor_data)
+        
+        # Find all regular touch sensors in the model
+        import mujoco
+        for i in range(self.mj.model.nsensor):
+            sensor_name = mujoco.mj_id2name(self.mj.model, mujoco.mjtObj.mjOBJ_SENSOR, i)
+            if sensor_name and sensor_name.startswith('touch_'):
+                # Check if this sensor belongs to the detected hands
+                for hand_type in self.hand_types:
+                    hand_prefix = 'l_' if hand_type == 'left' else 'r_'
+                    if hand_prefix in sensor_name:
+                        sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
+                        all_sensor_data.extend(sensor_data)
+                        break
         
         # Publish to each hand's topic if sensor data is available
         if all_sensor_data:

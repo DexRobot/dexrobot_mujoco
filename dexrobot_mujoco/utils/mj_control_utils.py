@@ -33,6 +33,9 @@ class MJControlWrapper:
         self.data = mujoco.MjData(self.model)
         self.start_time = time.time()
         self.viewer = None
+        
+        # Initialize TS sensor callback if available
+        self._initialize_ts_sensors()
         self.camera = mujoco.MjvCamera()
         self.shadow = False  # whether to reflect
         self.renderer_dimension = renderer_dimension
@@ -50,8 +53,97 @@ class MJControlWrapper:
         self.config = {}
         self.seed = seed
         np.random.seed(seed)
+    
+    def _initialize_ts_sensors(self):
+        """Initialize TS sensor callback if the library is available."""
+        try:
+            # Try to import and register the TS sensor callback
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            ts_lib_path = os.path.join(current_dir, "..", "ts_sensor_lib", "linux")
+            
+            # Add TS sensor library to Python path
+            if ts_lib_path not in sys.path:
+                sys.path.insert(0, ts_lib_path)
+            
+            # Try to import the TS sensor module
+            try:
+                from mjcb_sensor.linux import TSensor
+                TSensor.register_sensor_callback()
+                logger.info("TS sensor callback registered successfully")
+                self.ts_sensor_available = True
+            except ImportError:
+                # Fallback: try direct loading of TSensor.so
+                import ctypes
+                so_path = os.path.join(ts_lib_path, "TSensor.so")
+                if os.path.exists(so_path):
+                    ctypes.CDLL(so_path)
+                    logger.info("TS sensor library loaded directly")
+                    self.ts_sensor_available = True
+                else:
+                    logger.info("TS sensor library not found, will use simulation mode")
+                    self.ts_sensor_available = False
+        except Exception as e:
+            logger.info(f"TS sensor library not available ({e}), using simulation mode")
+            self.ts_sensor_available = False
+            
+        # If TS sensors are not available, set up simulation callback
+        if not self.ts_sensor_available:
+            self._setup_ts_sensor_simulation()
 
         self._resetting = False
+    
+    def _setup_ts_sensor_simulation(self):
+        """Set up simulated TS sensor data based on contact forces."""
+        # Find TS sensors in the model
+        self.ts_sensor_info = {}
+        import mujoco
+        for i in range(self.model.nsensor):
+            sensor_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_SENSOR, i)
+            if sensor_name and sensor_name.startswith('TS-F-A-'):
+                # Map TS sensor to corresponding touch sensor
+                finger_name = sensor_name.replace('TS-F-A-', 'touch_')
+                self.ts_sensor_info[sensor_name] = {
+                    'sensor_id': i,
+                    'sensor_adr': self.model.sensor_adr[i],
+                    'sensor_dim': self.model.sensor_dim[i],
+                    'touch_sensor': finger_name
+                }
+        
+        logger.info(f"Set up TS sensor simulation for {len(self.ts_sensor_info)} sensors")
+    
+    def _update_ts_sensor_simulation(self):
+        """Update simulated TS sensor data based on contact forces."""
+        if hasattr(self, 'ts_sensor_info'):
+            import mujoco
+            for ts_name, info in self.ts_sensor_info.items():
+                # Get contact force from corresponding touch sensor
+                try:
+                    touch_sensor_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SENSOR, info['touch_sensor'])
+                    if touch_sensor_id >= 0:
+                        contact_force = self.data.sensordata[self.model.sensor_adr[touch_sensor_id]]
+                        
+                        # Simulate 11-dimensional TS sensor data based on contact force
+                        if contact_force > 0.001:  # If there's contact
+                            # Create realistic TS sensor pattern
+                            base_values = np.random.normal(contact_force * 0.1, contact_force * 0.02, 11)
+                            base_values = np.clip(base_values, 0, None)  # Ensure non-negative
+                            # Add some spatial pattern (center stronger than edges)
+                            spatial_pattern = np.array([0.5, 0.7, 0.9, 1.0, 1.0, 1.0, 1.0, 0.9, 0.7, 0.5, 0.3])
+                            simulated_data = base_values * spatial_pattern * contact_force
+                        else:
+                            # No contact, small noise
+                            simulated_data = np.random.normal(0, 0.001, 11)
+                            simulated_data = np.clip(simulated_data, 0, None)
+                        
+                        # Update the sensor data in MuJoCo
+                        start_idx = info['sensor_adr']
+                        end_idx = start_idx + info['sensor_dim']
+                        self.data.sensordata[start_idx:end_idx] = simulated_data
+                except:
+                    # If touch sensor not found, use zero values
+                    start_idx = info['sensor_adr']
+                    end_idx = start_idx + info['sensor_dim']
+                    self.data.sensordata[start_idx:end_idx] = np.zeros(info['sensor_dim'])
 
     def reset_safe(func):
         def wrapper(self, *args, **kwargs):
@@ -109,8 +201,14 @@ class MJControlWrapper:
         if until is not None:
             while self.data.time < until:
                 mujoco.mj_step(self.model, self.data)
+                # Update TS sensor simulation after each step
+                if not self.ts_sensor_available:
+                    self._update_ts_sensor_simulation()
         else:
             mujoco.mj_step(self.model, self.data)
+            # Update TS sensor simulation after step
+            if not self.ts_sensor_available:
+                self._update_ts_sensor_simulation()
         if self.viewer is not None:
             self.viewer.sync()
 
