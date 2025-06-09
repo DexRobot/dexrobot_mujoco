@@ -4,6 +4,7 @@ from geometry_msgs.msg import Pose, PoseArray
 from std_msgs.msg import Float32MultiArray, Float64MultiArray
 from std_srvs.srv import Trigger
 import cv2
+import mujoco
 
 import time, os
 import argparse
@@ -92,15 +93,32 @@ class MujocoJointController(ROSNode):
             seed=seed,
         )
 
-        # Determine hand type(s) from model path for TS sensor topics
+        # Determine hand type(s) from actual bodies in the loaded model
         self.hand_types = []
-        model_name = os.path.basename(self.model_path).lower()
-        if 'left' in model_name:
+        
+        # Check for left and right hand bodies in the model
+        left_hand_found = False
+        right_hand_found = False
+        
+        for i in range(self.mj.model.nbody):
+            body_name = mujoco.mj_id2name(self.mj.model, mujoco.mjtObj.mjOBJ_BODY, i)
+            if body_name:
+                body_name_lower = body_name.lower()
+                if 'left_hand' in body_name_lower or 'l_f_link' in body_name_lower:
+                    left_hand_found = True
+                elif 'right_hand' in body_name_lower or 'r_f_link' in body_name_lower:
+                    right_hand_found = True
+        
+        if left_hand_found:
             self.hand_types.append('left')
-        if 'right' in model_name:
+        if right_hand_found:
             self.hand_types.append('right')
-        if not self.hand_types:  # If neither left nor right detected, assume both
-            self.hand_types = ['left', 'right']
+        
+        # Log detected hands
+        if self.hand_types:
+            self.logger.info(f"Detected hands in model: {', '.join(self.hand_types)}")
+        else:
+            self.logger.warning("No hand bodies detected in model")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
