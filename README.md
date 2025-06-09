@@ -12,9 +12,22 @@ MuJoCo binding for DexRobot hand simulation with ROS integration, providing:
 
 ## Installation
 
+### Standard Installation
 ```bash
 pip install -e .
 ```
+
+### With TaShan Sensor Support
+To use TaShan touch sensors, install with the specific MuJoCo version required:
+```bash
+pip install -e .[tashan]
+```
+**Important Requirements:**
+- TaShan sensors require MuJoCo 3.2.3
+- TaShan sensors require Python 3.8
+- Without the [tashan] option, the latest MuJoCo version will be used with any Python version ≥ 3.8
+
+**Note**: Using Python 3.8 with ROS can be challenging on modern systems. See [docs/tashan_python38_setup.md](docs/tashan_python38_setup.md) for a workaround using Conda and RoboStack. Alternatively, use the [standalone example](examples/tashan_standalone_demo.py) without ROS.
 
 ## Hand Models
 
@@ -170,6 +183,20 @@ The TS-F-A sensor itself is an 11-dimensional tactile sensor with:
 - **Simulation Fallback**: When hardware is unavailable, provides realistic simulated tactile data based on contact physics
 - **Spatial Patterns**: TS simulation creates realistic force distribution patterns across the sensor surface
 - **Real-time Updates**: Sensor data updates with each simulation step
+
+### Standalone TaShan Demo
+
+For testing TaShan sensors without ROS:
+
+```bash
+# Requires Python 3.8 and MuJoCo 3.2.3
+python examples/tashan_standalone_demo.py
+```
+
+This example demonstrates:
+- Direct TaShan sensor access without ROS
+- Real-time sensor data visualization
+- Simple finger control for testing
 
 ### ROS Topics
 

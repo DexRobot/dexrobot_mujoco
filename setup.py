@@ -18,6 +18,17 @@ setup(
     name=package_name,
     version='0.1.0',
     packages=find_packages(exclude=['test']),
+    package_data={
+        'dexrobot_mujoco': [
+            'ts_sensor_lib/linux/*.so',
+            'ts_sensor_lib/linux/*.py',
+            'ts_sensor_lib/win/*.dll',
+            'meshes/**/*',
+            'models/**/*',
+            'parts/**/*',
+            'scenes/**/*',
+        ],
+    },
     data_files=[
         # ROS2 package requirements
         ('share/ament_index/resource_index/packages',
@@ -61,6 +72,10 @@ setup(
             'flake8',
             'black',
             'mypy',
+        ],
+        'tashan': [
+            'mujoco==3.2.3',  # TaShan sensor library requires specific MuJoCo version
+            # Note: TaShan sensor library also requires Python 3.8
         ],
     },
     zip_safe=True,

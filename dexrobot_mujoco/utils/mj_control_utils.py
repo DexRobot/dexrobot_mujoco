@@ -57,9 +57,24 @@ class MJControlWrapper:
     def _initialize_ts_sensors(self):
         """Initialize TS sensor callback if the library is available."""
         try:
-            # Try to import and register the TS sensor callback
+            # Detect platform
+            import platform
+            system = platform.system().lower()
+            
+            # Determine platform-specific paths
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            ts_lib_path = os.path.join(current_dir, "..", "ts_sensor_lib", "linux")
+            if system == 'linux':
+                platform_dir = 'linux'
+                lib_name = 'TSensor.so'
+            elif system == 'windows':
+                platform_dir = 'win'
+                lib_name = 'TSensor.dll'
+            else:
+                logger.warning(f"TaShan sensor not supported on platform: {system}")
+                self.ts_sensor_available = False
+                return
+            
+            ts_lib_path = os.path.join(current_dir, "..", "ts_sensor_lib", platform_dir)
             
             # Add TS sensor library to Python path
             if ts_lib_path not in sys.path:
@@ -67,23 +82,31 @@ class MJControlWrapper:
             
             # Try to import the TS sensor module
             try:
-                from mjcb_sensor.linux import TSensor
+                # Try platform-specific import first
+                if system == 'linux':
+                    from mjcb_sensor.linux import TSensor
+                elif system == 'windows':
+                    from mjcb_sensor.win import TSensor
+                    
                 TSensor.register_sensor_callback()
-                logger.info("TS sensor callback registered successfully")
+                logger.info(f"TS sensor callback registered successfully on {system}")
                 self.ts_sensor_available = True
             except ImportError:
-                # Fallback: try direct loading of TSensor.so
+                # Fallback: try direct loading of library
                 import ctypes
-                so_path = os.path.join(ts_lib_path, "TSensor.so")
-                if os.path.exists(so_path):
-                    ctypes.CDLL(so_path)
-                    logger.info("TS sensor library loaded directly")
+                lib_path = os.path.join(ts_lib_path, lib_name)
+                if os.path.exists(lib_path):
+                    if system == 'windows':
+                        ctypes.WinDLL(lib_path)
+                    else:
+                        ctypes.CDLL(lib_path)
+                    logger.info(f"TS sensor library loaded directly: {lib_path}")
                     self.ts_sensor_available = True
                 else:
-                    logger.info("TS sensor library not found, will use simulation mode")
+                    logger.info(f"TS sensor library not found at {lib_path}, will use MuJoCo's default sensor model")
                     self.ts_sensor_available = False
         except Exception as e:
-            logger.info(f"TS sensor library not available ({e}), using simulation mode")
+            logger.info(f"TS sensor library not available ({e}), using MuJoCo's default sensor model")
             self.ts_sensor_available = False
             
         # If TS sensors are not available, set up simulation callback

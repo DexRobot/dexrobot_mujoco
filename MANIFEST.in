@@ -1,0 +1,31 @@
+# Include all TS sensor libraries
+recursive-include dexrobot_mujoco/ts_sensor_lib *
+
+# Include mesh files
+recursive-include dexrobot_mujoco/meshes *
+
+# Include model files
+recursive-include dexrobot_mujoco/models *
+
+# Include parts files
+recursive-include dexrobot_mujoco/parts *
+
+# Include scene files
+recursive-include dexrobot_mujoco/scenes *
+
+# Include package.xml for ROS
+include package.xml
+
+# Include resource files
+recursive-include resource *
+
+# Include config files
+recursive-include config *
+
+# Include launch files
+recursive-include launch *
+
+# Exclude compiled Python files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
