@@ -18,6 +18,48 @@ from dexrobot_mujoco.utils.mjcf_utils import (
 )
 
 
+def _remove_detailed_collision_geometry(mjcf_path):
+    """Remove detailed collision geometry (*_4_1 and *_4_2) from MJCF file.
+    
+    This function removes:
+    1. Mesh definitions with names ending in *_4_1 or *_4_2 from <asset> section
+    2. Geom elements using those meshes from <worldbody> section
+    
+    Args:
+        mjcf_path (str): Path to the MJCF file to modify
+    """
+    tree = ET.parse(mjcf_path)
+    root = tree.getroot()
+    
+    # Remove mesh definitions from asset section
+    asset_section = root.find('asset')
+    if asset_section is not None:
+        meshes_to_remove = []
+        for mesh in asset_section.findall('mesh'):
+            mesh_name = mesh.get('name')
+            if mesh_name and ('_4_1' in mesh_name or '_4_2' in mesh_name):
+                meshes_to_remove.append(mesh)
+        
+        for mesh in meshes_to_remove:
+            asset_section.remove(mesh)
+    
+    # Remove geom elements using those meshes from worldbody
+    # We need to iterate through all parents to find and remove child geoms
+    for parent in root.iter():
+        geoms_to_remove = []
+        for geom in parent.findall('geom'):
+            mesh_name = geom.get('mesh')
+            if mesh_name and ('_4_1' in mesh_name or '_4_2' in mesh_name):
+                geoms_to_remove.append(geom)
+        
+        for geom in geoms_to_remove:
+            parent.remove(geom)
+    
+    # Write the modified XML back to file
+    tree.write(mjcf_path, encoding="utf-8", xml_declaration=True)
+    subprocess.run(["xmllint", "--format", mjcf_path, "--output", mjcf_path])
+
+
 def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml=None, enable_ts_sensor=False):
     """Convert URDF to MJCF and add necessary configurations for the hand model.
 
@@ -159,6 +201,10 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     ]
     exclude_self_collisions(output_path, allowed_collision_pairs=allowed_collision_pairs)
 
+    # Apply simplified collision geometry by removing *_4_1 and *_4_2 variants
+    # This ensures all generated models use simplified collision geometry
+    _remove_detailed_collision_geometry(str(output_path))
+    
     # Apply collision model if applicable
     if simplified_collision_yaml:
         # Use provided simplified collision model
