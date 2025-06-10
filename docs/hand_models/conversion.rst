@@ -15,7 +15,8 @@ The conversion from URDF to MJCF is handled by the ``convert_hand.py`` script, w
 2. Post-processing to add required elements and configurations
 3. Optimization of collision geometries (optional)
 4. Addition of actuators and sensors
-5. Configuration of model parameters
+5. Addition of TaShan sensor components (force bodies and sensor definitions)
+6. Configuration of model parameters
 
 Basic Usage
 ^^^^^^^^^
@@ -32,6 +33,17 @@ Advanced Usage
     python scripts/convert_hand.py \
         --urdf /path/to/hand.urdf \
         --simplified-collision config/collision_geoms/dexhand021_right_simplified.yaml
+
+TaShan Sensor Integration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The conversion script automatically adds TaShan sensor support by:
+
+1. Creating force sensor bodies (``force1_f1`` through ``force5_f7``) on each distal finger link
+2. Adding rangefinder sensors (``rf1`` through ``rf5``) for proximity sensing
+3. Creating user sensors (``TS-F-A-1`` through ``TS-F-A-5``) for 11-dimensional output
+
+For detailed information about TaShan sensors, see :doc:`/touch_sensors`.
 
 Model Hierarchy
 -------------

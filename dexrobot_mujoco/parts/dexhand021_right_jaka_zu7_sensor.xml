@@ -6,5 +6,15 @@
     <touch name="touch_r_f_link3_pad" site="site_r_f_link3_pad"/>
     <touch name="touch_r_f_link4_pad" site="site_r_f_link4_pad"/>
     <touch name="touch_r_f_link5_pad" site="site_r_f_link5_pad"/>
+    <rangefinder name="rf1" site="site_r_f_link1_4" cutoff="0.1"/>
+    <rangefinder name="rf2" site="site_r_f_link2_4" cutoff="0.1"/>
+    <rangefinder name="rf3" site="site_r_f_link3_4" cutoff="0.1"/>
+    <rangefinder name="rf4" site="site_r_f_link4_4" cutoff="0.1"/>
+    <rangefinder name="rf5" site="site_r_f_link5_4" cutoff="0.1"/>
+    <user name="TS-F-A-1" dim="11" noise="0.0"/>
+    <user name="TS-F-A-2" dim="11" noise="0.0"/>
+    <user name="TS-F-A-3" dim="11" noise="0.0"/>
+    <user name="TS-F-A-4" dim="11" noise="0.0"/>
+    <user name="TS-F-A-5" dim="11" noise="0.0"/>
   </sensor>
 </mujocoinclude>

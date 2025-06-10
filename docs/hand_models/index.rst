@@ -16,8 +16,7 @@ This section covers everything related to the DexHand models in MuJoCo, from mod
 
    conversion
    collision_models
-   actuators
-   sensors
+   components
    articulation
    examples
 
@@ -44,6 +43,7 @@ Core Components
 - **Actuators**: Position-controlled joints with configurable parameters
 - **Sensors**: Touch sensors at fingertips
 - **Collision Geometries**: Simplified or full mesh-based
+- **Touch Sensors**: MuJoCo native or TaShan 11-dimensional sensors
 
 Available Models
 ^^^^^^^^^^^^^
@@ -53,6 +53,8 @@ Available Models
 - **dexhand021_left_simplified.xml**: Left hand with optimized collision geometries
 - **dexhand021_right_floating.xml**: Right hand with 6-DoF floating base
 - **dexhand021_right_jaka_zu7.xml**: Right hand mounted on JAKA Zu7 arm
+
+For details on touch sensors, see :doc:`/touch_sensors`.
 
 You can also check out :doc:`articulation` for more details on creating custom models by articulating the hand with your own robot arm.
 
@@ -94,8 +96,7 @@ The following sections provide detailed information about each aspect of the han
 
 - :doc:`conversion` - Converting URDF models to MJCF
 - :doc:`collision_models` - Working with collision geometries
-- :doc:`actuators` - Configuring joint actuators
-- :doc:`sensors` - Setting up touch sensors
+- :doc:`components` - Actuators and sensors configuration
 - :doc:`articulation` - Attaching hands to other models
 - :doc:`examples` - Example configurations and use cases
 

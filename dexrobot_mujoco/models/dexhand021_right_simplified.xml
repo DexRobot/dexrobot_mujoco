@@ -32,6 +32,13 @@
     <mesh name="r_f_link5_2" file="r_f_link5_2.STL"/>
     <mesh name="r_f_link5_3" file="r_f_link5_3.STL"/>
     <mesh name="r_f_link5_4" file="r_f_link5_4.STL"/>
+    <mesh name="f1" file="F1b.stl" scale=".001 .001 .001"/>
+    <mesh name="f2" file="F2b.stl" scale=".001 .001 .001"/>
+    <mesh name="f3" file="F3b.stl" scale=".001 .001 .001"/>
+    <mesh name="f4" file="F4b.stl" scale=".001 .001 .001"/>
+    <mesh name="f5" file="F5b.stl" scale=".001 .001 .001"/>
+    <mesh name="f6" file="F6b.stl" scale=".001 .001 .001"/>
+    <mesh name="f7" file="F7b.stl" scale=".001 .001 .001"/>
   </asset>
   <worldbody>
     <body name="right_hand_base" pos="0 0 0" quat="1 0 0 0">
@@ -53,21 +60,45 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link1_4" pos="0.025 0 0">
-              <inertial pos="0.0197512 -0.0029745 -0.00109785" quat="-0.0170159 0.689951 -0.100438 0.716652" mass="0.00815928" diaginertia="1.11902e-06 1.10174e-06 3.47089e-07"/>
+              <inertial pos="0.0197512 -0.00291322 -0.000975286" quat="-0.0853709 0.675331 -0.162613 0.71428" mass="0.00815928" diaginertia="1.12808e-06 1.09914e-06 3.54167e-07"/>
               <joint name="r_f_joint1_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link1_4" contype="0" conaffinity="0" group="1" density="0"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               <body name="r_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                 <geom name="geom_r_f_link1_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <body name="r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                <geom name="geom_r_f_link1_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <body name="r_f_link1_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_r_f_link1_pad" type="sphere" size="0.002" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <site name="site_r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              <site name="site_r_f_link1_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+              <site name="site_r_f_link1_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+              <body name="ts_wrapper_r_f_link1_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                <body name="force1_f1" pos="0 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f2" pos="0 0 0.0192">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f3" pos="0.00545 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f4" pos="0 0 0.02465">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f5" pos="-0.0001 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f6" pos="0.0055 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force1_f7" pos="0 0 0.01362">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+              </body>
               <geom name="col_r_f_link1_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 -0.001 0.027 -0.007 -0.001"/>
             </body>
             <geom name="col_r_f_link1_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.0125 0.003 -0.0045 0.0125 0.003 0.0023"/>
@@ -91,21 +122,45 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link2_4" pos="0.025 0 0">
-              <inertial pos="0.0197512 -0.0029745 2.99885e-07" quat="0.043096 0.705808 -0.0423577 0.705821" mass="0.00815928" diaginertia="1.11794e-06 1.10078e-06 3.46237e-07"/>
+              <inertial pos="0.0197512 -0.00291322 2.99885e-07" quat="0.0418916 0.705869 -0.0413416 0.705893" mass="0.00815928" diaginertia="1.12363e-06 1.10012e-06 3.52588e-07"/>
               <joint name="r_f_joint2_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link2_4" contype="0" conaffinity="0" group="1" density="0"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               <body name="r_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                 <geom name="geom_r_f_link2_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <body name="r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                <geom name="geom_r_f_link2_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <body name="r_f_link2_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_r_f_link2_pad" type="sphere" size="0.002" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <site name="site_r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              <site name="site_r_f_link2_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+              <site name="site_r_f_link2_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+              <body name="ts_wrapper_r_f_link2_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                <body name="force2_f1" pos="0 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f2" pos="0 0 0.0192">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f3" pos="0.00545 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f4" pos="0 0 0.02465">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f5" pos="-0.0001 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f6" pos="0.0055 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force2_f7" pos="0 0 0.01362">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+              </body>
               <geom name="col_r_f_link2_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
             </body>
             <geom name="col_r_f_link2_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -129,21 +184,45 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link3_4" pos="0.025 0 0">
-              <inertial pos="0.0197512 -0.0029745 2.99885e-07" quat="0.043096 0.705808 -0.0423577 0.705821" mass="0.00815928" diaginertia="1.11794e-06 1.10078e-06 3.46237e-07"/>
+              <inertial pos="0.0197512 -0.00291322 2.99885e-07" quat="0.0418916 0.705869 -0.0413416 0.705893" mass="0.00815928" diaginertia="1.12363e-06 1.10012e-06 3.52588e-07"/>
               <joint name="r_f_joint3_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link3_4" contype="0" conaffinity="0" group="1" density="0"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               <body name="r_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                 <geom name="geom_r_f_link3_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <body name="r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                <geom name="geom_r_f_link3_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <body name="r_f_link3_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_r_f_link3_pad" type="sphere" size="0.002" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <site name="site_r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              <site name="site_r_f_link3_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+              <site name="site_r_f_link3_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+              <body name="ts_wrapper_r_f_link3_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                <body name="force3_f1" pos="0 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f2" pos="0 0 0.0192">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f3" pos="0.00545 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f4" pos="0 0 0.02465">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f5" pos="-0.0001 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f6" pos="0.0055 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force3_f7" pos="0 0 0.01362">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+              </body>
               <geom name="col_r_f_link3_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
             </body>
             <geom name="col_r_f_link3_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -167,21 +246,45 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link4_4" pos="0.025 0 0">
-              <inertial pos="0.0197512 -0.0029745 2.99885e-07" quat="0.043096 0.705808 -0.0423577 0.705821" mass="0.00815928" diaginertia="1.11794e-06 1.10078e-06 3.46237e-07"/>
+              <inertial pos="0.0197512 -0.00291322 2.99885e-07" quat="0.0418916 0.705869 -0.0413416 0.705893" mass="0.00815928" diaginertia="1.12363e-06 1.10012e-06 3.52588e-07"/>
               <joint name="r_f_joint4_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link4_4" contype="0" conaffinity="0" group="1" density="0"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               <body name="r_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                 <geom name="geom_r_f_link4_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <body name="r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                <geom name="geom_r_f_link4_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <body name="r_f_link4_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_r_f_link4_pad" type="sphere" size="0.002" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <site name="site_r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              <site name="site_r_f_link4_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+              <site name="site_r_f_link4_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+              <body name="ts_wrapper_r_f_link4_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                <body name="force4_f1" pos="0 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f2" pos="0 0 0.0192">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f3" pos="0.00545 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f4" pos="0 0 0.02465">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f5" pos="-0.0001 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f6" pos="0.0055 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force4_f7" pos="0 0 0.01362">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+              </body>
               <geom name="col_r_f_link4_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
             </body>
             <geom name="col_r_f_link4_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -205,21 +308,45 @@
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_3"/>
             <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_3" contype="0" conaffinity="0" group="1" density="0"/>
             <body name="r_f_link5_4" pos="0.025 0 0">
-              <inertial pos="0.0197512 -0.0029745 2.99885e-07" quat="0.043096 0.705808 -0.0423577 0.705821" mass="0.00815928" diaginertia="1.11794e-06 1.10078e-06 3.46237e-07"/>
+              <inertial pos="0.0197512 -0.00291322 2.99885e-07" quat="0.0418916 0.705869 -0.0413416 0.705893" mass="0.00815928" diaginertia="1.12363e-06 1.10012e-06 3.52588e-07"/>
               <joint name="r_f_joint5_4" pos="0 0 0" axis="0 0 1" range="0 1.3" actuatorfrcrange="-10 10"/>
               <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_4"/>
               <geom type="mesh" rgba="0.6 0.6 0.6 1" mesh="r_f_link5_4" contype="0" conaffinity="0" group="1" density="0"/>
               <geom size="0.002" pos="0.035 -0.004 0" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
-              <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <geom size="0.002" pos="0.026 0.003 0" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
+              <geom size="0.002" pos="0.026 0.003 0" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               <body name="r_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                 <geom name="geom_r_f_link5_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <body name="r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
-                <geom name="geom_r_f_link5_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
+              <body name="r_f_link5_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0">
+                <geom name="geom_r_f_link5_pad" type="sphere" size="0.002" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
               </body>
-              <site name="site_r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+              <site name="site_r_f_link5_pad" pos="0.026 0.003 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.002" rgba="0 1 0 1"/>
+              <site name="site_r_f_link5_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+              <body name="ts_wrapper_r_f_link5_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                <body name="force5_f1" pos="0 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f2" pos="0 0 0.0192">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f3" pos="0.00545 0 0.02">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f4" pos="0 0 0.02465">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f5" pos="-0.0001 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f6" pos="0.0055 0 0.0285">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+                <body name="force5_f7" pos="0 0 0.01362">
+                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                </body>
+              </body>
               <geom name="col_r_f_link5_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
             </body>
             <geom name="col_r_f_link5_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -231,26 +358,26 @@
     </body>
   </worldbody>
   <actuator>
-    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="20" kv="1" ctrlrange="0 2.2" forcerange="-20 20"/>
-    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="20" kv="1" ctrlrange="-0.0001 0.0001" forcerange="-20 20"/>
-    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20"/>
-    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="20" kv="1" ctrlrange="0 0.6" forcerange="-20 20"/>
+    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="20" kv="0.1" ctrlrange="0 1.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="20" kv="1" ctrlrange="0 2.2" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="20" kv="1" ctrlrange="-0.0001 0.0001" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="20" kv="1" ctrlrange="0 0.3" forcerange="-20 20" forcelimited="true"/>
+    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="20" kv="1" ctrlrange="0 0.6" forcerange="-20 20" forcelimited="true"/>
   </actuator>
   <sensor>
     <touch name="touch_r_f_link1_pad" site="site_r_f_link1_pad"/>
@@ -258,6 +385,16 @@
     <touch name="touch_r_f_link3_pad" site="site_r_f_link3_pad"/>
     <touch name="touch_r_f_link4_pad" site="site_r_f_link4_pad"/>
     <touch name="touch_r_f_link5_pad" site="site_r_f_link5_pad"/>
+    <rangefinder name="rf1" site="site_r_f_link1_4" cutoff="0.1"/>
+    <rangefinder name="rf2" site="site_r_f_link2_4" cutoff="0.1"/>
+    <rangefinder name="rf3" site="site_r_f_link3_4" cutoff="0.1"/>
+    <rangefinder name="rf4" site="site_r_f_link4_4" cutoff="0.1"/>
+    <rangefinder name="rf5" site="site_r_f_link5_4" cutoff="0.1"/>
+    <user name="TS-F-A-1" dim="11" noise="0.0"/>
+    <user name="TS-F-A-2" dim="11" noise="0.0"/>
+    <user name="TS-F-A-3" dim="11" noise="0.0"/>
+    <user name="TS-F-A-4" dim="11" noise="0.0"/>
+    <user name="TS-F-A-5" dim="11" noise="0.0"/>
   </sensor>
   <contact>
     <exclude body1="right_hand_base" body2="r_f_link1_1"/>
@@ -266,454 +403,2474 @@
     <exclude body1="right_hand_base" body2="r_f_link1_4"/>
     <exclude body1="right_hand_base" body2="r_f_link1_tip"/>
     <exclude body1="right_hand_base" body2="r_f_link1_pad"/>
+    <exclude body1="right_hand_base" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="right_hand_base" body2="force1_f1"/>
+    <exclude body1="right_hand_base" body2="force1_f2"/>
+    <exclude body1="right_hand_base" body2="force1_f3"/>
+    <exclude body1="right_hand_base" body2="force1_f4"/>
+    <exclude body1="right_hand_base" body2="force1_f5"/>
+    <exclude body1="right_hand_base" body2="force1_f6"/>
+    <exclude body1="right_hand_base" body2="force1_f7"/>
     <exclude body1="right_hand_base" body2="r_f_link2_1"/>
     <exclude body1="right_hand_base" body2="r_f_link2_2"/>
     <exclude body1="right_hand_base" body2="r_f_link2_3"/>
     <exclude body1="right_hand_base" body2="r_f_link2_4"/>
     <exclude body1="right_hand_base" body2="r_f_link2_tip"/>
     <exclude body1="right_hand_base" body2="r_f_link2_pad"/>
+    <exclude body1="right_hand_base" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="right_hand_base" body2="force2_f1"/>
+    <exclude body1="right_hand_base" body2="force2_f2"/>
+    <exclude body1="right_hand_base" body2="force2_f3"/>
+    <exclude body1="right_hand_base" body2="force2_f4"/>
+    <exclude body1="right_hand_base" body2="force2_f5"/>
+    <exclude body1="right_hand_base" body2="force2_f6"/>
+    <exclude body1="right_hand_base" body2="force2_f7"/>
     <exclude body1="right_hand_base" body2="r_f_link3_1"/>
     <exclude body1="right_hand_base" body2="r_f_link3_2"/>
     <exclude body1="right_hand_base" body2="r_f_link3_3"/>
     <exclude body1="right_hand_base" body2="r_f_link3_4"/>
     <exclude body1="right_hand_base" body2="r_f_link3_tip"/>
     <exclude body1="right_hand_base" body2="r_f_link3_pad"/>
+    <exclude body1="right_hand_base" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="right_hand_base" body2="force3_f1"/>
+    <exclude body1="right_hand_base" body2="force3_f2"/>
+    <exclude body1="right_hand_base" body2="force3_f3"/>
+    <exclude body1="right_hand_base" body2="force3_f4"/>
+    <exclude body1="right_hand_base" body2="force3_f5"/>
+    <exclude body1="right_hand_base" body2="force3_f6"/>
+    <exclude body1="right_hand_base" body2="force3_f7"/>
     <exclude body1="right_hand_base" body2="r_f_link4_1"/>
     <exclude body1="right_hand_base" body2="r_f_link4_2"/>
     <exclude body1="right_hand_base" body2="r_f_link4_3"/>
     <exclude body1="right_hand_base" body2="r_f_link4_4"/>
     <exclude body1="right_hand_base" body2="r_f_link4_tip"/>
     <exclude body1="right_hand_base" body2="r_f_link4_pad"/>
+    <exclude body1="right_hand_base" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="right_hand_base" body2="force4_f1"/>
+    <exclude body1="right_hand_base" body2="force4_f2"/>
+    <exclude body1="right_hand_base" body2="force4_f3"/>
+    <exclude body1="right_hand_base" body2="force4_f4"/>
+    <exclude body1="right_hand_base" body2="force4_f5"/>
+    <exclude body1="right_hand_base" body2="force4_f6"/>
+    <exclude body1="right_hand_base" body2="force4_f7"/>
     <exclude body1="right_hand_base" body2="r_f_link5_1"/>
     <exclude body1="right_hand_base" body2="r_f_link5_2"/>
     <exclude body1="right_hand_base" body2="r_f_link5_3"/>
     <exclude body1="right_hand_base" body2="r_f_link5_4"/>
     <exclude body1="right_hand_base" body2="r_f_link5_tip"/>
     <exclude body1="right_hand_base" body2="r_f_link5_pad"/>
+    <exclude body1="right_hand_base" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="right_hand_base" body2="force5_f1"/>
+    <exclude body1="right_hand_base" body2="force5_f2"/>
+    <exclude body1="right_hand_base" body2="force5_f3"/>
+    <exclude body1="right_hand_base" body2="force5_f4"/>
+    <exclude body1="right_hand_base" body2="force5_f5"/>
+    <exclude body1="right_hand_base" body2="force5_f6"/>
+    <exclude body1="right_hand_base" body2="force5_f7"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_4"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_tip"/>
     <exclude body1="r_f_link1_1" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_1" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_1" body2="force1_f1"/>
+    <exclude body1="r_f_link1_1" body2="force1_f2"/>
+    <exclude body1="r_f_link1_1" body2="force1_f3"/>
+    <exclude body1="r_f_link1_1" body2="force1_f4"/>
+    <exclude body1="r_f_link1_1" body2="force1_f5"/>
+    <exclude body1="r_f_link1_1" body2="force1_f6"/>
+    <exclude body1="r_f_link1_1" body2="force1_f7"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_4"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_1" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_1" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_1" body2="force2_f1"/>
+    <exclude body1="r_f_link1_1" body2="force2_f2"/>
+    <exclude body1="r_f_link1_1" body2="force2_f3"/>
+    <exclude body1="r_f_link1_1" body2="force2_f4"/>
+    <exclude body1="r_f_link1_1" body2="force2_f5"/>
+    <exclude body1="r_f_link1_1" body2="force2_f6"/>
+    <exclude body1="r_f_link1_1" body2="force2_f7"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_4"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_1" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_1" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_1" body2="force3_f1"/>
+    <exclude body1="r_f_link1_1" body2="force3_f2"/>
+    <exclude body1="r_f_link1_1" body2="force3_f3"/>
+    <exclude body1="r_f_link1_1" body2="force3_f4"/>
+    <exclude body1="r_f_link1_1" body2="force3_f5"/>
+    <exclude body1="r_f_link1_1" body2="force3_f6"/>
+    <exclude body1="r_f_link1_1" body2="force3_f7"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_4"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_1" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_1" body2="force4_f1"/>
+    <exclude body1="r_f_link1_1" body2="force4_f2"/>
+    <exclude body1="r_f_link1_1" body2="force4_f3"/>
+    <exclude body1="r_f_link1_1" body2="force4_f4"/>
+    <exclude body1="r_f_link1_1" body2="force4_f5"/>
+    <exclude body1="r_f_link1_1" body2="force4_f6"/>
+    <exclude body1="r_f_link1_1" body2="force4_f7"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_4"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_1" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_1" body2="force5_f1"/>
+    <exclude body1="r_f_link1_1" body2="force5_f2"/>
+    <exclude body1="r_f_link1_1" body2="force5_f3"/>
+    <exclude body1="r_f_link1_1" body2="force5_f4"/>
+    <exclude body1="r_f_link1_1" body2="force5_f5"/>
+    <exclude body1="r_f_link1_1" body2="force5_f6"/>
+    <exclude body1="r_f_link1_1" body2="force5_f7"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_4"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_tip"/>
     <exclude body1="r_f_link1_2" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_2" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_2" body2="force1_f1"/>
+    <exclude body1="r_f_link1_2" body2="force1_f2"/>
+    <exclude body1="r_f_link1_2" body2="force1_f3"/>
+    <exclude body1="r_f_link1_2" body2="force1_f4"/>
+    <exclude body1="r_f_link1_2" body2="force1_f5"/>
+    <exclude body1="r_f_link1_2" body2="force1_f6"/>
+    <exclude body1="r_f_link1_2" body2="force1_f7"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_4"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_2" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_2" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_2" body2="force2_f1"/>
+    <exclude body1="r_f_link1_2" body2="force2_f2"/>
+    <exclude body1="r_f_link1_2" body2="force2_f3"/>
+    <exclude body1="r_f_link1_2" body2="force2_f4"/>
+    <exclude body1="r_f_link1_2" body2="force2_f5"/>
+    <exclude body1="r_f_link1_2" body2="force2_f6"/>
+    <exclude body1="r_f_link1_2" body2="force2_f7"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_4"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_2" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_2" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_2" body2="force3_f1"/>
+    <exclude body1="r_f_link1_2" body2="force3_f2"/>
+    <exclude body1="r_f_link1_2" body2="force3_f3"/>
+    <exclude body1="r_f_link1_2" body2="force3_f4"/>
+    <exclude body1="r_f_link1_2" body2="force3_f5"/>
+    <exclude body1="r_f_link1_2" body2="force3_f6"/>
+    <exclude body1="r_f_link1_2" body2="force3_f7"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_4"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_2" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_2" body2="force4_f1"/>
+    <exclude body1="r_f_link1_2" body2="force4_f2"/>
+    <exclude body1="r_f_link1_2" body2="force4_f3"/>
+    <exclude body1="r_f_link1_2" body2="force4_f4"/>
+    <exclude body1="r_f_link1_2" body2="force4_f5"/>
+    <exclude body1="r_f_link1_2" body2="force4_f6"/>
+    <exclude body1="r_f_link1_2" body2="force4_f7"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_4"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_2" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_2" body2="force5_f1"/>
+    <exclude body1="r_f_link1_2" body2="force5_f2"/>
+    <exclude body1="r_f_link1_2" body2="force5_f3"/>
+    <exclude body1="r_f_link1_2" body2="force5_f4"/>
+    <exclude body1="r_f_link1_2" body2="force5_f5"/>
+    <exclude body1="r_f_link1_2" body2="force5_f6"/>
+    <exclude body1="r_f_link1_2" body2="force5_f7"/>
     <exclude body1="r_f_link1_3" body2="r_f_link1_4"/>
     <exclude body1="r_f_link1_3" body2="r_f_link1_tip"/>
     <exclude body1="r_f_link1_3" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_3" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_3" body2="force1_f1"/>
+    <exclude body1="r_f_link1_3" body2="force1_f2"/>
+    <exclude body1="r_f_link1_3" body2="force1_f3"/>
+    <exclude body1="r_f_link1_3" body2="force1_f4"/>
+    <exclude body1="r_f_link1_3" body2="force1_f5"/>
+    <exclude body1="r_f_link1_3" body2="force1_f6"/>
+    <exclude body1="r_f_link1_3" body2="force1_f7"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_4"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_3" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_3" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_3" body2="force2_f1"/>
+    <exclude body1="r_f_link1_3" body2="force2_f2"/>
+    <exclude body1="r_f_link1_3" body2="force2_f3"/>
+    <exclude body1="r_f_link1_3" body2="force2_f4"/>
+    <exclude body1="r_f_link1_3" body2="force2_f5"/>
+    <exclude body1="r_f_link1_3" body2="force2_f6"/>
+    <exclude body1="r_f_link1_3" body2="force2_f7"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_4"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_3" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_3" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_3" body2="force3_f1"/>
+    <exclude body1="r_f_link1_3" body2="force3_f2"/>
+    <exclude body1="r_f_link1_3" body2="force3_f3"/>
+    <exclude body1="r_f_link1_3" body2="force3_f4"/>
+    <exclude body1="r_f_link1_3" body2="force3_f5"/>
+    <exclude body1="r_f_link1_3" body2="force3_f6"/>
+    <exclude body1="r_f_link1_3" body2="force3_f7"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_4"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_3" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_3" body2="force4_f1"/>
+    <exclude body1="r_f_link1_3" body2="force4_f2"/>
+    <exclude body1="r_f_link1_3" body2="force4_f3"/>
+    <exclude body1="r_f_link1_3" body2="force4_f4"/>
+    <exclude body1="r_f_link1_3" body2="force4_f5"/>
+    <exclude body1="r_f_link1_3" body2="force4_f6"/>
+    <exclude body1="r_f_link1_3" body2="force4_f7"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_4"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_3" body2="force5_f1"/>
+    <exclude body1="r_f_link1_3" body2="force5_f2"/>
+    <exclude body1="r_f_link1_3" body2="force5_f3"/>
+    <exclude body1="r_f_link1_3" body2="force5_f4"/>
+    <exclude body1="r_f_link1_3" body2="force5_f5"/>
+    <exclude body1="r_f_link1_3" body2="force5_f6"/>
+    <exclude body1="r_f_link1_3" body2="force5_f7"/>
     <exclude body1="r_f_link1_4" body2="r_f_link1_tip"/>
     <exclude body1="r_f_link1_4" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_4" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_4" body2="force1_f1"/>
+    <exclude body1="r_f_link1_4" body2="force1_f2"/>
+    <exclude body1="r_f_link1_4" body2="force1_f3"/>
+    <exclude body1="r_f_link1_4" body2="force1_f4"/>
+    <exclude body1="r_f_link1_4" body2="force1_f5"/>
+    <exclude body1="r_f_link1_4" body2="force1_f6"/>
+    <exclude body1="r_f_link1_4" body2="force1_f7"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_4" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_4" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_4" body2="force2_f1"/>
+    <exclude body1="r_f_link1_4" body2="force2_f2"/>
+    <exclude body1="r_f_link1_4" body2="force2_f3"/>
+    <exclude body1="r_f_link1_4" body2="force2_f4"/>
+    <exclude body1="r_f_link1_4" body2="force2_f5"/>
+    <exclude body1="r_f_link1_4" body2="force2_f6"/>
+    <exclude body1="r_f_link1_4" body2="force2_f7"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_4" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_4" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_4" body2="force3_f1"/>
+    <exclude body1="r_f_link1_4" body2="force3_f2"/>
+    <exclude body1="r_f_link1_4" body2="force3_f3"/>
+    <exclude body1="r_f_link1_4" body2="force3_f4"/>
+    <exclude body1="r_f_link1_4" body2="force3_f5"/>
+    <exclude body1="r_f_link1_4" body2="force3_f6"/>
+    <exclude body1="r_f_link1_4" body2="force3_f7"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_4" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_4" body2="force4_f1"/>
+    <exclude body1="r_f_link1_4" body2="force4_f2"/>
+    <exclude body1="r_f_link1_4" body2="force4_f3"/>
+    <exclude body1="r_f_link1_4" body2="force4_f4"/>
+    <exclude body1="r_f_link1_4" body2="force4_f5"/>
+    <exclude body1="r_f_link1_4" body2="force4_f6"/>
+    <exclude body1="r_f_link1_4" body2="force4_f7"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_4" body2="force5_f1"/>
+    <exclude body1="r_f_link1_4" body2="force5_f2"/>
+    <exclude body1="r_f_link1_4" body2="force5_f3"/>
+    <exclude body1="r_f_link1_4" body2="force5_f4"/>
+    <exclude body1="r_f_link1_4" body2="force5_f5"/>
+    <exclude body1="r_f_link1_4" body2="force5_f6"/>
+    <exclude body1="r_f_link1_4" body2="force5_f7"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link1_pad"/>
+    <exclude body1="r_f_link1_tip" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f1"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f2"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f3"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f4"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f5"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f6"/>
+    <exclude body1="r_f_link1_tip" body2="force1_f7"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_4"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_tip" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f1"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f2"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f3"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f4"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f5"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f6"/>
+    <exclude body1="r_f_link1_tip" body2="force2_f7"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_4"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_tip" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f1"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f2"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f3"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f4"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f5"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f6"/>
+    <exclude body1="r_f_link1_tip" body2="force3_f7"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_4"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_tip" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f1"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f2"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f3"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f4"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f5"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f6"/>
+    <exclude body1="r_f_link1_tip" body2="force4_f7"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_4"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_tip" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f1"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f2"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f3"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f4"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f5"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f6"/>
+    <exclude body1="r_f_link1_tip" body2="force5_f7"/>
+    <exclude body1="r_f_link1_pad" body2="ts_wrapper_r_f_link1_pad"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f1"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f2"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f3"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f4"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f5"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f6"/>
+    <exclude body1="r_f_link1_pad" body2="force1_f7"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_1"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_2"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_3"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_4"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link1_pad" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f1"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f2"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f3"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f4"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f5"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f6"/>
+    <exclude body1="r_f_link1_pad" body2="force2_f7"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_1"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_2"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_3"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_4"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link1_pad" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f1"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f2"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f3"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f4"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f5"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f6"/>
+    <exclude body1="r_f_link1_pad" body2="force3_f7"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_1"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_2"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_3"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_4"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link1_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f1"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f2"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f3"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f4"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f5"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f6"/>
+    <exclude body1="r_f_link1_pad" body2="force4_f7"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_1"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_2"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_3"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_4"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link1_pad" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link1_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f1"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f2"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f3"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f4"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f5"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f6"/>
+    <exclude body1="r_f_link1_pad" body2="force5_f7"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f5"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f6"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force1_f7"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_tip"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link2_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f5"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f6"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force2_f7"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_tip"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link3_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f5"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f6"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force3_f7"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_tip"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f5"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f6"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force4_f7"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_tip"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f1"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f2"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f3"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f4"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f5"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f6"/>
+    <exclude body1="ts_wrapper_r_f_link1_pad" body2="force5_f7"/>
+    <exclude body1="force1_f1" body2="force1_f2"/>
+    <exclude body1="force1_f1" body2="force1_f3"/>
+    <exclude body1="force1_f1" body2="force1_f4"/>
+    <exclude body1="force1_f1" body2="force1_f5"/>
+    <exclude body1="force1_f1" body2="force1_f6"/>
+    <exclude body1="force1_f1" body2="force1_f7"/>
+    <exclude body1="force1_f1" body2="r_f_link2_1"/>
+    <exclude body1="force1_f1" body2="r_f_link2_2"/>
+    <exclude body1="force1_f1" body2="r_f_link2_3"/>
+    <exclude body1="force1_f1" body2="r_f_link2_4"/>
+    <exclude body1="force1_f1" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f1" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f1" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f1" body2="force2_f1"/>
+    <exclude body1="force1_f1" body2="force2_f2"/>
+    <exclude body1="force1_f1" body2="force2_f3"/>
+    <exclude body1="force1_f1" body2="force2_f4"/>
+    <exclude body1="force1_f1" body2="force2_f5"/>
+    <exclude body1="force1_f1" body2="force2_f6"/>
+    <exclude body1="force1_f1" body2="force2_f7"/>
+    <exclude body1="force1_f1" body2="r_f_link3_1"/>
+    <exclude body1="force1_f1" body2="r_f_link3_2"/>
+    <exclude body1="force1_f1" body2="r_f_link3_3"/>
+    <exclude body1="force1_f1" body2="r_f_link3_4"/>
+    <exclude body1="force1_f1" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f1" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f1" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f1" body2="force3_f1"/>
+    <exclude body1="force1_f1" body2="force3_f2"/>
+    <exclude body1="force1_f1" body2="force3_f3"/>
+    <exclude body1="force1_f1" body2="force3_f4"/>
+    <exclude body1="force1_f1" body2="force3_f5"/>
+    <exclude body1="force1_f1" body2="force3_f6"/>
+    <exclude body1="force1_f1" body2="force3_f7"/>
+    <exclude body1="force1_f1" body2="r_f_link4_1"/>
+    <exclude body1="force1_f1" body2="r_f_link4_2"/>
+    <exclude body1="force1_f1" body2="r_f_link4_3"/>
+    <exclude body1="force1_f1" body2="r_f_link4_4"/>
+    <exclude body1="force1_f1" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f1" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f1" body2="force4_f1"/>
+    <exclude body1="force1_f1" body2="force4_f2"/>
+    <exclude body1="force1_f1" body2="force4_f3"/>
+    <exclude body1="force1_f1" body2="force4_f4"/>
+    <exclude body1="force1_f1" body2="force4_f5"/>
+    <exclude body1="force1_f1" body2="force4_f6"/>
+    <exclude body1="force1_f1" body2="force4_f7"/>
+    <exclude body1="force1_f1" body2="r_f_link5_1"/>
+    <exclude body1="force1_f1" body2="r_f_link5_2"/>
+    <exclude body1="force1_f1" body2="r_f_link5_3"/>
+    <exclude body1="force1_f1" body2="r_f_link5_4"/>
+    <exclude body1="force1_f1" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f1" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f1" body2="force5_f1"/>
+    <exclude body1="force1_f1" body2="force5_f2"/>
+    <exclude body1="force1_f1" body2="force5_f3"/>
+    <exclude body1="force1_f1" body2="force5_f4"/>
+    <exclude body1="force1_f1" body2="force5_f5"/>
+    <exclude body1="force1_f1" body2="force5_f6"/>
+    <exclude body1="force1_f1" body2="force5_f7"/>
+    <exclude body1="force1_f2" body2="force1_f3"/>
+    <exclude body1="force1_f2" body2="force1_f4"/>
+    <exclude body1="force1_f2" body2="force1_f5"/>
+    <exclude body1="force1_f2" body2="force1_f6"/>
+    <exclude body1="force1_f2" body2="force1_f7"/>
+    <exclude body1="force1_f2" body2="r_f_link2_1"/>
+    <exclude body1="force1_f2" body2="r_f_link2_2"/>
+    <exclude body1="force1_f2" body2="r_f_link2_3"/>
+    <exclude body1="force1_f2" body2="r_f_link2_4"/>
+    <exclude body1="force1_f2" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f2" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f2" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f2" body2="force2_f1"/>
+    <exclude body1="force1_f2" body2="force2_f2"/>
+    <exclude body1="force1_f2" body2="force2_f3"/>
+    <exclude body1="force1_f2" body2="force2_f4"/>
+    <exclude body1="force1_f2" body2="force2_f5"/>
+    <exclude body1="force1_f2" body2="force2_f6"/>
+    <exclude body1="force1_f2" body2="force2_f7"/>
+    <exclude body1="force1_f2" body2="r_f_link3_1"/>
+    <exclude body1="force1_f2" body2="r_f_link3_2"/>
+    <exclude body1="force1_f2" body2="r_f_link3_3"/>
+    <exclude body1="force1_f2" body2="r_f_link3_4"/>
+    <exclude body1="force1_f2" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f2" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f2" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f2" body2="force3_f1"/>
+    <exclude body1="force1_f2" body2="force3_f2"/>
+    <exclude body1="force1_f2" body2="force3_f3"/>
+    <exclude body1="force1_f2" body2="force3_f4"/>
+    <exclude body1="force1_f2" body2="force3_f5"/>
+    <exclude body1="force1_f2" body2="force3_f6"/>
+    <exclude body1="force1_f2" body2="force3_f7"/>
+    <exclude body1="force1_f2" body2="r_f_link4_1"/>
+    <exclude body1="force1_f2" body2="r_f_link4_2"/>
+    <exclude body1="force1_f2" body2="r_f_link4_3"/>
+    <exclude body1="force1_f2" body2="r_f_link4_4"/>
+    <exclude body1="force1_f2" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f2" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f2" body2="force4_f1"/>
+    <exclude body1="force1_f2" body2="force4_f2"/>
+    <exclude body1="force1_f2" body2="force4_f3"/>
+    <exclude body1="force1_f2" body2="force4_f4"/>
+    <exclude body1="force1_f2" body2="force4_f5"/>
+    <exclude body1="force1_f2" body2="force4_f6"/>
+    <exclude body1="force1_f2" body2="force4_f7"/>
+    <exclude body1="force1_f2" body2="r_f_link5_1"/>
+    <exclude body1="force1_f2" body2="r_f_link5_2"/>
+    <exclude body1="force1_f2" body2="r_f_link5_3"/>
+    <exclude body1="force1_f2" body2="r_f_link5_4"/>
+    <exclude body1="force1_f2" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f2" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f2" body2="force5_f1"/>
+    <exclude body1="force1_f2" body2="force5_f2"/>
+    <exclude body1="force1_f2" body2="force5_f3"/>
+    <exclude body1="force1_f2" body2="force5_f4"/>
+    <exclude body1="force1_f2" body2="force5_f5"/>
+    <exclude body1="force1_f2" body2="force5_f6"/>
+    <exclude body1="force1_f2" body2="force5_f7"/>
+    <exclude body1="force1_f3" body2="force1_f4"/>
+    <exclude body1="force1_f3" body2="force1_f5"/>
+    <exclude body1="force1_f3" body2="force1_f6"/>
+    <exclude body1="force1_f3" body2="force1_f7"/>
+    <exclude body1="force1_f3" body2="r_f_link2_1"/>
+    <exclude body1="force1_f3" body2="r_f_link2_2"/>
+    <exclude body1="force1_f3" body2="r_f_link2_3"/>
+    <exclude body1="force1_f3" body2="r_f_link2_4"/>
+    <exclude body1="force1_f3" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f3" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f3" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f3" body2="force2_f1"/>
+    <exclude body1="force1_f3" body2="force2_f2"/>
+    <exclude body1="force1_f3" body2="force2_f3"/>
+    <exclude body1="force1_f3" body2="force2_f4"/>
+    <exclude body1="force1_f3" body2="force2_f5"/>
+    <exclude body1="force1_f3" body2="force2_f6"/>
+    <exclude body1="force1_f3" body2="force2_f7"/>
+    <exclude body1="force1_f3" body2="r_f_link3_1"/>
+    <exclude body1="force1_f3" body2="r_f_link3_2"/>
+    <exclude body1="force1_f3" body2="r_f_link3_3"/>
+    <exclude body1="force1_f3" body2="r_f_link3_4"/>
+    <exclude body1="force1_f3" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f3" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f3" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f3" body2="force3_f1"/>
+    <exclude body1="force1_f3" body2="force3_f2"/>
+    <exclude body1="force1_f3" body2="force3_f3"/>
+    <exclude body1="force1_f3" body2="force3_f4"/>
+    <exclude body1="force1_f3" body2="force3_f5"/>
+    <exclude body1="force1_f3" body2="force3_f6"/>
+    <exclude body1="force1_f3" body2="force3_f7"/>
+    <exclude body1="force1_f3" body2="r_f_link4_1"/>
+    <exclude body1="force1_f3" body2="r_f_link4_2"/>
+    <exclude body1="force1_f3" body2="r_f_link4_3"/>
+    <exclude body1="force1_f3" body2="r_f_link4_4"/>
+    <exclude body1="force1_f3" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f3" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f3" body2="force4_f1"/>
+    <exclude body1="force1_f3" body2="force4_f2"/>
+    <exclude body1="force1_f3" body2="force4_f3"/>
+    <exclude body1="force1_f3" body2="force4_f4"/>
+    <exclude body1="force1_f3" body2="force4_f5"/>
+    <exclude body1="force1_f3" body2="force4_f6"/>
+    <exclude body1="force1_f3" body2="force4_f7"/>
+    <exclude body1="force1_f3" body2="r_f_link5_1"/>
+    <exclude body1="force1_f3" body2="r_f_link5_2"/>
+    <exclude body1="force1_f3" body2="r_f_link5_3"/>
+    <exclude body1="force1_f3" body2="r_f_link5_4"/>
+    <exclude body1="force1_f3" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f3" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f3" body2="force5_f1"/>
+    <exclude body1="force1_f3" body2="force5_f2"/>
+    <exclude body1="force1_f3" body2="force5_f3"/>
+    <exclude body1="force1_f3" body2="force5_f4"/>
+    <exclude body1="force1_f3" body2="force5_f5"/>
+    <exclude body1="force1_f3" body2="force5_f6"/>
+    <exclude body1="force1_f3" body2="force5_f7"/>
+    <exclude body1="force1_f4" body2="force1_f5"/>
+    <exclude body1="force1_f4" body2="force1_f6"/>
+    <exclude body1="force1_f4" body2="force1_f7"/>
+    <exclude body1="force1_f4" body2="r_f_link2_1"/>
+    <exclude body1="force1_f4" body2="r_f_link2_2"/>
+    <exclude body1="force1_f4" body2="r_f_link2_3"/>
+    <exclude body1="force1_f4" body2="r_f_link2_4"/>
+    <exclude body1="force1_f4" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f4" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f4" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f4" body2="force2_f1"/>
+    <exclude body1="force1_f4" body2="force2_f2"/>
+    <exclude body1="force1_f4" body2="force2_f3"/>
+    <exclude body1="force1_f4" body2="force2_f4"/>
+    <exclude body1="force1_f4" body2="force2_f5"/>
+    <exclude body1="force1_f4" body2="force2_f6"/>
+    <exclude body1="force1_f4" body2="force2_f7"/>
+    <exclude body1="force1_f4" body2="r_f_link3_1"/>
+    <exclude body1="force1_f4" body2="r_f_link3_2"/>
+    <exclude body1="force1_f4" body2="r_f_link3_3"/>
+    <exclude body1="force1_f4" body2="r_f_link3_4"/>
+    <exclude body1="force1_f4" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f4" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f4" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f4" body2="force3_f1"/>
+    <exclude body1="force1_f4" body2="force3_f2"/>
+    <exclude body1="force1_f4" body2="force3_f3"/>
+    <exclude body1="force1_f4" body2="force3_f4"/>
+    <exclude body1="force1_f4" body2="force3_f5"/>
+    <exclude body1="force1_f4" body2="force3_f6"/>
+    <exclude body1="force1_f4" body2="force3_f7"/>
+    <exclude body1="force1_f4" body2="r_f_link4_1"/>
+    <exclude body1="force1_f4" body2="r_f_link4_2"/>
+    <exclude body1="force1_f4" body2="r_f_link4_3"/>
+    <exclude body1="force1_f4" body2="r_f_link4_4"/>
+    <exclude body1="force1_f4" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f4" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f4" body2="force4_f1"/>
+    <exclude body1="force1_f4" body2="force4_f2"/>
+    <exclude body1="force1_f4" body2="force4_f3"/>
+    <exclude body1="force1_f4" body2="force4_f4"/>
+    <exclude body1="force1_f4" body2="force4_f5"/>
+    <exclude body1="force1_f4" body2="force4_f6"/>
+    <exclude body1="force1_f4" body2="force4_f7"/>
+    <exclude body1="force1_f4" body2="r_f_link5_1"/>
+    <exclude body1="force1_f4" body2="r_f_link5_2"/>
+    <exclude body1="force1_f4" body2="r_f_link5_3"/>
+    <exclude body1="force1_f4" body2="r_f_link5_4"/>
+    <exclude body1="force1_f4" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f4" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f4" body2="force5_f1"/>
+    <exclude body1="force1_f4" body2="force5_f2"/>
+    <exclude body1="force1_f4" body2="force5_f3"/>
+    <exclude body1="force1_f4" body2="force5_f4"/>
+    <exclude body1="force1_f4" body2="force5_f5"/>
+    <exclude body1="force1_f4" body2="force5_f6"/>
+    <exclude body1="force1_f4" body2="force5_f7"/>
+    <exclude body1="force1_f5" body2="force1_f6"/>
+    <exclude body1="force1_f5" body2="force1_f7"/>
+    <exclude body1="force1_f5" body2="r_f_link2_1"/>
+    <exclude body1="force1_f5" body2="r_f_link2_2"/>
+    <exclude body1="force1_f5" body2="r_f_link2_3"/>
+    <exclude body1="force1_f5" body2="r_f_link2_4"/>
+    <exclude body1="force1_f5" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f5" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f5" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f5" body2="force2_f1"/>
+    <exclude body1="force1_f5" body2="force2_f2"/>
+    <exclude body1="force1_f5" body2="force2_f3"/>
+    <exclude body1="force1_f5" body2="force2_f4"/>
+    <exclude body1="force1_f5" body2="force2_f5"/>
+    <exclude body1="force1_f5" body2="force2_f6"/>
+    <exclude body1="force1_f5" body2="force2_f7"/>
+    <exclude body1="force1_f5" body2="r_f_link3_1"/>
+    <exclude body1="force1_f5" body2="r_f_link3_2"/>
+    <exclude body1="force1_f5" body2="r_f_link3_3"/>
+    <exclude body1="force1_f5" body2="r_f_link3_4"/>
+    <exclude body1="force1_f5" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f5" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f5" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f5" body2="force3_f1"/>
+    <exclude body1="force1_f5" body2="force3_f2"/>
+    <exclude body1="force1_f5" body2="force3_f3"/>
+    <exclude body1="force1_f5" body2="force3_f4"/>
+    <exclude body1="force1_f5" body2="force3_f5"/>
+    <exclude body1="force1_f5" body2="force3_f6"/>
+    <exclude body1="force1_f5" body2="force3_f7"/>
+    <exclude body1="force1_f5" body2="r_f_link4_1"/>
+    <exclude body1="force1_f5" body2="r_f_link4_2"/>
+    <exclude body1="force1_f5" body2="r_f_link4_3"/>
+    <exclude body1="force1_f5" body2="r_f_link4_4"/>
+    <exclude body1="force1_f5" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f5" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f5" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f5" body2="force4_f1"/>
+    <exclude body1="force1_f5" body2="force4_f2"/>
+    <exclude body1="force1_f5" body2="force4_f3"/>
+    <exclude body1="force1_f5" body2="force4_f4"/>
+    <exclude body1="force1_f5" body2="force4_f5"/>
+    <exclude body1="force1_f5" body2="force4_f6"/>
+    <exclude body1="force1_f5" body2="force4_f7"/>
+    <exclude body1="force1_f5" body2="r_f_link5_1"/>
+    <exclude body1="force1_f5" body2="r_f_link5_2"/>
+    <exclude body1="force1_f5" body2="r_f_link5_3"/>
+    <exclude body1="force1_f5" body2="r_f_link5_4"/>
+    <exclude body1="force1_f5" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f5" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f5" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f5" body2="force5_f1"/>
+    <exclude body1="force1_f5" body2="force5_f2"/>
+    <exclude body1="force1_f5" body2="force5_f3"/>
+    <exclude body1="force1_f5" body2="force5_f4"/>
+    <exclude body1="force1_f5" body2="force5_f5"/>
+    <exclude body1="force1_f5" body2="force5_f6"/>
+    <exclude body1="force1_f5" body2="force5_f7"/>
+    <exclude body1="force1_f6" body2="force1_f7"/>
+    <exclude body1="force1_f6" body2="r_f_link2_1"/>
+    <exclude body1="force1_f6" body2="r_f_link2_2"/>
+    <exclude body1="force1_f6" body2="r_f_link2_3"/>
+    <exclude body1="force1_f6" body2="r_f_link2_4"/>
+    <exclude body1="force1_f6" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f6" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f6" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f6" body2="force2_f1"/>
+    <exclude body1="force1_f6" body2="force2_f2"/>
+    <exclude body1="force1_f6" body2="force2_f3"/>
+    <exclude body1="force1_f6" body2="force2_f4"/>
+    <exclude body1="force1_f6" body2="force2_f5"/>
+    <exclude body1="force1_f6" body2="force2_f6"/>
+    <exclude body1="force1_f6" body2="force2_f7"/>
+    <exclude body1="force1_f6" body2="r_f_link3_1"/>
+    <exclude body1="force1_f6" body2="r_f_link3_2"/>
+    <exclude body1="force1_f6" body2="r_f_link3_3"/>
+    <exclude body1="force1_f6" body2="r_f_link3_4"/>
+    <exclude body1="force1_f6" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f6" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f6" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f6" body2="force3_f1"/>
+    <exclude body1="force1_f6" body2="force3_f2"/>
+    <exclude body1="force1_f6" body2="force3_f3"/>
+    <exclude body1="force1_f6" body2="force3_f4"/>
+    <exclude body1="force1_f6" body2="force3_f5"/>
+    <exclude body1="force1_f6" body2="force3_f6"/>
+    <exclude body1="force1_f6" body2="force3_f7"/>
+    <exclude body1="force1_f6" body2="r_f_link4_1"/>
+    <exclude body1="force1_f6" body2="r_f_link4_2"/>
+    <exclude body1="force1_f6" body2="r_f_link4_3"/>
+    <exclude body1="force1_f6" body2="r_f_link4_4"/>
+    <exclude body1="force1_f6" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f6" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f6" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f6" body2="force4_f1"/>
+    <exclude body1="force1_f6" body2="force4_f2"/>
+    <exclude body1="force1_f6" body2="force4_f3"/>
+    <exclude body1="force1_f6" body2="force4_f4"/>
+    <exclude body1="force1_f6" body2="force4_f5"/>
+    <exclude body1="force1_f6" body2="force4_f6"/>
+    <exclude body1="force1_f6" body2="force4_f7"/>
+    <exclude body1="force1_f6" body2="r_f_link5_1"/>
+    <exclude body1="force1_f6" body2="r_f_link5_2"/>
+    <exclude body1="force1_f6" body2="r_f_link5_3"/>
+    <exclude body1="force1_f6" body2="r_f_link5_4"/>
+    <exclude body1="force1_f6" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f6" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f6" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f6" body2="force5_f1"/>
+    <exclude body1="force1_f6" body2="force5_f2"/>
+    <exclude body1="force1_f6" body2="force5_f3"/>
+    <exclude body1="force1_f6" body2="force5_f4"/>
+    <exclude body1="force1_f6" body2="force5_f5"/>
+    <exclude body1="force1_f6" body2="force5_f6"/>
+    <exclude body1="force1_f6" body2="force5_f7"/>
+    <exclude body1="force1_f7" body2="r_f_link2_1"/>
+    <exclude body1="force1_f7" body2="r_f_link2_2"/>
+    <exclude body1="force1_f7" body2="r_f_link2_3"/>
+    <exclude body1="force1_f7" body2="r_f_link2_4"/>
+    <exclude body1="force1_f7" body2="r_f_link2_tip"/>
+    <exclude body1="force1_f7" body2="r_f_link2_pad"/>
+    <exclude body1="force1_f7" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="force1_f7" body2="force2_f1"/>
+    <exclude body1="force1_f7" body2="force2_f2"/>
+    <exclude body1="force1_f7" body2="force2_f3"/>
+    <exclude body1="force1_f7" body2="force2_f4"/>
+    <exclude body1="force1_f7" body2="force2_f5"/>
+    <exclude body1="force1_f7" body2="force2_f6"/>
+    <exclude body1="force1_f7" body2="force2_f7"/>
+    <exclude body1="force1_f7" body2="r_f_link3_1"/>
+    <exclude body1="force1_f7" body2="r_f_link3_2"/>
+    <exclude body1="force1_f7" body2="r_f_link3_3"/>
+    <exclude body1="force1_f7" body2="r_f_link3_4"/>
+    <exclude body1="force1_f7" body2="r_f_link3_tip"/>
+    <exclude body1="force1_f7" body2="r_f_link3_pad"/>
+    <exclude body1="force1_f7" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force1_f7" body2="force3_f1"/>
+    <exclude body1="force1_f7" body2="force3_f2"/>
+    <exclude body1="force1_f7" body2="force3_f3"/>
+    <exclude body1="force1_f7" body2="force3_f4"/>
+    <exclude body1="force1_f7" body2="force3_f5"/>
+    <exclude body1="force1_f7" body2="force3_f6"/>
+    <exclude body1="force1_f7" body2="force3_f7"/>
+    <exclude body1="force1_f7" body2="r_f_link4_1"/>
+    <exclude body1="force1_f7" body2="r_f_link4_2"/>
+    <exclude body1="force1_f7" body2="r_f_link4_3"/>
+    <exclude body1="force1_f7" body2="r_f_link4_4"/>
+    <exclude body1="force1_f7" body2="r_f_link4_tip"/>
+    <exclude body1="force1_f7" body2="r_f_link4_pad"/>
+    <exclude body1="force1_f7" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force1_f7" body2="force4_f1"/>
+    <exclude body1="force1_f7" body2="force4_f2"/>
+    <exclude body1="force1_f7" body2="force4_f3"/>
+    <exclude body1="force1_f7" body2="force4_f4"/>
+    <exclude body1="force1_f7" body2="force4_f5"/>
+    <exclude body1="force1_f7" body2="force4_f6"/>
+    <exclude body1="force1_f7" body2="force4_f7"/>
+    <exclude body1="force1_f7" body2="r_f_link5_1"/>
+    <exclude body1="force1_f7" body2="r_f_link5_2"/>
+    <exclude body1="force1_f7" body2="r_f_link5_3"/>
+    <exclude body1="force1_f7" body2="r_f_link5_4"/>
+    <exclude body1="force1_f7" body2="r_f_link5_tip"/>
+    <exclude body1="force1_f7" body2="r_f_link5_pad"/>
+    <exclude body1="force1_f7" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force1_f7" body2="force5_f1"/>
+    <exclude body1="force1_f7" body2="force5_f2"/>
+    <exclude body1="force1_f7" body2="force5_f3"/>
+    <exclude body1="force1_f7" body2="force5_f4"/>
+    <exclude body1="force1_f7" body2="force5_f5"/>
+    <exclude body1="force1_f7" body2="force5_f6"/>
+    <exclude body1="force1_f7" body2="force5_f7"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_4"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link2_1" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_1" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_1" body2="force2_f1"/>
+    <exclude body1="r_f_link2_1" body2="force2_f2"/>
+    <exclude body1="r_f_link2_1" body2="force2_f3"/>
+    <exclude body1="r_f_link2_1" body2="force2_f4"/>
+    <exclude body1="r_f_link2_1" body2="force2_f5"/>
+    <exclude body1="r_f_link2_1" body2="force2_f6"/>
+    <exclude body1="r_f_link2_1" body2="force2_f7"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_4"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_1" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_1" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_1" body2="force3_f1"/>
+    <exclude body1="r_f_link2_1" body2="force3_f2"/>
+    <exclude body1="r_f_link2_1" body2="force3_f3"/>
+    <exclude body1="r_f_link2_1" body2="force3_f4"/>
+    <exclude body1="r_f_link2_1" body2="force3_f5"/>
+    <exclude body1="r_f_link2_1" body2="force3_f6"/>
+    <exclude body1="r_f_link2_1" body2="force3_f7"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_4"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_1" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_1" body2="force4_f1"/>
+    <exclude body1="r_f_link2_1" body2="force4_f2"/>
+    <exclude body1="r_f_link2_1" body2="force4_f3"/>
+    <exclude body1="r_f_link2_1" body2="force4_f4"/>
+    <exclude body1="r_f_link2_1" body2="force4_f5"/>
+    <exclude body1="r_f_link2_1" body2="force4_f6"/>
+    <exclude body1="r_f_link2_1" body2="force4_f7"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_4"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_1" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_1" body2="force5_f1"/>
+    <exclude body1="r_f_link2_1" body2="force5_f2"/>
+    <exclude body1="r_f_link2_1" body2="force5_f3"/>
+    <exclude body1="r_f_link2_1" body2="force5_f4"/>
+    <exclude body1="r_f_link2_1" body2="force5_f5"/>
+    <exclude body1="r_f_link2_1" body2="force5_f6"/>
+    <exclude body1="r_f_link2_1" body2="force5_f7"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_4"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link2_2" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_2" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_2" body2="force2_f1"/>
+    <exclude body1="r_f_link2_2" body2="force2_f2"/>
+    <exclude body1="r_f_link2_2" body2="force2_f3"/>
+    <exclude body1="r_f_link2_2" body2="force2_f4"/>
+    <exclude body1="r_f_link2_2" body2="force2_f5"/>
+    <exclude body1="r_f_link2_2" body2="force2_f6"/>
+    <exclude body1="r_f_link2_2" body2="force2_f7"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_4"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_2" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_2" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_2" body2="force3_f1"/>
+    <exclude body1="r_f_link2_2" body2="force3_f2"/>
+    <exclude body1="r_f_link2_2" body2="force3_f3"/>
+    <exclude body1="r_f_link2_2" body2="force3_f4"/>
+    <exclude body1="r_f_link2_2" body2="force3_f5"/>
+    <exclude body1="r_f_link2_2" body2="force3_f6"/>
+    <exclude body1="r_f_link2_2" body2="force3_f7"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_4"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_2" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_2" body2="force4_f1"/>
+    <exclude body1="r_f_link2_2" body2="force4_f2"/>
+    <exclude body1="r_f_link2_2" body2="force4_f3"/>
+    <exclude body1="r_f_link2_2" body2="force4_f4"/>
+    <exclude body1="r_f_link2_2" body2="force4_f5"/>
+    <exclude body1="r_f_link2_2" body2="force4_f6"/>
+    <exclude body1="r_f_link2_2" body2="force4_f7"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_4"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_2" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_2" body2="force5_f1"/>
+    <exclude body1="r_f_link2_2" body2="force5_f2"/>
+    <exclude body1="r_f_link2_2" body2="force5_f3"/>
+    <exclude body1="r_f_link2_2" body2="force5_f4"/>
+    <exclude body1="r_f_link2_2" body2="force5_f5"/>
+    <exclude body1="r_f_link2_2" body2="force5_f6"/>
+    <exclude body1="r_f_link2_2" body2="force5_f7"/>
     <exclude body1="r_f_link2_3" body2="r_f_link2_4"/>
     <exclude body1="r_f_link2_3" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link2_3" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_3" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_3" body2="force2_f1"/>
+    <exclude body1="r_f_link2_3" body2="force2_f2"/>
+    <exclude body1="r_f_link2_3" body2="force2_f3"/>
+    <exclude body1="r_f_link2_3" body2="force2_f4"/>
+    <exclude body1="r_f_link2_3" body2="force2_f5"/>
+    <exclude body1="r_f_link2_3" body2="force2_f6"/>
+    <exclude body1="r_f_link2_3" body2="force2_f7"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_4"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_3" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_3" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_3" body2="force3_f1"/>
+    <exclude body1="r_f_link2_3" body2="force3_f2"/>
+    <exclude body1="r_f_link2_3" body2="force3_f3"/>
+    <exclude body1="r_f_link2_3" body2="force3_f4"/>
+    <exclude body1="r_f_link2_3" body2="force3_f5"/>
+    <exclude body1="r_f_link2_3" body2="force3_f6"/>
+    <exclude body1="r_f_link2_3" body2="force3_f7"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_4"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_3" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_3" body2="force4_f1"/>
+    <exclude body1="r_f_link2_3" body2="force4_f2"/>
+    <exclude body1="r_f_link2_3" body2="force4_f3"/>
+    <exclude body1="r_f_link2_3" body2="force4_f4"/>
+    <exclude body1="r_f_link2_3" body2="force4_f5"/>
+    <exclude body1="r_f_link2_3" body2="force4_f6"/>
+    <exclude body1="r_f_link2_3" body2="force4_f7"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_4"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_3" body2="force5_f1"/>
+    <exclude body1="r_f_link2_3" body2="force5_f2"/>
+    <exclude body1="r_f_link2_3" body2="force5_f3"/>
+    <exclude body1="r_f_link2_3" body2="force5_f4"/>
+    <exclude body1="r_f_link2_3" body2="force5_f5"/>
+    <exclude body1="r_f_link2_3" body2="force5_f6"/>
+    <exclude body1="r_f_link2_3" body2="force5_f7"/>
     <exclude body1="r_f_link2_4" body2="r_f_link2_tip"/>
     <exclude body1="r_f_link2_4" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_4" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_4" body2="force2_f1"/>
+    <exclude body1="r_f_link2_4" body2="force2_f2"/>
+    <exclude body1="r_f_link2_4" body2="force2_f3"/>
+    <exclude body1="r_f_link2_4" body2="force2_f4"/>
+    <exclude body1="r_f_link2_4" body2="force2_f5"/>
+    <exclude body1="r_f_link2_4" body2="force2_f6"/>
+    <exclude body1="r_f_link2_4" body2="force2_f7"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_4" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_4" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_4" body2="force3_f1"/>
+    <exclude body1="r_f_link2_4" body2="force3_f2"/>
+    <exclude body1="r_f_link2_4" body2="force3_f3"/>
+    <exclude body1="r_f_link2_4" body2="force3_f4"/>
+    <exclude body1="r_f_link2_4" body2="force3_f5"/>
+    <exclude body1="r_f_link2_4" body2="force3_f6"/>
+    <exclude body1="r_f_link2_4" body2="force3_f7"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_4" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_4" body2="force4_f1"/>
+    <exclude body1="r_f_link2_4" body2="force4_f2"/>
+    <exclude body1="r_f_link2_4" body2="force4_f3"/>
+    <exclude body1="r_f_link2_4" body2="force4_f4"/>
+    <exclude body1="r_f_link2_4" body2="force4_f5"/>
+    <exclude body1="r_f_link2_4" body2="force4_f6"/>
+    <exclude body1="r_f_link2_4" body2="force4_f7"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_4" body2="force5_f1"/>
+    <exclude body1="r_f_link2_4" body2="force5_f2"/>
+    <exclude body1="r_f_link2_4" body2="force5_f3"/>
+    <exclude body1="r_f_link2_4" body2="force5_f4"/>
+    <exclude body1="r_f_link2_4" body2="force5_f5"/>
+    <exclude body1="r_f_link2_4" body2="force5_f6"/>
+    <exclude body1="r_f_link2_4" body2="force5_f7"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link2_pad"/>
+    <exclude body1="r_f_link2_tip" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f1"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f2"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f3"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f4"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f5"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f6"/>
+    <exclude body1="r_f_link2_tip" body2="force2_f7"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_4"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_tip" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f1"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f2"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f3"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f4"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f5"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f6"/>
+    <exclude body1="r_f_link2_tip" body2="force3_f7"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_4"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_tip" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f1"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f2"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f3"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f4"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f5"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f6"/>
+    <exclude body1="r_f_link2_tip" body2="force4_f7"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_4"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_tip" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f1"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f2"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f3"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f4"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f5"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f6"/>
+    <exclude body1="r_f_link2_tip" body2="force5_f7"/>
+    <exclude body1="r_f_link2_pad" body2="ts_wrapper_r_f_link2_pad"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f1"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f2"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f3"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f4"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f5"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f6"/>
+    <exclude body1="r_f_link2_pad" body2="force2_f7"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_1"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_2"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_3"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_4"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link2_pad" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f1"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f2"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f3"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f4"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f5"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f6"/>
+    <exclude body1="r_f_link2_pad" body2="force3_f7"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_1"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_2"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_3"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_4"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link2_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f1"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f2"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f3"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f4"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f5"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f6"/>
+    <exclude body1="r_f_link2_pad" body2="force4_f7"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_1"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_2"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_3"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_4"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link2_pad" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link2_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f1"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f2"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f3"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f4"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f5"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f6"/>
+    <exclude body1="r_f_link2_pad" body2="force5_f7"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f5"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f6"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force2_f7"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_tip"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link3_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f5"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f6"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force3_f7"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_tip"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f5"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f6"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force4_f7"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_tip"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f1"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f2"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f3"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f4"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f5"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f6"/>
+    <exclude body1="ts_wrapper_r_f_link2_pad" body2="force5_f7"/>
+    <exclude body1="force2_f1" body2="force2_f2"/>
+    <exclude body1="force2_f1" body2="force2_f3"/>
+    <exclude body1="force2_f1" body2="force2_f4"/>
+    <exclude body1="force2_f1" body2="force2_f5"/>
+    <exclude body1="force2_f1" body2="force2_f6"/>
+    <exclude body1="force2_f1" body2="force2_f7"/>
+    <exclude body1="force2_f1" body2="r_f_link3_1"/>
+    <exclude body1="force2_f1" body2="r_f_link3_2"/>
+    <exclude body1="force2_f1" body2="r_f_link3_3"/>
+    <exclude body1="force2_f1" body2="r_f_link3_4"/>
+    <exclude body1="force2_f1" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f1" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f1" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f1" body2="force3_f1"/>
+    <exclude body1="force2_f1" body2="force3_f2"/>
+    <exclude body1="force2_f1" body2="force3_f3"/>
+    <exclude body1="force2_f1" body2="force3_f4"/>
+    <exclude body1="force2_f1" body2="force3_f5"/>
+    <exclude body1="force2_f1" body2="force3_f6"/>
+    <exclude body1="force2_f1" body2="force3_f7"/>
+    <exclude body1="force2_f1" body2="r_f_link4_1"/>
+    <exclude body1="force2_f1" body2="r_f_link4_2"/>
+    <exclude body1="force2_f1" body2="r_f_link4_3"/>
+    <exclude body1="force2_f1" body2="r_f_link4_4"/>
+    <exclude body1="force2_f1" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f1" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f1" body2="force4_f1"/>
+    <exclude body1="force2_f1" body2="force4_f2"/>
+    <exclude body1="force2_f1" body2="force4_f3"/>
+    <exclude body1="force2_f1" body2="force4_f4"/>
+    <exclude body1="force2_f1" body2="force4_f5"/>
+    <exclude body1="force2_f1" body2="force4_f6"/>
+    <exclude body1="force2_f1" body2="force4_f7"/>
+    <exclude body1="force2_f1" body2="r_f_link5_1"/>
+    <exclude body1="force2_f1" body2="r_f_link5_2"/>
+    <exclude body1="force2_f1" body2="r_f_link5_3"/>
+    <exclude body1="force2_f1" body2="r_f_link5_4"/>
+    <exclude body1="force2_f1" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f1" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f1" body2="force5_f1"/>
+    <exclude body1="force2_f1" body2="force5_f2"/>
+    <exclude body1="force2_f1" body2="force5_f3"/>
+    <exclude body1="force2_f1" body2="force5_f4"/>
+    <exclude body1="force2_f1" body2="force5_f5"/>
+    <exclude body1="force2_f1" body2="force5_f6"/>
+    <exclude body1="force2_f1" body2="force5_f7"/>
+    <exclude body1="force2_f2" body2="force2_f3"/>
+    <exclude body1="force2_f2" body2="force2_f4"/>
+    <exclude body1="force2_f2" body2="force2_f5"/>
+    <exclude body1="force2_f2" body2="force2_f6"/>
+    <exclude body1="force2_f2" body2="force2_f7"/>
+    <exclude body1="force2_f2" body2="r_f_link3_1"/>
+    <exclude body1="force2_f2" body2="r_f_link3_2"/>
+    <exclude body1="force2_f2" body2="r_f_link3_3"/>
+    <exclude body1="force2_f2" body2="r_f_link3_4"/>
+    <exclude body1="force2_f2" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f2" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f2" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f2" body2="force3_f1"/>
+    <exclude body1="force2_f2" body2="force3_f2"/>
+    <exclude body1="force2_f2" body2="force3_f3"/>
+    <exclude body1="force2_f2" body2="force3_f4"/>
+    <exclude body1="force2_f2" body2="force3_f5"/>
+    <exclude body1="force2_f2" body2="force3_f6"/>
+    <exclude body1="force2_f2" body2="force3_f7"/>
+    <exclude body1="force2_f2" body2="r_f_link4_1"/>
+    <exclude body1="force2_f2" body2="r_f_link4_2"/>
+    <exclude body1="force2_f2" body2="r_f_link4_3"/>
+    <exclude body1="force2_f2" body2="r_f_link4_4"/>
+    <exclude body1="force2_f2" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f2" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f2" body2="force4_f1"/>
+    <exclude body1="force2_f2" body2="force4_f2"/>
+    <exclude body1="force2_f2" body2="force4_f3"/>
+    <exclude body1="force2_f2" body2="force4_f4"/>
+    <exclude body1="force2_f2" body2="force4_f5"/>
+    <exclude body1="force2_f2" body2="force4_f6"/>
+    <exclude body1="force2_f2" body2="force4_f7"/>
+    <exclude body1="force2_f2" body2="r_f_link5_1"/>
+    <exclude body1="force2_f2" body2="r_f_link5_2"/>
+    <exclude body1="force2_f2" body2="r_f_link5_3"/>
+    <exclude body1="force2_f2" body2="r_f_link5_4"/>
+    <exclude body1="force2_f2" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f2" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f2" body2="force5_f1"/>
+    <exclude body1="force2_f2" body2="force5_f2"/>
+    <exclude body1="force2_f2" body2="force5_f3"/>
+    <exclude body1="force2_f2" body2="force5_f4"/>
+    <exclude body1="force2_f2" body2="force5_f5"/>
+    <exclude body1="force2_f2" body2="force5_f6"/>
+    <exclude body1="force2_f2" body2="force5_f7"/>
+    <exclude body1="force2_f3" body2="force2_f4"/>
+    <exclude body1="force2_f3" body2="force2_f5"/>
+    <exclude body1="force2_f3" body2="force2_f6"/>
+    <exclude body1="force2_f3" body2="force2_f7"/>
+    <exclude body1="force2_f3" body2="r_f_link3_1"/>
+    <exclude body1="force2_f3" body2="r_f_link3_2"/>
+    <exclude body1="force2_f3" body2="r_f_link3_3"/>
+    <exclude body1="force2_f3" body2="r_f_link3_4"/>
+    <exclude body1="force2_f3" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f3" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f3" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f3" body2="force3_f1"/>
+    <exclude body1="force2_f3" body2="force3_f2"/>
+    <exclude body1="force2_f3" body2="force3_f3"/>
+    <exclude body1="force2_f3" body2="force3_f4"/>
+    <exclude body1="force2_f3" body2="force3_f5"/>
+    <exclude body1="force2_f3" body2="force3_f6"/>
+    <exclude body1="force2_f3" body2="force3_f7"/>
+    <exclude body1="force2_f3" body2="r_f_link4_1"/>
+    <exclude body1="force2_f3" body2="r_f_link4_2"/>
+    <exclude body1="force2_f3" body2="r_f_link4_3"/>
+    <exclude body1="force2_f3" body2="r_f_link4_4"/>
+    <exclude body1="force2_f3" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f3" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f3" body2="force4_f1"/>
+    <exclude body1="force2_f3" body2="force4_f2"/>
+    <exclude body1="force2_f3" body2="force4_f3"/>
+    <exclude body1="force2_f3" body2="force4_f4"/>
+    <exclude body1="force2_f3" body2="force4_f5"/>
+    <exclude body1="force2_f3" body2="force4_f6"/>
+    <exclude body1="force2_f3" body2="force4_f7"/>
+    <exclude body1="force2_f3" body2="r_f_link5_1"/>
+    <exclude body1="force2_f3" body2="r_f_link5_2"/>
+    <exclude body1="force2_f3" body2="r_f_link5_3"/>
+    <exclude body1="force2_f3" body2="r_f_link5_4"/>
+    <exclude body1="force2_f3" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f3" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f3" body2="force5_f1"/>
+    <exclude body1="force2_f3" body2="force5_f2"/>
+    <exclude body1="force2_f3" body2="force5_f3"/>
+    <exclude body1="force2_f3" body2="force5_f4"/>
+    <exclude body1="force2_f3" body2="force5_f5"/>
+    <exclude body1="force2_f3" body2="force5_f6"/>
+    <exclude body1="force2_f3" body2="force5_f7"/>
+    <exclude body1="force2_f4" body2="force2_f5"/>
+    <exclude body1="force2_f4" body2="force2_f6"/>
+    <exclude body1="force2_f4" body2="force2_f7"/>
+    <exclude body1="force2_f4" body2="r_f_link3_1"/>
+    <exclude body1="force2_f4" body2="r_f_link3_2"/>
+    <exclude body1="force2_f4" body2="r_f_link3_3"/>
+    <exclude body1="force2_f4" body2="r_f_link3_4"/>
+    <exclude body1="force2_f4" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f4" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f4" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f4" body2="force3_f1"/>
+    <exclude body1="force2_f4" body2="force3_f2"/>
+    <exclude body1="force2_f4" body2="force3_f3"/>
+    <exclude body1="force2_f4" body2="force3_f4"/>
+    <exclude body1="force2_f4" body2="force3_f5"/>
+    <exclude body1="force2_f4" body2="force3_f6"/>
+    <exclude body1="force2_f4" body2="force3_f7"/>
+    <exclude body1="force2_f4" body2="r_f_link4_1"/>
+    <exclude body1="force2_f4" body2="r_f_link4_2"/>
+    <exclude body1="force2_f4" body2="r_f_link4_3"/>
+    <exclude body1="force2_f4" body2="r_f_link4_4"/>
+    <exclude body1="force2_f4" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f4" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f4" body2="force4_f1"/>
+    <exclude body1="force2_f4" body2="force4_f2"/>
+    <exclude body1="force2_f4" body2="force4_f3"/>
+    <exclude body1="force2_f4" body2="force4_f4"/>
+    <exclude body1="force2_f4" body2="force4_f5"/>
+    <exclude body1="force2_f4" body2="force4_f6"/>
+    <exclude body1="force2_f4" body2="force4_f7"/>
+    <exclude body1="force2_f4" body2="r_f_link5_1"/>
+    <exclude body1="force2_f4" body2="r_f_link5_2"/>
+    <exclude body1="force2_f4" body2="r_f_link5_3"/>
+    <exclude body1="force2_f4" body2="r_f_link5_4"/>
+    <exclude body1="force2_f4" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f4" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f4" body2="force5_f1"/>
+    <exclude body1="force2_f4" body2="force5_f2"/>
+    <exclude body1="force2_f4" body2="force5_f3"/>
+    <exclude body1="force2_f4" body2="force5_f4"/>
+    <exclude body1="force2_f4" body2="force5_f5"/>
+    <exclude body1="force2_f4" body2="force5_f6"/>
+    <exclude body1="force2_f4" body2="force5_f7"/>
+    <exclude body1="force2_f5" body2="force2_f6"/>
+    <exclude body1="force2_f5" body2="force2_f7"/>
+    <exclude body1="force2_f5" body2="r_f_link3_1"/>
+    <exclude body1="force2_f5" body2="r_f_link3_2"/>
+    <exclude body1="force2_f5" body2="r_f_link3_3"/>
+    <exclude body1="force2_f5" body2="r_f_link3_4"/>
+    <exclude body1="force2_f5" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f5" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f5" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f5" body2="force3_f1"/>
+    <exclude body1="force2_f5" body2="force3_f2"/>
+    <exclude body1="force2_f5" body2="force3_f3"/>
+    <exclude body1="force2_f5" body2="force3_f4"/>
+    <exclude body1="force2_f5" body2="force3_f5"/>
+    <exclude body1="force2_f5" body2="force3_f6"/>
+    <exclude body1="force2_f5" body2="force3_f7"/>
+    <exclude body1="force2_f5" body2="r_f_link4_1"/>
+    <exclude body1="force2_f5" body2="r_f_link4_2"/>
+    <exclude body1="force2_f5" body2="r_f_link4_3"/>
+    <exclude body1="force2_f5" body2="r_f_link4_4"/>
+    <exclude body1="force2_f5" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f5" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f5" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f5" body2="force4_f1"/>
+    <exclude body1="force2_f5" body2="force4_f2"/>
+    <exclude body1="force2_f5" body2="force4_f3"/>
+    <exclude body1="force2_f5" body2="force4_f4"/>
+    <exclude body1="force2_f5" body2="force4_f5"/>
+    <exclude body1="force2_f5" body2="force4_f6"/>
+    <exclude body1="force2_f5" body2="force4_f7"/>
+    <exclude body1="force2_f5" body2="r_f_link5_1"/>
+    <exclude body1="force2_f5" body2="r_f_link5_2"/>
+    <exclude body1="force2_f5" body2="r_f_link5_3"/>
+    <exclude body1="force2_f5" body2="r_f_link5_4"/>
+    <exclude body1="force2_f5" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f5" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f5" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f5" body2="force5_f1"/>
+    <exclude body1="force2_f5" body2="force5_f2"/>
+    <exclude body1="force2_f5" body2="force5_f3"/>
+    <exclude body1="force2_f5" body2="force5_f4"/>
+    <exclude body1="force2_f5" body2="force5_f5"/>
+    <exclude body1="force2_f5" body2="force5_f6"/>
+    <exclude body1="force2_f5" body2="force5_f7"/>
+    <exclude body1="force2_f6" body2="force2_f7"/>
+    <exclude body1="force2_f6" body2="r_f_link3_1"/>
+    <exclude body1="force2_f6" body2="r_f_link3_2"/>
+    <exclude body1="force2_f6" body2="r_f_link3_3"/>
+    <exclude body1="force2_f6" body2="r_f_link3_4"/>
+    <exclude body1="force2_f6" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f6" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f6" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f6" body2="force3_f1"/>
+    <exclude body1="force2_f6" body2="force3_f2"/>
+    <exclude body1="force2_f6" body2="force3_f3"/>
+    <exclude body1="force2_f6" body2="force3_f4"/>
+    <exclude body1="force2_f6" body2="force3_f5"/>
+    <exclude body1="force2_f6" body2="force3_f6"/>
+    <exclude body1="force2_f6" body2="force3_f7"/>
+    <exclude body1="force2_f6" body2="r_f_link4_1"/>
+    <exclude body1="force2_f6" body2="r_f_link4_2"/>
+    <exclude body1="force2_f6" body2="r_f_link4_3"/>
+    <exclude body1="force2_f6" body2="r_f_link4_4"/>
+    <exclude body1="force2_f6" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f6" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f6" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f6" body2="force4_f1"/>
+    <exclude body1="force2_f6" body2="force4_f2"/>
+    <exclude body1="force2_f6" body2="force4_f3"/>
+    <exclude body1="force2_f6" body2="force4_f4"/>
+    <exclude body1="force2_f6" body2="force4_f5"/>
+    <exclude body1="force2_f6" body2="force4_f6"/>
+    <exclude body1="force2_f6" body2="force4_f7"/>
+    <exclude body1="force2_f6" body2="r_f_link5_1"/>
+    <exclude body1="force2_f6" body2="r_f_link5_2"/>
+    <exclude body1="force2_f6" body2="r_f_link5_3"/>
+    <exclude body1="force2_f6" body2="r_f_link5_4"/>
+    <exclude body1="force2_f6" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f6" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f6" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f6" body2="force5_f1"/>
+    <exclude body1="force2_f6" body2="force5_f2"/>
+    <exclude body1="force2_f6" body2="force5_f3"/>
+    <exclude body1="force2_f6" body2="force5_f4"/>
+    <exclude body1="force2_f6" body2="force5_f5"/>
+    <exclude body1="force2_f6" body2="force5_f6"/>
+    <exclude body1="force2_f6" body2="force5_f7"/>
+    <exclude body1="force2_f7" body2="r_f_link3_1"/>
+    <exclude body1="force2_f7" body2="r_f_link3_2"/>
+    <exclude body1="force2_f7" body2="r_f_link3_3"/>
+    <exclude body1="force2_f7" body2="r_f_link3_4"/>
+    <exclude body1="force2_f7" body2="r_f_link3_tip"/>
+    <exclude body1="force2_f7" body2="r_f_link3_pad"/>
+    <exclude body1="force2_f7" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="force2_f7" body2="force3_f1"/>
+    <exclude body1="force2_f7" body2="force3_f2"/>
+    <exclude body1="force2_f7" body2="force3_f3"/>
+    <exclude body1="force2_f7" body2="force3_f4"/>
+    <exclude body1="force2_f7" body2="force3_f5"/>
+    <exclude body1="force2_f7" body2="force3_f6"/>
+    <exclude body1="force2_f7" body2="force3_f7"/>
+    <exclude body1="force2_f7" body2="r_f_link4_1"/>
+    <exclude body1="force2_f7" body2="r_f_link4_2"/>
+    <exclude body1="force2_f7" body2="r_f_link4_3"/>
+    <exclude body1="force2_f7" body2="r_f_link4_4"/>
+    <exclude body1="force2_f7" body2="r_f_link4_tip"/>
+    <exclude body1="force2_f7" body2="r_f_link4_pad"/>
+    <exclude body1="force2_f7" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force2_f7" body2="force4_f1"/>
+    <exclude body1="force2_f7" body2="force4_f2"/>
+    <exclude body1="force2_f7" body2="force4_f3"/>
+    <exclude body1="force2_f7" body2="force4_f4"/>
+    <exclude body1="force2_f7" body2="force4_f5"/>
+    <exclude body1="force2_f7" body2="force4_f6"/>
+    <exclude body1="force2_f7" body2="force4_f7"/>
+    <exclude body1="force2_f7" body2="r_f_link5_1"/>
+    <exclude body1="force2_f7" body2="r_f_link5_2"/>
+    <exclude body1="force2_f7" body2="r_f_link5_3"/>
+    <exclude body1="force2_f7" body2="r_f_link5_4"/>
+    <exclude body1="force2_f7" body2="r_f_link5_tip"/>
+    <exclude body1="force2_f7" body2="r_f_link5_pad"/>
+    <exclude body1="force2_f7" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force2_f7" body2="force5_f1"/>
+    <exclude body1="force2_f7" body2="force5_f2"/>
+    <exclude body1="force2_f7" body2="force5_f3"/>
+    <exclude body1="force2_f7" body2="force5_f4"/>
+    <exclude body1="force2_f7" body2="force5_f5"/>
+    <exclude body1="force2_f7" body2="force5_f6"/>
+    <exclude body1="force2_f7" body2="force5_f7"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_4"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link3_1" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_1" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_1" body2="force3_f1"/>
+    <exclude body1="r_f_link3_1" body2="force3_f2"/>
+    <exclude body1="r_f_link3_1" body2="force3_f3"/>
+    <exclude body1="r_f_link3_1" body2="force3_f4"/>
+    <exclude body1="r_f_link3_1" body2="force3_f5"/>
+    <exclude body1="r_f_link3_1" body2="force3_f6"/>
+    <exclude body1="r_f_link3_1" body2="force3_f7"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_4"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_1" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_1" body2="force4_f1"/>
+    <exclude body1="r_f_link3_1" body2="force4_f2"/>
+    <exclude body1="r_f_link3_1" body2="force4_f3"/>
+    <exclude body1="r_f_link3_1" body2="force4_f4"/>
+    <exclude body1="r_f_link3_1" body2="force4_f5"/>
+    <exclude body1="r_f_link3_1" body2="force4_f6"/>
+    <exclude body1="r_f_link3_1" body2="force4_f7"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_4"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_1" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_1" body2="force5_f1"/>
+    <exclude body1="r_f_link3_1" body2="force5_f2"/>
+    <exclude body1="r_f_link3_1" body2="force5_f3"/>
+    <exclude body1="r_f_link3_1" body2="force5_f4"/>
+    <exclude body1="r_f_link3_1" body2="force5_f5"/>
+    <exclude body1="r_f_link3_1" body2="force5_f6"/>
+    <exclude body1="r_f_link3_1" body2="force5_f7"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_4"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link3_2" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_2" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_2" body2="force3_f1"/>
+    <exclude body1="r_f_link3_2" body2="force3_f2"/>
+    <exclude body1="r_f_link3_2" body2="force3_f3"/>
+    <exclude body1="r_f_link3_2" body2="force3_f4"/>
+    <exclude body1="r_f_link3_2" body2="force3_f5"/>
+    <exclude body1="r_f_link3_2" body2="force3_f6"/>
+    <exclude body1="r_f_link3_2" body2="force3_f7"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_4"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_2" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_2" body2="force4_f1"/>
+    <exclude body1="r_f_link3_2" body2="force4_f2"/>
+    <exclude body1="r_f_link3_2" body2="force4_f3"/>
+    <exclude body1="r_f_link3_2" body2="force4_f4"/>
+    <exclude body1="r_f_link3_2" body2="force4_f5"/>
+    <exclude body1="r_f_link3_2" body2="force4_f6"/>
+    <exclude body1="r_f_link3_2" body2="force4_f7"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_4"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_2" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_2" body2="force5_f1"/>
+    <exclude body1="r_f_link3_2" body2="force5_f2"/>
+    <exclude body1="r_f_link3_2" body2="force5_f3"/>
+    <exclude body1="r_f_link3_2" body2="force5_f4"/>
+    <exclude body1="r_f_link3_2" body2="force5_f5"/>
+    <exclude body1="r_f_link3_2" body2="force5_f6"/>
+    <exclude body1="r_f_link3_2" body2="force5_f7"/>
     <exclude body1="r_f_link3_3" body2="r_f_link3_4"/>
     <exclude body1="r_f_link3_3" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link3_3" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_3" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_3" body2="force3_f1"/>
+    <exclude body1="r_f_link3_3" body2="force3_f2"/>
+    <exclude body1="r_f_link3_3" body2="force3_f3"/>
+    <exclude body1="r_f_link3_3" body2="force3_f4"/>
+    <exclude body1="r_f_link3_3" body2="force3_f5"/>
+    <exclude body1="r_f_link3_3" body2="force3_f6"/>
+    <exclude body1="r_f_link3_3" body2="force3_f7"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_4"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_3" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_3" body2="force4_f1"/>
+    <exclude body1="r_f_link3_3" body2="force4_f2"/>
+    <exclude body1="r_f_link3_3" body2="force4_f3"/>
+    <exclude body1="r_f_link3_3" body2="force4_f4"/>
+    <exclude body1="r_f_link3_3" body2="force4_f5"/>
+    <exclude body1="r_f_link3_3" body2="force4_f6"/>
+    <exclude body1="r_f_link3_3" body2="force4_f7"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_4"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_3" body2="force5_f1"/>
+    <exclude body1="r_f_link3_3" body2="force5_f2"/>
+    <exclude body1="r_f_link3_3" body2="force5_f3"/>
+    <exclude body1="r_f_link3_3" body2="force5_f4"/>
+    <exclude body1="r_f_link3_3" body2="force5_f5"/>
+    <exclude body1="r_f_link3_3" body2="force5_f6"/>
+    <exclude body1="r_f_link3_3" body2="force5_f7"/>
     <exclude body1="r_f_link3_4" body2="r_f_link3_tip"/>
     <exclude body1="r_f_link3_4" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_4" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_4" body2="force3_f1"/>
+    <exclude body1="r_f_link3_4" body2="force3_f2"/>
+    <exclude body1="r_f_link3_4" body2="force3_f3"/>
+    <exclude body1="r_f_link3_4" body2="force3_f4"/>
+    <exclude body1="r_f_link3_4" body2="force3_f5"/>
+    <exclude body1="r_f_link3_4" body2="force3_f6"/>
+    <exclude body1="r_f_link3_4" body2="force3_f7"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_4" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_4" body2="force4_f1"/>
+    <exclude body1="r_f_link3_4" body2="force4_f2"/>
+    <exclude body1="r_f_link3_4" body2="force4_f3"/>
+    <exclude body1="r_f_link3_4" body2="force4_f4"/>
+    <exclude body1="r_f_link3_4" body2="force4_f5"/>
+    <exclude body1="r_f_link3_4" body2="force4_f6"/>
+    <exclude body1="r_f_link3_4" body2="force4_f7"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_4" body2="force5_f1"/>
+    <exclude body1="r_f_link3_4" body2="force5_f2"/>
+    <exclude body1="r_f_link3_4" body2="force5_f3"/>
+    <exclude body1="r_f_link3_4" body2="force5_f4"/>
+    <exclude body1="r_f_link3_4" body2="force5_f5"/>
+    <exclude body1="r_f_link3_4" body2="force5_f6"/>
+    <exclude body1="r_f_link3_4" body2="force5_f7"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link3_pad"/>
+    <exclude body1="r_f_link3_tip" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f1"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f2"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f3"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f4"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f5"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f6"/>
+    <exclude body1="r_f_link3_tip" body2="force3_f7"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_4"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_tip" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f1"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f2"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f3"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f4"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f5"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f6"/>
+    <exclude body1="r_f_link3_tip" body2="force4_f7"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_4"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_tip" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f1"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f2"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f3"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f4"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f5"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f6"/>
+    <exclude body1="r_f_link3_tip" body2="force5_f7"/>
+    <exclude body1="r_f_link3_pad" body2="ts_wrapper_r_f_link3_pad"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f1"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f2"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f3"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f4"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f5"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f6"/>
+    <exclude body1="r_f_link3_pad" body2="force3_f7"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_1"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_2"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_3"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_4"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link3_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f1"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f2"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f3"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f4"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f5"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f6"/>
+    <exclude body1="r_f_link3_pad" body2="force4_f7"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_1"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_2"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_3"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_4"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link3_pad" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link3_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f1"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f2"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f3"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f4"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f5"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f6"/>
+    <exclude body1="r_f_link3_pad" body2="force5_f7"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f1"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f2"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f3"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f4"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f5"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f6"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force3_f7"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_1"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_2"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_3"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_4"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_tip"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f1"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f2"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f3"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f4"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f5"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f6"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force4_f7"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_1"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_2"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_3"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_4"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_tip"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f1"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f2"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f3"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f4"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f5"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f6"/>
+    <exclude body1="ts_wrapper_r_f_link3_pad" body2="force5_f7"/>
+    <exclude body1="force3_f1" body2="force3_f2"/>
+    <exclude body1="force3_f1" body2="force3_f3"/>
+    <exclude body1="force3_f1" body2="force3_f4"/>
+    <exclude body1="force3_f1" body2="force3_f5"/>
+    <exclude body1="force3_f1" body2="force3_f6"/>
+    <exclude body1="force3_f1" body2="force3_f7"/>
+    <exclude body1="force3_f1" body2="r_f_link4_1"/>
+    <exclude body1="force3_f1" body2="r_f_link4_2"/>
+    <exclude body1="force3_f1" body2="r_f_link4_3"/>
+    <exclude body1="force3_f1" body2="r_f_link4_4"/>
+    <exclude body1="force3_f1" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f1" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f1" body2="force4_f1"/>
+    <exclude body1="force3_f1" body2="force4_f2"/>
+    <exclude body1="force3_f1" body2="force4_f3"/>
+    <exclude body1="force3_f1" body2="force4_f4"/>
+    <exclude body1="force3_f1" body2="force4_f5"/>
+    <exclude body1="force3_f1" body2="force4_f6"/>
+    <exclude body1="force3_f1" body2="force4_f7"/>
+    <exclude body1="force3_f1" body2="r_f_link5_1"/>
+    <exclude body1="force3_f1" body2="r_f_link5_2"/>
+    <exclude body1="force3_f1" body2="r_f_link5_3"/>
+    <exclude body1="force3_f1" body2="r_f_link5_4"/>
+    <exclude body1="force3_f1" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f1" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f1" body2="force5_f1"/>
+    <exclude body1="force3_f1" body2="force5_f2"/>
+    <exclude body1="force3_f1" body2="force5_f3"/>
+    <exclude body1="force3_f1" body2="force5_f4"/>
+    <exclude body1="force3_f1" body2="force5_f5"/>
+    <exclude body1="force3_f1" body2="force5_f6"/>
+    <exclude body1="force3_f1" body2="force5_f7"/>
+    <exclude body1="force3_f2" body2="force3_f3"/>
+    <exclude body1="force3_f2" body2="force3_f4"/>
+    <exclude body1="force3_f2" body2="force3_f5"/>
+    <exclude body1="force3_f2" body2="force3_f6"/>
+    <exclude body1="force3_f2" body2="force3_f7"/>
+    <exclude body1="force3_f2" body2="r_f_link4_1"/>
+    <exclude body1="force3_f2" body2="r_f_link4_2"/>
+    <exclude body1="force3_f2" body2="r_f_link4_3"/>
+    <exclude body1="force3_f2" body2="r_f_link4_4"/>
+    <exclude body1="force3_f2" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f2" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f2" body2="force4_f1"/>
+    <exclude body1="force3_f2" body2="force4_f2"/>
+    <exclude body1="force3_f2" body2="force4_f3"/>
+    <exclude body1="force3_f2" body2="force4_f4"/>
+    <exclude body1="force3_f2" body2="force4_f5"/>
+    <exclude body1="force3_f2" body2="force4_f6"/>
+    <exclude body1="force3_f2" body2="force4_f7"/>
+    <exclude body1="force3_f2" body2="r_f_link5_1"/>
+    <exclude body1="force3_f2" body2="r_f_link5_2"/>
+    <exclude body1="force3_f2" body2="r_f_link5_3"/>
+    <exclude body1="force3_f2" body2="r_f_link5_4"/>
+    <exclude body1="force3_f2" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f2" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f2" body2="force5_f1"/>
+    <exclude body1="force3_f2" body2="force5_f2"/>
+    <exclude body1="force3_f2" body2="force5_f3"/>
+    <exclude body1="force3_f2" body2="force5_f4"/>
+    <exclude body1="force3_f2" body2="force5_f5"/>
+    <exclude body1="force3_f2" body2="force5_f6"/>
+    <exclude body1="force3_f2" body2="force5_f7"/>
+    <exclude body1="force3_f3" body2="force3_f4"/>
+    <exclude body1="force3_f3" body2="force3_f5"/>
+    <exclude body1="force3_f3" body2="force3_f6"/>
+    <exclude body1="force3_f3" body2="force3_f7"/>
+    <exclude body1="force3_f3" body2="r_f_link4_1"/>
+    <exclude body1="force3_f3" body2="r_f_link4_2"/>
+    <exclude body1="force3_f3" body2="r_f_link4_3"/>
+    <exclude body1="force3_f3" body2="r_f_link4_4"/>
+    <exclude body1="force3_f3" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f3" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f3" body2="force4_f1"/>
+    <exclude body1="force3_f3" body2="force4_f2"/>
+    <exclude body1="force3_f3" body2="force4_f3"/>
+    <exclude body1="force3_f3" body2="force4_f4"/>
+    <exclude body1="force3_f3" body2="force4_f5"/>
+    <exclude body1="force3_f3" body2="force4_f6"/>
+    <exclude body1="force3_f3" body2="force4_f7"/>
+    <exclude body1="force3_f3" body2="r_f_link5_1"/>
+    <exclude body1="force3_f3" body2="r_f_link5_2"/>
+    <exclude body1="force3_f3" body2="r_f_link5_3"/>
+    <exclude body1="force3_f3" body2="r_f_link5_4"/>
+    <exclude body1="force3_f3" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f3" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f3" body2="force5_f1"/>
+    <exclude body1="force3_f3" body2="force5_f2"/>
+    <exclude body1="force3_f3" body2="force5_f3"/>
+    <exclude body1="force3_f3" body2="force5_f4"/>
+    <exclude body1="force3_f3" body2="force5_f5"/>
+    <exclude body1="force3_f3" body2="force5_f6"/>
+    <exclude body1="force3_f3" body2="force5_f7"/>
+    <exclude body1="force3_f4" body2="force3_f5"/>
+    <exclude body1="force3_f4" body2="force3_f6"/>
+    <exclude body1="force3_f4" body2="force3_f7"/>
+    <exclude body1="force3_f4" body2="r_f_link4_1"/>
+    <exclude body1="force3_f4" body2="r_f_link4_2"/>
+    <exclude body1="force3_f4" body2="r_f_link4_3"/>
+    <exclude body1="force3_f4" body2="r_f_link4_4"/>
+    <exclude body1="force3_f4" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f4" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f4" body2="force4_f1"/>
+    <exclude body1="force3_f4" body2="force4_f2"/>
+    <exclude body1="force3_f4" body2="force4_f3"/>
+    <exclude body1="force3_f4" body2="force4_f4"/>
+    <exclude body1="force3_f4" body2="force4_f5"/>
+    <exclude body1="force3_f4" body2="force4_f6"/>
+    <exclude body1="force3_f4" body2="force4_f7"/>
+    <exclude body1="force3_f4" body2="r_f_link5_1"/>
+    <exclude body1="force3_f4" body2="r_f_link5_2"/>
+    <exclude body1="force3_f4" body2="r_f_link5_3"/>
+    <exclude body1="force3_f4" body2="r_f_link5_4"/>
+    <exclude body1="force3_f4" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f4" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f4" body2="force5_f1"/>
+    <exclude body1="force3_f4" body2="force5_f2"/>
+    <exclude body1="force3_f4" body2="force5_f3"/>
+    <exclude body1="force3_f4" body2="force5_f4"/>
+    <exclude body1="force3_f4" body2="force5_f5"/>
+    <exclude body1="force3_f4" body2="force5_f6"/>
+    <exclude body1="force3_f4" body2="force5_f7"/>
+    <exclude body1="force3_f5" body2="force3_f6"/>
+    <exclude body1="force3_f5" body2="force3_f7"/>
+    <exclude body1="force3_f5" body2="r_f_link4_1"/>
+    <exclude body1="force3_f5" body2="r_f_link4_2"/>
+    <exclude body1="force3_f5" body2="r_f_link4_3"/>
+    <exclude body1="force3_f5" body2="r_f_link4_4"/>
+    <exclude body1="force3_f5" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f5" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f5" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f5" body2="force4_f1"/>
+    <exclude body1="force3_f5" body2="force4_f2"/>
+    <exclude body1="force3_f5" body2="force4_f3"/>
+    <exclude body1="force3_f5" body2="force4_f4"/>
+    <exclude body1="force3_f5" body2="force4_f5"/>
+    <exclude body1="force3_f5" body2="force4_f6"/>
+    <exclude body1="force3_f5" body2="force4_f7"/>
+    <exclude body1="force3_f5" body2="r_f_link5_1"/>
+    <exclude body1="force3_f5" body2="r_f_link5_2"/>
+    <exclude body1="force3_f5" body2="r_f_link5_3"/>
+    <exclude body1="force3_f5" body2="r_f_link5_4"/>
+    <exclude body1="force3_f5" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f5" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f5" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f5" body2="force5_f1"/>
+    <exclude body1="force3_f5" body2="force5_f2"/>
+    <exclude body1="force3_f5" body2="force5_f3"/>
+    <exclude body1="force3_f5" body2="force5_f4"/>
+    <exclude body1="force3_f5" body2="force5_f5"/>
+    <exclude body1="force3_f5" body2="force5_f6"/>
+    <exclude body1="force3_f5" body2="force5_f7"/>
+    <exclude body1="force3_f6" body2="force3_f7"/>
+    <exclude body1="force3_f6" body2="r_f_link4_1"/>
+    <exclude body1="force3_f6" body2="r_f_link4_2"/>
+    <exclude body1="force3_f6" body2="r_f_link4_3"/>
+    <exclude body1="force3_f6" body2="r_f_link4_4"/>
+    <exclude body1="force3_f6" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f6" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f6" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f6" body2="force4_f1"/>
+    <exclude body1="force3_f6" body2="force4_f2"/>
+    <exclude body1="force3_f6" body2="force4_f3"/>
+    <exclude body1="force3_f6" body2="force4_f4"/>
+    <exclude body1="force3_f6" body2="force4_f5"/>
+    <exclude body1="force3_f6" body2="force4_f6"/>
+    <exclude body1="force3_f6" body2="force4_f7"/>
+    <exclude body1="force3_f6" body2="r_f_link5_1"/>
+    <exclude body1="force3_f6" body2="r_f_link5_2"/>
+    <exclude body1="force3_f6" body2="r_f_link5_3"/>
+    <exclude body1="force3_f6" body2="r_f_link5_4"/>
+    <exclude body1="force3_f6" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f6" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f6" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f6" body2="force5_f1"/>
+    <exclude body1="force3_f6" body2="force5_f2"/>
+    <exclude body1="force3_f6" body2="force5_f3"/>
+    <exclude body1="force3_f6" body2="force5_f4"/>
+    <exclude body1="force3_f6" body2="force5_f5"/>
+    <exclude body1="force3_f6" body2="force5_f6"/>
+    <exclude body1="force3_f6" body2="force5_f7"/>
+    <exclude body1="force3_f7" body2="r_f_link4_1"/>
+    <exclude body1="force3_f7" body2="r_f_link4_2"/>
+    <exclude body1="force3_f7" body2="r_f_link4_3"/>
+    <exclude body1="force3_f7" body2="r_f_link4_4"/>
+    <exclude body1="force3_f7" body2="r_f_link4_tip"/>
+    <exclude body1="force3_f7" body2="r_f_link4_pad"/>
+    <exclude body1="force3_f7" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="force3_f7" body2="force4_f1"/>
+    <exclude body1="force3_f7" body2="force4_f2"/>
+    <exclude body1="force3_f7" body2="force4_f3"/>
+    <exclude body1="force3_f7" body2="force4_f4"/>
+    <exclude body1="force3_f7" body2="force4_f5"/>
+    <exclude body1="force3_f7" body2="force4_f6"/>
+    <exclude body1="force3_f7" body2="force4_f7"/>
+    <exclude body1="force3_f7" body2="r_f_link5_1"/>
+    <exclude body1="force3_f7" body2="r_f_link5_2"/>
+    <exclude body1="force3_f7" body2="r_f_link5_3"/>
+    <exclude body1="force3_f7" body2="r_f_link5_4"/>
+    <exclude body1="force3_f7" body2="r_f_link5_tip"/>
+    <exclude body1="force3_f7" body2="r_f_link5_pad"/>
+    <exclude body1="force3_f7" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force3_f7" body2="force5_f1"/>
+    <exclude body1="force3_f7" body2="force5_f2"/>
+    <exclude body1="force3_f7" body2="force5_f3"/>
+    <exclude body1="force3_f7" body2="force5_f4"/>
+    <exclude body1="force3_f7" body2="force5_f5"/>
+    <exclude body1="force3_f7" body2="force5_f6"/>
+    <exclude body1="force3_f7" body2="force5_f7"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_4"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link4_1" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_1" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_1" body2="force4_f1"/>
+    <exclude body1="r_f_link4_1" body2="force4_f2"/>
+    <exclude body1="r_f_link4_1" body2="force4_f3"/>
+    <exclude body1="r_f_link4_1" body2="force4_f4"/>
+    <exclude body1="r_f_link4_1" body2="force4_f5"/>
+    <exclude body1="r_f_link4_1" body2="force4_f6"/>
+    <exclude body1="r_f_link4_1" body2="force4_f7"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_4"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_1" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_1" body2="force5_f1"/>
+    <exclude body1="r_f_link4_1" body2="force5_f2"/>
+    <exclude body1="r_f_link4_1" body2="force5_f3"/>
+    <exclude body1="r_f_link4_1" body2="force5_f4"/>
+    <exclude body1="r_f_link4_1" body2="force5_f5"/>
+    <exclude body1="r_f_link4_1" body2="force5_f6"/>
+    <exclude body1="r_f_link4_1" body2="force5_f7"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_4"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link4_2" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_2" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_2" body2="force4_f1"/>
+    <exclude body1="r_f_link4_2" body2="force4_f2"/>
+    <exclude body1="r_f_link4_2" body2="force4_f3"/>
+    <exclude body1="r_f_link4_2" body2="force4_f4"/>
+    <exclude body1="r_f_link4_2" body2="force4_f5"/>
+    <exclude body1="r_f_link4_2" body2="force4_f6"/>
+    <exclude body1="r_f_link4_2" body2="force4_f7"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_4"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_2" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_2" body2="force5_f1"/>
+    <exclude body1="r_f_link4_2" body2="force5_f2"/>
+    <exclude body1="r_f_link4_2" body2="force5_f3"/>
+    <exclude body1="r_f_link4_2" body2="force5_f4"/>
+    <exclude body1="r_f_link4_2" body2="force5_f5"/>
+    <exclude body1="r_f_link4_2" body2="force5_f6"/>
+    <exclude body1="r_f_link4_2" body2="force5_f7"/>
     <exclude body1="r_f_link4_3" body2="r_f_link4_4"/>
     <exclude body1="r_f_link4_3" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link4_3" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_3" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_3" body2="force4_f1"/>
+    <exclude body1="r_f_link4_3" body2="force4_f2"/>
+    <exclude body1="r_f_link4_3" body2="force4_f3"/>
+    <exclude body1="r_f_link4_3" body2="force4_f4"/>
+    <exclude body1="r_f_link4_3" body2="force4_f5"/>
+    <exclude body1="r_f_link4_3" body2="force4_f6"/>
+    <exclude body1="r_f_link4_3" body2="force4_f7"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_4"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_3" body2="force5_f1"/>
+    <exclude body1="r_f_link4_3" body2="force5_f2"/>
+    <exclude body1="r_f_link4_3" body2="force5_f3"/>
+    <exclude body1="r_f_link4_3" body2="force5_f4"/>
+    <exclude body1="r_f_link4_3" body2="force5_f5"/>
+    <exclude body1="r_f_link4_3" body2="force5_f6"/>
+    <exclude body1="r_f_link4_3" body2="force5_f7"/>
     <exclude body1="r_f_link4_4" body2="r_f_link4_tip"/>
     <exclude body1="r_f_link4_4" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_4" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_4" body2="force4_f1"/>
+    <exclude body1="r_f_link4_4" body2="force4_f2"/>
+    <exclude body1="r_f_link4_4" body2="force4_f3"/>
+    <exclude body1="r_f_link4_4" body2="force4_f4"/>
+    <exclude body1="r_f_link4_4" body2="force4_f5"/>
+    <exclude body1="r_f_link4_4" body2="force4_f6"/>
+    <exclude body1="r_f_link4_4" body2="force4_f7"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_4" body2="force5_f1"/>
+    <exclude body1="r_f_link4_4" body2="force5_f2"/>
+    <exclude body1="r_f_link4_4" body2="force5_f3"/>
+    <exclude body1="r_f_link4_4" body2="force5_f4"/>
+    <exclude body1="r_f_link4_4" body2="force5_f5"/>
+    <exclude body1="r_f_link4_4" body2="force5_f6"/>
+    <exclude body1="r_f_link4_4" body2="force5_f7"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link4_pad"/>
+    <exclude body1="r_f_link4_tip" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f1"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f2"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f3"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f4"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f5"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f6"/>
+    <exclude body1="r_f_link4_tip" body2="force4_f7"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_4"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_tip" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f1"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f2"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f3"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f4"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f5"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f6"/>
+    <exclude body1="r_f_link4_tip" body2="force5_f7"/>
+    <exclude body1="r_f_link4_pad" body2="ts_wrapper_r_f_link4_pad"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f1"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f2"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f3"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f4"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f5"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f6"/>
+    <exclude body1="r_f_link4_pad" body2="force4_f7"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_1"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_2"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_3"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_4"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link4_pad" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link4_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f1"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f2"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f3"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f4"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f5"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f6"/>
+    <exclude body1="r_f_link4_pad" body2="force5_f7"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f1"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f2"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f3"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f4"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f5"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f6"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force4_f7"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_1"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_2"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_3"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_4"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_tip"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f1"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f2"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f3"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f4"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f5"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f6"/>
+    <exclude body1="ts_wrapper_r_f_link4_pad" body2="force5_f7"/>
+    <exclude body1="force4_f1" body2="force4_f2"/>
+    <exclude body1="force4_f1" body2="force4_f3"/>
+    <exclude body1="force4_f1" body2="force4_f4"/>
+    <exclude body1="force4_f1" body2="force4_f5"/>
+    <exclude body1="force4_f1" body2="force4_f6"/>
+    <exclude body1="force4_f1" body2="force4_f7"/>
+    <exclude body1="force4_f1" body2="r_f_link5_1"/>
+    <exclude body1="force4_f1" body2="r_f_link5_2"/>
+    <exclude body1="force4_f1" body2="r_f_link5_3"/>
+    <exclude body1="force4_f1" body2="r_f_link5_4"/>
+    <exclude body1="force4_f1" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f1" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f1" body2="force5_f1"/>
+    <exclude body1="force4_f1" body2="force5_f2"/>
+    <exclude body1="force4_f1" body2="force5_f3"/>
+    <exclude body1="force4_f1" body2="force5_f4"/>
+    <exclude body1="force4_f1" body2="force5_f5"/>
+    <exclude body1="force4_f1" body2="force5_f6"/>
+    <exclude body1="force4_f1" body2="force5_f7"/>
+    <exclude body1="force4_f2" body2="force4_f3"/>
+    <exclude body1="force4_f2" body2="force4_f4"/>
+    <exclude body1="force4_f2" body2="force4_f5"/>
+    <exclude body1="force4_f2" body2="force4_f6"/>
+    <exclude body1="force4_f2" body2="force4_f7"/>
+    <exclude body1="force4_f2" body2="r_f_link5_1"/>
+    <exclude body1="force4_f2" body2="r_f_link5_2"/>
+    <exclude body1="force4_f2" body2="r_f_link5_3"/>
+    <exclude body1="force4_f2" body2="r_f_link5_4"/>
+    <exclude body1="force4_f2" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f2" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f2" body2="force5_f1"/>
+    <exclude body1="force4_f2" body2="force5_f2"/>
+    <exclude body1="force4_f2" body2="force5_f3"/>
+    <exclude body1="force4_f2" body2="force5_f4"/>
+    <exclude body1="force4_f2" body2="force5_f5"/>
+    <exclude body1="force4_f2" body2="force5_f6"/>
+    <exclude body1="force4_f2" body2="force5_f7"/>
+    <exclude body1="force4_f3" body2="force4_f4"/>
+    <exclude body1="force4_f3" body2="force4_f5"/>
+    <exclude body1="force4_f3" body2="force4_f6"/>
+    <exclude body1="force4_f3" body2="force4_f7"/>
+    <exclude body1="force4_f3" body2="r_f_link5_1"/>
+    <exclude body1="force4_f3" body2="r_f_link5_2"/>
+    <exclude body1="force4_f3" body2="r_f_link5_3"/>
+    <exclude body1="force4_f3" body2="r_f_link5_4"/>
+    <exclude body1="force4_f3" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f3" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f3" body2="force5_f1"/>
+    <exclude body1="force4_f3" body2="force5_f2"/>
+    <exclude body1="force4_f3" body2="force5_f3"/>
+    <exclude body1="force4_f3" body2="force5_f4"/>
+    <exclude body1="force4_f3" body2="force5_f5"/>
+    <exclude body1="force4_f3" body2="force5_f6"/>
+    <exclude body1="force4_f3" body2="force5_f7"/>
+    <exclude body1="force4_f4" body2="force4_f5"/>
+    <exclude body1="force4_f4" body2="force4_f6"/>
+    <exclude body1="force4_f4" body2="force4_f7"/>
+    <exclude body1="force4_f4" body2="r_f_link5_1"/>
+    <exclude body1="force4_f4" body2="r_f_link5_2"/>
+    <exclude body1="force4_f4" body2="r_f_link5_3"/>
+    <exclude body1="force4_f4" body2="r_f_link5_4"/>
+    <exclude body1="force4_f4" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f4" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f4" body2="force5_f1"/>
+    <exclude body1="force4_f4" body2="force5_f2"/>
+    <exclude body1="force4_f4" body2="force5_f3"/>
+    <exclude body1="force4_f4" body2="force5_f4"/>
+    <exclude body1="force4_f4" body2="force5_f5"/>
+    <exclude body1="force4_f4" body2="force5_f6"/>
+    <exclude body1="force4_f4" body2="force5_f7"/>
+    <exclude body1="force4_f5" body2="force4_f6"/>
+    <exclude body1="force4_f5" body2="force4_f7"/>
+    <exclude body1="force4_f5" body2="r_f_link5_1"/>
+    <exclude body1="force4_f5" body2="r_f_link5_2"/>
+    <exclude body1="force4_f5" body2="r_f_link5_3"/>
+    <exclude body1="force4_f5" body2="r_f_link5_4"/>
+    <exclude body1="force4_f5" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f5" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f5" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f5" body2="force5_f1"/>
+    <exclude body1="force4_f5" body2="force5_f2"/>
+    <exclude body1="force4_f5" body2="force5_f3"/>
+    <exclude body1="force4_f5" body2="force5_f4"/>
+    <exclude body1="force4_f5" body2="force5_f5"/>
+    <exclude body1="force4_f5" body2="force5_f6"/>
+    <exclude body1="force4_f5" body2="force5_f7"/>
+    <exclude body1="force4_f6" body2="force4_f7"/>
+    <exclude body1="force4_f6" body2="r_f_link5_1"/>
+    <exclude body1="force4_f6" body2="r_f_link5_2"/>
+    <exclude body1="force4_f6" body2="r_f_link5_3"/>
+    <exclude body1="force4_f6" body2="r_f_link5_4"/>
+    <exclude body1="force4_f6" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f6" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f6" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f6" body2="force5_f1"/>
+    <exclude body1="force4_f6" body2="force5_f2"/>
+    <exclude body1="force4_f6" body2="force5_f3"/>
+    <exclude body1="force4_f6" body2="force5_f4"/>
+    <exclude body1="force4_f6" body2="force5_f5"/>
+    <exclude body1="force4_f6" body2="force5_f6"/>
+    <exclude body1="force4_f6" body2="force5_f7"/>
+    <exclude body1="force4_f7" body2="r_f_link5_1"/>
+    <exclude body1="force4_f7" body2="r_f_link5_2"/>
+    <exclude body1="force4_f7" body2="r_f_link5_3"/>
+    <exclude body1="force4_f7" body2="r_f_link5_4"/>
+    <exclude body1="force4_f7" body2="r_f_link5_tip"/>
+    <exclude body1="force4_f7" body2="r_f_link5_pad"/>
+    <exclude body1="force4_f7" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="force4_f7" body2="force5_f1"/>
+    <exclude body1="force4_f7" body2="force5_f2"/>
+    <exclude body1="force4_f7" body2="force5_f3"/>
+    <exclude body1="force4_f7" body2="force5_f4"/>
+    <exclude body1="force4_f7" body2="force5_f5"/>
+    <exclude body1="force4_f7" body2="force5_f6"/>
+    <exclude body1="force4_f7" body2="force5_f7"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_2"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_4"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link5_1" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_1" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_1" body2="force5_f1"/>
+    <exclude body1="r_f_link5_1" body2="force5_f2"/>
+    <exclude body1="r_f_link5_1" body2="force5_f3"/>
+    <exclude body1="r_f_link5_1" body2="force5_f4"/>
+    <exclude body1="r_f_link5_1" body2="force5_f5"/>
+    <exclude body1="r_f_link5_1" body2="force5_f6"/>
+    <exclude body1="r_f_link5_1" body2="force5_f7"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_3"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_4"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link5_2" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_2" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_2" body2="force5_f1"/>
+    <exclude body1="r_f_link5_2" body2="force5_f2"/>
+    <exclude body1="r_f_link5_2" body2="force5_f3"/>
+    <exclude body1="r_f_link5_2" body2="force5_f4"/>
+    <exclude body1="r_f_link5_2" body2="force5_f5"/>
+    <exclude body1="r_f_link5_2" body2="force5_f6"/>
+    <exclude body1="r_f_link5_2" body2="force5_f7"/>
     <exclude body1="r_f_link5_3" body2="r_f_link5_4"/>
     <exclude body1="r_f_link5_3" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link5_3" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_3" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_3" body2="force5_f1"/>
+    <exclude body1="r_f_link5_3" body2="force5_f2"/>
+    <exclude body1="r_f_link5_3" body2="force5_f3"/>
+    <exclude body1="r_f_link5_3" body2="force5_f4"/>
+    <exclude body1="r_f_link5_3" body2="force5_f5"/>
+    <exclude body1="r_f_link5_3" body2="force5_f6"/>
+    <exclude body1="r_f_link5_3" body2="force5_f7"/>
     <exclude body1="r_f_link5_4" body2="r_f_link5_tip"/>
     <exclude body1="r_f_link5_4" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_4" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_4" body2="force5_f1"/>
+    <exclude body1="r_f_link5_4" body2="force5_f2"/>
+    <exclude body1="r_f_link5_4" body2="force5_f3"/>
+    <exclude body1="r_f_link5_4" body2="force5_f4"/>
+    <exclude body1="r_f_link5_4" body2="force5_f5"/>
+    <exclude body1="r_f_link5_4" body2="force5_f6"/>
+    <exclude body1="r_f_link5_4" body2="force5_f7"/>
     <exclude body1="r_f_link5_tip" body2="r_f_link5_pad"/>
+    <exclude body1="r_f_link5_tip" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f1"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f2"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f3"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f4"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f5"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f6"/>
+    <exclude body1="r_f_link5_tip" body2="force5_f7"/>
+    <exclude body1="r_f_link5_pad" body2="ts_wrapper_r_f_link5_pad"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f1"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f2"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f3"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f4"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f5"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f6"/>
+    <exclude body1="r_f_link5_pad" body2="force5_f7"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f1"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f2"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f3"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f4"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f5"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f6"/>
+    <exclude body1="ts_wrapper_r_f_link5_pad" body2="force5_f7"/>
+    <exclude body1="force5_f1" body2="force5_f2"/>
+    <exclude body1="force5_f1" body2="force5_f3"/>
+    <exclude body1="force5_f1" body2="force5_f4"/>
+    <exclude body1="force5_f1" body2="force5_f5"/>
+    <exclude body1="force5_f1" body2="force5_f6"/>
+    <exclude body1="force5_f1" body2="force5_f7"/>
+    <exclude body1="force5_f2" body2="force5_f3"/>
+    <exclude body1="force5_f2" body2="force5_f4"/>
+    <exclude body1="force5_f2" body2="force5_f5"/>
+    <exclude body1="force5_f2" body2="force5_f6"/>
+    <exclude body1="force5_f2" body2="force5_f7"/>
+    <exclude body1="force5_f3" body2="force5_f4"/>
+    <exclude body1="force5_f3" body2="force5_f5"/>
+    <exclude body1="force5_f3" body2="force5_f6"/>
+    <exclude body1="force5_f3" body2="force5_f7"/>
+    <exclude body1="force5_f4" body2="force5_f5"/>
+    <exclude body1="force5_f4" body2="force5_f6"/>
+    <exclude body1="force5_f4" body2="force5_f7"/>
+    <exclude body1="force5_f5" body2="force5_f6"/>
+    <exclude body1="force5_f5" body2="force5_f7"/>
+    <exclude body1="force5_f6" body2="force5_f7"/>
   </contact>
 </mujoco>

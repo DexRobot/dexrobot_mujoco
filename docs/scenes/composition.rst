@@ -213,9 +213,113 @@ Setup for mounted hand:
         <include file="../parts/dexhand021_right_jaka_zu7_contact.xml"/>
     </mujoco>
 
+Available Components
+------------------
+
+Furniture Components
+^^^^^^^^^^^^^^^^^^
+
+Tables
+~~~~~~
+
+Structure: ``furniture_sim/[type]/[type]_{asset,body}.xml``
+
+.. code-block:: xml
+
+    <!-- Assets and materials -->
+    <include file="furniture_sim/simpleTable/simpleTable_asset.xml"/>
+
+    <!-- Physical structure (pick one): -->
+    <include file="furniture_sim/simpleTable/simpleGraniteTable_body.xml"/>
+    <include file="furniture_sim/simpleTable/simpleMarbleTable_body.xml"/>
+    <include file="furniture_sim/simpleTable/simpleWoodTable_body.xml"/>
+
+Available:
+- simpleTable: Basic surface with material variants
+- studyTable: Surface with drawer/handle mechanics
+- ventionTable: Industrial frame structure
+
+Storage Units
+~~~~~~~~~~~
+
+.. code-block:: xml
+
+    <!-- Cabinet with hinged door -->
+    <include file="furniture_sim/hingecabinet/hingecabinet_asset.xml"/>
+    <include file="furniture_sim/hingecabinet/hingecabinet_body.xml"/>
+
+    <!-- Cabinet with sliding door -->
+    <include file="furniture_sim/slidecabinet/slidecabinet_asset.xml"/>
+    <include file="furniture_sim/slidecabinet/slidecabinet_body.xml"/>
+
+Available:
+- hingecabinet: Hinged door mechanics
+- slidecabinet: Linear sliding mechanism
+- counters: Kitchen counter units
+- bin: Storage containers
+
+Appliances
+~~~~~~~~~
+
+.. code-block:: xml
+
+    <!-- Microwave with version selection -->
+    <include file="furniture_sim/microwave/microwave_asset.xml"/>
+    <include file="furniture_sim/microwave/microwave_body0.xml"/> <!-- Versions 0-3 -->
+
+    <!-- Kettle with version selection -->
+    <include file="furniture_sim/kettle/kettle_asset.xml"/>
+    <include file="furniture_sim/kettle/kettle_body0.xml"/> <!-- Versions 0-7 -->
+
+Available:
+- microwave: Door and control panel mechanics
+- kettle: Handle and pour mechanics
+- oven: Door, knob and burner mechanics
+
+Environment Components
+^^^^^^^^^^^^^^^^^^^^
+
+Base Scenes
+~~~~~~~~~
+
+Structure: ``scene_sim/[name]_scene.xml``
+
+.. code-block:: xml
+
+    <!-- Basic environment -->
+    <include file="scene_sim/basic_scene.xml"/>
+
+    <!-- Indoor room -->
+    <include file="scene_sim/room_scene.xml"/>
+
+    <!-- Rooftop -->
+    <include file="scene_sim/rooftop_scene.xml"/>
+
+Available:
+- basic_scene: Ground plane and lighting
+- room_scene: Enclosed space with windows
+- rooftop_scene: Open space with skyline
+
+Lighting
+~~~~~~~
+
+.. code-block:: xml
+
+    <!-- Main lighting -->
+    <light name="main" pos="0 0 4" dir="0 0 -1" castshadow="true"/>
+
+    <!-- Window/rim lighting -->
+    <light name="window" pos="-2 0 2" dir="1 0 -0.5" castshadow="false"/>
+
+Textures
+~~~~~~~
+
+Standard textures:
+- Materials: wood[0-4].png, metal[0-4].png, stone[0-4].png
+- Environment: dawn/night/cloudy/stormy.png (skyboxes)
+- Surfaces: oak/maple_floorboard.png, high_contrast_brick.png
+
 Next Steps
 ---------
 
-- Browse available furniture in :doc:`furniture`
-- Explore environments in :doc:`scenery`
 - Study complete examples in :doc:`examples`

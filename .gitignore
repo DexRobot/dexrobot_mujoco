@@ -146,3 +146,4 @@ MUJOCO_LOG.TXT
 
 # code2prompt artifacts
 dexrobot_mujoco.txt
+reference/

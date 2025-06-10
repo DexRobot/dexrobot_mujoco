@@ -1,4 +1,4 @@
-<mujoco>
+<mujocoinclude>
     <visual>
         <global offwidth="1920" offheight="1080" />
     </visual>
@@ -8,4 +8,4 @@
         <geom condim="3" solref="0.01 0.9" solimp="0.9 0.999 0.005" friction="3. 2. 2."/>
     </default>
     <size njmax='1000' nconmax='1000'/>
-</mujoco>
+</mujocoinclude>

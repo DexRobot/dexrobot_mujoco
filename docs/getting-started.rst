@@ -28,26 +28,32 @@ Python Dependencies
 Installation
 -----------
 
+Standard Installation
+^^^^^^^^^^^^^^^^^^^^
+
 1. Set up your ROS environment (ROS1 or ROS2)
 
-2. Install Python dependencies:
-
-   .. code-block:: bash
-
-       pip install mujoco numpy pyyaml loguru scipy flask opencv-python pandas
-       pip install git+https://gitee.com/dexrobot/ros_compat.git
-
-3. Install DexRobot MuJoCo:
-
-   .. code-block:: bash
-
-       pip install git+https://gitee.com/dexrobot/dexrobot_mujoco.git
-
-   Or for development:
+2. Install DexRobot MuJoCo:
 
    .. code-block:: bash
 
        git clone https://gitee.com/dexrobot/dexrobot_mujoco.git
+       cd dexrobot_mujoco
+       pip install -e .
+
+With TaShan Sensor Support
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For TaShan touch sensor support (requires Python 3.8 and MuJoCo 3.2.3):
+
+.. code-block:: bash
+
+    pip install -e .[tashan]
+
+.. note::
+   
+   TaShan sensors have specific version requirements. For detailed setup instructions,
+   especially when using ROS with Python 3.8, see :doc:`tashan_python38_setup`.
        cd dexrobot_mujoco
        pip install -e .[dev]
 
@@ -152,7 +158,8 @@ After getting familiar with basic usage, you might want to:
 - Learn about :doc:`hand model configuration </hand_models/index>`
 - Create custom :doc:`simulation scenes </scenes/index>`
 - Explore advanced :doc:`ROS integration </ros_integration/index>`
-- Check the :doc:`API reference </api/mj_control_wrapper>` for programmatic control
+- Configure :doc:`touch sensors </touch_sensors>` for tactile feedback
+- Check the :doc:`wrapper documentation </wrapper/index>` for programmatic control
 
 Common Issues
 ------------
