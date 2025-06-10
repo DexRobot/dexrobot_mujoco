@@ -2,13 +2,24 @@
 
 [English](README.md) | [中文](README_zh.md)
 
-MuJoCo binding for DexRobot hand simulation with ROS integration, providing:
+Tactile simulation for DexRobot hands in MuJoCo with ROS integration.
 
-- Hand simulation with optimized collision models
-- Robot arm integration
-- Scene composition with furniture and environments
-- ROS1/ROS2 compatibility
-- VR visualization
+## Key Features
+
+- **Tactile sensing**: Support for both MuJoCo native touch sensors and TaShan 11-dimensional tactile sensors
+- **Optimized hand models**: Full and simplified collision geometries for performance tuning
+- **Robot integration**: Mount hands on various robot arms (JAKA Zu7, etc.)
+- **Rich environments**: Compose scenes with furniture and interactive objects
+- **ROS compatibility**: Integration with ROS1/ROS2 ecosystems
+- **VR visualization**: Optional VR support for debugging
+
+## Demo Video
+
+<video src="assets/ts_touch_demo.mp4" width="100%" controls>
+  View the tactile sensor demo: <a href="assets/ts_touch_demo.mp4">ts_touch_demo.mp4</a>
+</video>
+
+The video demonstrates real-time TaShan sensor visualization during a pinch gesture, showing force magnitude and direction feedback from thumb and index finger sensors.
 
 ## Installation
 
@@ -27,7 +38,7 @@ pip install -e .[tashan]
 - TaShan sensors require Python 3.8
 - Without the [tashan] option, the latest MuJoCo version will be used with any Python version ≥ 3.8
 
-**Note**: Using Python 3.8 with ROS can be challenging on modern systems. See [docs/tashan_python38_setup.md](docs/tashan_python38_setup.md) for a workaround using Conda and RoboStack. Alternatively, use the [standalone example](examples/tashan_standalone_demo.py) without ROS.
+**Note**: Using Python 3.8 with ROS can be challenging on modern systems. For detailed setup instructions with Conda and RoboStack, see the documentation. Alternatively, use the [standalone example](examples/tashan_standalone_demo.py) without ROS.
 
 ## Hand Models
 
@@ -103,109 +114,49 @@ python nodes/dexrobot_mujoco_ros.py model.xml \
     --output-bag-path recording.bag
 ```
 
-## Touch Sensor Support
+## Tactile Sensing
 
-DexRobot MuJoCo includes comprehensive touch sensor capabilities with both MuJoCo touch sensors and advanced Tactile Sensor (TS) support.
+DexRobot MuJoCo provides tactile simulation with two sensor options:
 
-### Sensor Types
-
-All models now include **both sensor types**:
-
-1. **Regular MuJoCo Touch Sensors**: Simple contact detection
-2. **TS Sensors**: Advanced tactile sensing with spatial information
-
-### Usage
-
-Choose which sensor data to publish at runtime:
-
+### 1. MuJoCo Native Touch Sensors
+Simple contact force detection (1 value per fingertip):
 ```bash
-# Publish regular MuJoCo touch sensor data (5 values per hand)
-python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/ball_catching.xml --config config/ball_catching.yaml
-
-# Publish TS sensor data (11 values per hand)
-python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/ball_catching.xml --config config/ball_catching.yaml --enable-ts-sensor
+python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/ball_catching.xml
 ```
 
-### Data Structure
-
-**Regular MuJoCo Touch Sensors** (`/right_hand/touch_sensors` without `--enable-ts-sensor`):
-```python
-# 5 elements: simple contact force per fingertip
-[
-    touch_thumb_force,     # 0.0 = no contact, >0 = contact force
-    touch_index_force,     # Values represent contact magnitude
-    touch_middle_force,
-    touch_ring_force,
-    touch_pinky_force
-]
-```
-
-**TS Sensors** (`/right_hand/touch_sensors` with `--enable-ts-sensor`):
-```python
-# 11 elements following dextactisim format: sdata = Data.sensordata[[1,2, 12,13, 23,24, 34,35, 45,46] + user1_data_id]
-[
-    # Fixed MuJoCo sensor indices (10 values)
-    sensordata[1],   sensordata[2],   # Finger pair 1 (th): normal, tangential
-    sensordata[12],  sensordata[13],  # Finger pair 2 (ff): normal, tangential  
-    sensordata[23],  sensordata[24],  # Finger pair 3 (mf): normal, tangential
-    sensordata[34],  sensordata[35],  # Finger pair 4 (rf): normal, tangential
-    sensordata[45],  sensordata[46],  # Finger pair 5 (lf): normal, tangential
-    
-    # TS-F-A sensor data (1 value - starting index of 11-dimensional sensor)
-    ts_sensor_value  # First element of TS-F-A sensor array
-]
-```
-
-### TS-F-A Sensor Details
-
-The TS-F-A sensor itself is an 11-dimensional tactile sensor with:
-
-```python
-# Complete TS-F-A sensor structure (11 dimensions)
-[
-    proximity_sensing,        # [0] Distance/proximity measurement
-    normal_force,            # [1] Force perpendicular to sensor surface  
-    tangential_force,        # [2] Force parallel to sensor surface
-    tangential_direction,    # [3] Force direction (0-360°, fingertip = 0°)
-    capacitance_f1,          # [4] Raw capacitance from sensor element F1
-    capacitance_f2,          # [5] Raw capacitance from sensor element F2  
-    capacitance_f3,          # [6] Raw capacitance from sensor element F3
-    capacitance_f4,          # [7] Raw capacitance from sensor element F4
-    capacitance_f5,          # [8] Raw capacitance from sensor element F5
-    capacitance_f6,          # [9] Raw capacitance from sensor element F6
-    capacitance_f7           # [10] Raw capacitance from sensor element F7
-]
-```
-
-### TS Sensor Implementation
-
-- **Hardware Support**: Automatically detects and uses TS sensor hardware library if available
-- **Simulation Fallback**: When hardware is unavailable, provides realistic simulated tactile data based on contact physics
-- **Spatial Patterns**: TS simulation creates realistic force distribution patterns across the sensor surface
-- **Real-time Updates**: Sensor data updates with each simulation step
-
-### Standalone TaShan Demo
-
-For testing TaShan sensors without ROS:
-
+### 2. TaShan Tactile Sensors
+11-dimensional tactile feedback per sensor pad:
 ```bash
 # Requires Python 3.8 and MuJoCo 3.2.3
+python nodes/dexrobot_mujoco_ros.py dexrobot_mujoco/scenes/ball_catching.xml --enable-ts-sensor
+```
+
+**TaShan sensor data includes:**
+- Normal and tangential force components
+- Force direction
+- 7-channel capacitance array for detailed contact geometry
+
+### Quick Demo
+
+Try the standalone tactile demo with real-time visualization:
+```bash
+# Install visualization dependency
+pip install rerun-sdk==0.18.2
+
+# Run pinch gesture demo
 python examples/tashan_standalone_demo.py
 ```
 
-This example demonstrates:
-- Direct TaShan sensor access without ROS
-- Real-time sensor data visualization
-- Simple finger control for testing
+This demo shows thumb and index finger forces during object manipulation with live force vector visualization.
 
-### ROS Topics
+### ROS Integration
 
-Both sensor types publish to the same topics but with different data formats:
+Sensor data is published to ROS topics:
 
-- `/left_hand/touch_sensors` (Float64MultiArray)
-- `/right_hand/touch_sensors` (Float64MultiArray)
+- `touch_sensors` (Float32MultiArray) - MuJoCo touch sensors or raw TS sensor data
+- `ts_forces` (Float32MultiArray) - Semantic force data when using `--enable-ts-sensor`
 
-The topic names remain consistent - only the data content and dimensionality change based on the `--enable-ts-sensor` flag.
+The TaShan force data provides semantic information (normal force, tangential force, direction) for each sensor pad in a 2D array format.
 
 ## Documentation
 

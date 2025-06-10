@@ -234,7 +234,7 @@ class MJSimWrapper:
         Returns:
             float: The position value.
         """
-        qpos_addr = self.get_pos_addr(joint_name)
+        qpos_addr = self.get_qpos_addr(joint_name)
         return self.data.qpos[qpos_addr]
 
     @reset_safe

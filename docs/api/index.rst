@@ -6,29 +6,37 @@ API Reference
    :local:
 
 Core Classes
-----------
+------------
 
-MJControlWrapper
-^^^^^^^^^^^^^^^
+MJSimWrapper
+^^^^^^^^^^^^
 
-.. autoclass:: dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper
+.. autoclass:: dexrobot_mujoco.wrapper.simulation.MJSimWrapper
    :members:
    :undoc-members:
    :show-inheritance:
 
-MJControlVRWrapper
+TSSensorManager
 ^^^^^^^^^^^^^^^
 
-.. autoclass:: dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper
+.. autoclass:: dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+VRManager
+^^^^^^^^^
+
+.. autoclass:: dexrobot_mujoco.wrapper.vr_manager.VRManager
    :members:
    :undoc-members:
    :show-inheritance:
 
 ROS Integration
-------------
+---------------
 
 MujocoJointController
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: nodes.dexrobot_mujoco_ros.MujocoJointController
    :members:
@@ -36,12 +44,20 @@ MujocoJointController
    :show-inheritance:
 
 Utility Functions
---------------
+-----------------
 
 MJCF Utilities
-^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 
 .. automodule:: dexrobot_mujoco.utils.mjcf_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Angle Utilities
+^^^^^^^^^^^^^^^
+
+.. automodule:: dexrobot_mujoco.utils.angle_utils
    :members:
    :undoc-members:
    :show-inheritance:
