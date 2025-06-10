@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Furniture Components" href="furniture.html" />
+    <link rel="next" title="Scene Examples" href="examples.html" />
     <link rel="prev" title="Scene Creation" href="index.html" /> 
 </head>
 
@@ -45,15 +45,16 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Scene Creation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Scene Composition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="furniture.html">Furniture Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scenery.html">Scene Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Scene Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -285,11 +286,103 @@
 </div>
 </section>
 </section>
+<section id="available-components">
+<h2>Available Components<a class="headerlink" href="#available-components" title="Link to this heading"></a></h2>
+<section id="furniture-components">
+<h3>Furniture Components<a class="headerlink" href="#furniture-components" title="Link to this heading"></a></h3>
+<section id="tables">
+<h4>Tables<a class="headerlink" href="#tables" title="Link to this heading"></a></h4>
+<p>Structure: <code class="docutils literal notranslate"><span class="pre">furniture_sim/[type]/[type]_{asset,body}.xml</span></code></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Assets and materials --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleTable_asset.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Physical structure (pick one): --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleGraniteTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleMarbleTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/simpleTable/simpleWoodTable_body.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Available:
+- simpleTable: Basic surface with material variants
+- studyTable: Surface with drawer/handle mechanics
+- ventionTable: Industrial frame structure</p>
+</section>
+<section id="storage-units">
+<h4>Storage Units<a class="headerlink" href="#storage-units" title="Link to this heading"></a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Cabinet with hinged door --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/hingecabinet/hingecabinet_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/hingecabinet/hingecabinet_body.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Cabinet with sliding door --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/slidecabinet/slidecabinet_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/slidecabinet/slidecabinet_body.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Available:
+- hingecabinet: Hinged door mechanics
+- slidecabinet: Linear sliding mechanism
+- counters: Kitchen counter units
+- bin: Storage containers</p>
+</section>
+<section id="appliances">
+<h4>Appliances<a class="headerlink" href="#appliances" title="Link to this heading"></a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Microwave with version selection --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/microwave/microwave_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/microwave/microwave_body0.xml&quot;</span><span class="nt">/&gt;</span><span class="w"> </span><span class="cm">&lt;!-- Versions 0-3 --&gt;</span>
+
+<span class="cm">&lt;!-- Kettle with version selection --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/kettle/kettle_asset.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;furniture_sim/kettle/kettle_body0.xml&quot;</span><span class="nt">/&gt;</span><span class="w"> </span><span class="cm">&lt;!-- Versions 0-7 --&gt;</span>
+</pre></div>
+</div>
+<p>Available:
+- microwave: Door and control panel mechanics
+- kettle: Handle and pour mechanics
+- oven: Door, knob and burner mechanics</p>
+</section>
+</section>
+<section id="environment-components">
+<h3>Environment Components<a class="headerlink" href="#environment-components" title="Link to this heading"></a></h3>
+<section id="base-scenes">
+<h4>Base Scenes<a class="headerlink" href="#base-scenes" title="Link to this heading"></a></h4>
+<p>Structure: <code class="docutils literal notranslate"><span class="pre">scene_sim/[name]_scene.xml</span></code></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Basic environment --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/basic_scene.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Indoor room --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/room_scene.xml&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Rooftop --&gt;</span>
+<span class="nt">&lt;include</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;scene_sim/rooftop_scene.xml&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Available:
+- basic_scene: Ground plane and lighting
+- room_scene: Enclosed space with windows
+- rooftop_scene: Open space with skyline</p>
+</section>
+<section id="lighting">
+<h4>Lighting<a class="headerlink" href="#lighting" title="Link to this heading"></a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Main lighting --&gt;</span>
+<span class="nt">&lt;light</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;main&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0 0 4&quot;</span><span class="w"> </span><span class="na">dir=</span><span class="s">&quot;0 0 -1&quot;</span><span class="w"> </span><span class="na">castshadow=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+
+<span class="cm">&lt;!-- Window/rim lighting --&gt;</span>
+<span class="nt">&lt;light</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;window&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;-2 0 2&quot;</span><span class="w"> </span><span class="na">dir=</span><span class="s">&quot;1 0 -0.5&quot;</span><span class="w"> </span><span class="na">castshadow=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="textures">
+<h4>Textures<a class="headerlink" href="#textures" title="Link to this heading"></a></h4>
+<p>Standard textures:
+- Materials: wood[0-4].png, metal[0-4].png, stone[0-4].png
+- Environment: dawn/night/cloudy/stormy.png (skyboxes)
+- Surfaces: oak/maple_floorboard.png, high_contrast_brick.png</p>
+</section>
+</section>
+</section>
 <section id="next-steps">
 <h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Browse available furniture in <a class="reference internal" href="furniture.html"><span class="doc">Furniture Components</span></a></p></li>
-<li><p>Explore environments in <a class="reference internal" href="scenery.html"><span class="doc">Scene Components</span></a></p></li>
 <li><p>Study complete examples in <a class="reference internal" href="examples.html"><span class="doc">Scene Examples</span></a></p></li>
 </ul>
 </section>
@@ -300,7 +393,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Scene Creation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="furniture.html" class="btn btn-neutral float-right" title="Furniture Components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Scene Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

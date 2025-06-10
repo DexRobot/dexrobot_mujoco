@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Hand Models" href="hand_models/index.html" />
+    <link rel="next" title="Touch Sensors" href="touch_sensors.html" />
     <link rel="prev" title="DexRobot MuJoCo" href="index.html" /> 
 </head>
 
@@ -45,9 +45,12 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -108,26 +111,35 @@
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="standard-installation">
+<h3>Standard Installation<a class="headerlink" href="#standard-installation" title="Link to this heading"></a></h3>
 <ol class="arabic">
 <li><p>Set up your ROS environment (ROS1 or ROS2)</p></li>
-<li><p>Install Python dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mujoco<span class="w"> </span>numpy<span class="w"> </span>pyyaml<span class="w"> </span>loguru<span class="w"> </span>scipy<span class="w"> </span>flask<span class="w"> </span>opencv-python<span class="w"> </span>pandas
-pip<span class="w"> </span>install<span class="w"> </span>git+https://gitee.com/dexrobot/ros_compat.git
-</pre></div>
-</div>
-</li>
 <li><p>Install DexRobot MuJoCo:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://gitee.com/dexrobot/dexrobot_mujoco.git
-</pre></div>
-</div>
-<p>Or for development:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://gitee.com/dexrobot/dexrobot_mujoco.git
 <span class="nb">cd</span><span class="w"> </span>dexrobot_mujoco
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
 </ol>
+</section>
+<section id="with-tashan-sensor-support">
+<h3>With TaShan Sensor Support<a class="headerlink" href="#with-tashan-sensor-support" title="Link to this heading"></a></h3>
+<p>For TaShan touch sensor support (requires Python 3.8 and MuJoCo 3.2.3):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>tashan<span class="o">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TaShan sensors have specific version requirements. For detailed setup instructions,
+especially when using ROS with Python 3.8, see <a class="reference internal" href="tashan_python38_setup.html"><span class="doc">TaShan Sensor Setup with Python 3.8</span></a>.</p>
+<blockquote>
+<div><p>cd dexrobot_mujoco
+pip install -e .[dev]</p>
+</div></blockquote>
+</div>
+</section>
 </section>
 <section id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
@@ -225,7 +237,8 @@ Optional Arguments:
 <li><p>Learn about <a class="reference internal" href="hand_models/index.html"><span class="doc">hand model configuration</span></a></p></li>
 <li><p>Create custom <a class="reference internal" href="scenes/index.html"><span class="doc">simulation scenes</span></a></p></li>
 <li><p>Explore advanced <a class="reference internal" href="ros_integration/index.html"><span class="doc">ROS integration</span></a></p></li>
-<li><p>Check the <span class="xref std std-doc">API reference</span> for programmatic control</p></li>
+<li><p>Configure <a class="reference internal" href="touch_sensors.html"><span class="doc">touch sensors</span></a> for tactile feedback</p></li>
+<li><p>Check the <a class="reference internal" href="wrapper/index.html"><span class="doc">wrapper documentation</span></a> for programmatic control</p></li>
 </ul>
 </section>
 <section id="common-issues">
@@ -258,7 +271,7 @@ pip<span class="w"> </span>install<span class="w"> </span>mujoco&gt;<span class=
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="DexRobot MuJoCo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="hand_models/index.html" class="btn btn-neutral float-right" title="Hand Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="touch_sensors.html" class="btn btn-neutral float-right" title="Touch Sensors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

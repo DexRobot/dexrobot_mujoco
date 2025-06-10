@@ -45,15 +45,16 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ROS Integration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html">Node Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topics_and_services.html">Topics and Services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html">Data Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html">VR Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -86,13 +87,15 @@
              
   <section id="ros-integration">
 <h1>ROS Integration<a class="headerlink" href="#ros-integration" title="Link to this heading"></a></h1>
-<p>This section covers the ROS integration capabilities of DexRobot MuJoCo, which provides seamless control and monitoring through ROS topics and services.</p>
+<p>This section covers the ROS integration capabilities of DexRobot MuJoCo for control and monitoring through ROS topics and services.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="node_configuration.html">Node Configuration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html#command-line-options">Command Line Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html#yaml-configuration">YAML Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#data-recording">Data Recording</a></li>
+<li class="toctree-l2"><a class="reference internal" href="node_configuration.html#vr-visualization">VR Visualization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html#node-initialization">Node Initialization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html#example-configurations">Example Configurations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="node_configuration.html#next-steps">Next Steps</a></li>
@@ -105,26 +108,6 @@
 <li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#message-formats">Message Formats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#example-usage">Example Usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topics_and_services.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="data_recording.html">Data Recording</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#recording-options">Recording Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#csv-recording">CSV Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#ros-bag-recording">ROS Bag Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#mp4-recording">MP4 Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#combined-recording">Combined Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#data-processing">Data Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#example-pipeline">Example Pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="vr_visualization.html">VR Visualization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#implementation-details">Implementation Details</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#web-streaming">Web Streaming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
 </ul>
@@ -234,8 +217,6 @@ rostopic<span class="w"> </span><span class="nb">echo</span><span class="w"> </s
 <ul class="simple">
 <li><p><a class="reference internal" href="node_configuration.html"><span class="doc">Node Configuration</span></a> - Detailed node setup and configuration</p></li>
 <li><p><a class="reference internal" href="topics_and_services.html"><span class="doc">Topics and Services</span></a> - Available ROS interfaces</p></li>
-<li><p><a class="reference internal" href="data_recording.html"><span class="doc">Data Recording</span></a> - Data recording capabilities</p></li>
-<li><p><a class="reference internal" href="vr_visualization.html"><span class="doc">VR Visualization</span></a> - VR visualization features</p></li>
 </ul>
 </section>
 </section>

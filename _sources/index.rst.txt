@@ -2,7 +2,7 @@
 DexRobot MuJoCo
 ======================
 
-DexRobot MuJoCo provides MuJoCo simulation and visualization capabilities for DexRobot systems, with seamless ROS/ROS2 integration.
+Tactile simulation for DexRobot hands in MuJoCo with ROS integration.
 
 .. figure:: assets/hands.png
    :width: 80%
@@ -12,12 +12,12 @@ DexRobot MuJoCo provides MuJoCo simulation and visualization capabilities for De
 
 Key Features
 -----------
-- Automatic URDF to MJCF conversion with optimized configurations
-- Simplified collision models for improved performance
-- Built-in ROS/ROS2 integration
-- VR visualization support
-- Comprehensive scene creation tools
-- Data recording in multiple formats (ROS bags, CSV, MP4)
+- **Tactile sensing simulation** with MuJoCo native and TaShan 11-dimensional sensors
+- **Real-time physics stepping** for synchronized visualization
+- **Collision model variants** (full and simplified) for performance tuning
+- **ROS/ROS2 integration** with standard message types
+- **VR visualization** support
+- **Multi-format recording** (ROS bags, CSV, MP4)
 
 Documentation Contents
 --------------------
@@ -28,9 +28,12 @@ Documentation Contents
    :titlesonly:
 
    getting-started
+   touch_sensors
+   wrapper/index
    hand_models/index
    scenes/index
    ros_integration/index
+   tashan_python38_setup
 
 .. toctree::
    :maxdepth: 2

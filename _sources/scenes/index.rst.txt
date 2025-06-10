@@ -9,8 +9,6 @@ This section covers scene creation in DexRobot MuJoCo using the include-based co
    :caption: Contents
 
    composition
-   furniture
-   scenery
    examples
 
 Overview
@@ -113,7 +111,5 @@ Next Steps
 
 Continue reading:
 
-- :doc:`composition` - How to compose scenes using includes
-- :doc:`furniture` - Available furniture components
-- :doc:`scenery` - Environment components
+- :doc:`composition` - How to compose scenes using includes and available components
 - :doc:`examples` - Example scene compositions

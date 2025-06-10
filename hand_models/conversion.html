@@ -45,17 +45,19 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">URDF to MJCF Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html">Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -100,6 +102,7 @@
 <li><p>Post-processing to add required elements and configurations</p></li>
 <li><p>Optimization of collision geometries (optional)</p></li>
 <li><p>Addition of actuators and sensors</p></li>
+<li><p>Addition of TaShan sensor components (force bodies and sensor definitions)</p></li>
 <li><p>Configuration of model parameters</p></li>
 </ol>
 </section>
@@ -116,6 +119,16 @@
 <span class="w">    </span>--simplified-collision<span class="w"> </span>config/collision_geoms/dexhand021_right_simplified.yaml
 </pre></div>
 </div>
+</section>
+<section id="tashan-sensor-integration">
+<h3>TaShan Sensor Integration<a class="headerlink" href="#tashan-sensor-integration" title="Link to this heading"></a></h3>
+<p>The conversion script automatically adds TaShan sensor support by:</p>
+<ol class="arabic simple">
+<li><p>Creating force sensor bodies (<code class="docutils literal notranslate"><span class="pre">force1_f1</span></code> through <code class="docutils literal notranslate"><span class="pre">force5_f7</span></code>) on each distal finger link</p></li>
+<li><p>Adding rangefinder sensors (<code class="docutils literal notranslate"><span class="pre">rf1</span></code> through <code class="docutils literal notranslate"><span class="pre">rf5</span></code>) for proximity sensing</p></li>
+<li><p>Creating user sensors (<code class="docutils literal notranslate"><span class="pre">TS-F-A-1</span></code> through <code class="docutils literal notranslate"><span class="pre">TS-F-A-5</span></code>) for 11-dimensional output</p></li>
+</ol>
+<p>For detailed information about TaShan sensors, see <a class="reference internal" href="../touch_sensors.html"><span class="doc">Touch Sensors</span></a>.</p>
 </section>
 </section>
 <section id="model-hierarchy">
@@ -336,8 +349,8 @@ to either MuJoCo bodies (with geoms) or MuJoCo sites, based on link name pattern
 <p>After converting your model:</p>
 <ul class="simple">
 <li><p>Configure <a class="reference internal" href="collision_models.html"><span class="doc">Collision Models</span></a></p></li>
-<li><p>Set up <a class="reference internal" href="actuators.html"><span class="doc">Actuators</span></a></p></li>
-<li><p>Add <a class="reference internal" href="sensors.html"><span class="doc">Sensors</span></a></p></li>
+<li><p>Set up <span class="xref std std-doc">actuators</span></p></li>
+<li><p>Add <span class="xref std std-doc">sensors</span></p></li>
 <li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
 </ul>
 </section>

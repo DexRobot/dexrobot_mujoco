@@ -44,9 +44,12 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -79,7 +82,7 @@
              
   <section id="dexrobot-mujoco">
 <h1>DexRobot MuJoCo<a class="headerlink" href="#dexrobot-mujoco" title="Link to this heading"></a></h1>
-<p>DexRobot MuJoCo provides MuJoCo simulation and visualization capabilities for DexRobot systems, with seamless ROS/ROS2 integration.</p>
+<p>Tactile simulation for DexRobot hands in MuJoCo with ROS integration.</p>
 <figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/hands.png"><img alt="_images/hands.png" src="_images/hands.png" style="width: 80%;" />
 </a>
@@ -90,12 +93,12 @@
 <section id="key-features">
 <h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Automatic URDF to MJCF conversion with optimized configurations</p></li>
-<li><p>Simplified collision models for improved performance</p></li>
-<li><p>Built-in ROS/ROS2 integration</p></li>
-<li><p>VR visualization support</p></li>
-<li><p>Comprehensive scene creation tools</p></li>
-<li><p>Data recording in multiple formats (ROS bags, CSV, MP4)</p></li>
+<li><p><strong>Tactile sensing simulation</strong> with MuJoCo native and TaShan 11-dimensional sensors</p></li>
+<li><p><strong>Real-time physics stepping</strong> for synchronized visualization</p></li>
+<li><p><strong>Collision model variants</strong> (full and simplified) for performance tuning</p></li>
+<li><p><strong>ROS/ROS2 integration</strong> with standard message types</p></li>
+<li><p><strong>VR visualization</strong> support</p></li>
+<li><p><strong>Multi-format recording</strong> (ROS bags, CSV, MP4)</p></li>
 </ul>
 </section>
 <section id="documentation-contents">
@@ -104,29 +107,27 @@
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hand_models/index.html">Hand Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="hand_models/conversion.html">URDF to MJCF Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hand_models/collision_models.html">Collision Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hand_models/actuators.html">Actuators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hand_models/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hand_models/components.html">Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hand_models/articulation.html">Articulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hand_models/examples.html">Hand Model Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="scenes/index.html">Scene Creation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scenes/composition.html">Scene Composition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scenes/furniture.html">Furniture Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scenes/scenery.html">Scene Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scenes/examples.html">Scene Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ros_integration/index.html">ROS Integration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ros_integration/node_configuration.html">Node Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros_integration/topics_and_services.html">Topics and Services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ros_integration/data_recording.html">Data Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ros_integration/vr_visualization.html">VR Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">

@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dexrobot_mujoco.wrapper.ts_sensor_manager &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wrapper/index.html">MuJoCo Control Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dexrobot_mujoco.wrapper.ts_sensor_manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dexrobot_mujoco.wrapper.ts_sensor_manager</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;TaShan sensor manager for MuJoCo simulations.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">loguru</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="c1"># Named tuple for semantic force data access</span>
+<span class="n">TSForceData</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;TSForceData&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;tangential_magnitude&#39;</span><span class="p">,</span> <span class="s1">&#39;tangential_direction&#39;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="TSSensorManager">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TSSensorManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Manager for TaShan touch sensors in MuJoCo simulations.</span>
+<span class="sd">    </span>
+<span class="sd">    The TaShan sensors provide 11-dimensional tactile data:</span>
+<span class="sd">    - Dimension 0: Proximity sensing</span>
+<span class="sd">    - Dimension 1: Normal force magnitude (N)</span>
+<span class="sd">    - Dimension 2: Tangential force magnitude (N)</span>
+<span class="sd">    - Dimension 3: Tangential force direction (rad)</span>
+<span class="sd">    - Dimensions 4-10: Raw capacitance values (7 channels)</span>
+<span class="sd">    </span>
+<span class="sd">    The manager provides both raw data access and semantic APIs that</span>
+<span class="sd">    extract the force-related dimensions (1-3) for easier use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="TSSensorManager.initialize_before_model_load">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.initialize_before_model_load">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize_before_model_load</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize TS sensor callback before MuJoCo model is loaded.</span>
+<span class="sd">        </span>
+<span class="sd">        This must be called before creating the MuJoCo model for TS sensors to work.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if initialization successful, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Detect platform</span>
+            <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            
+            <span class="c1"># Determine platform-specific paths</span>
+            <span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;linux&#39;</span><span class="p">:</span>
+                <span class="n">platform_dir</span> <span class="o">=</span> <span class="s1">&#39;linux&#39;</span>
+            <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;windows&#39;</span><span class="p">:</span>
+                <span class="n">platform_dir</span> <span class="o">=</span> <span class="s1">&#39;win&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TaShan sensor not supported on platform: </span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            
+            <span class="n">ts_lib_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;ts_sensor_lib&quot;</span><span class="p">,</span> <span class="n">platform_dir</span><span class="p">)</span>
+            
+            <span class="c1"># Add the TS sensor library path to Python path for import</span>
+            <span class="k">if</span> <span class="n">ts_lib_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ts_lib_path</span><span class="p">)</span>
+            
+            <span class="c1"># Import TSensor module and register callback (following reference implementation)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">TSensor</span>
+                <span class="n">TSensor</span><span class="o">.</span><span class="n">register_sensor_callback</span><span class="p">()</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TS sensor callback registered successfully via TSensor module&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to import TSensor module from </span><span class="si">{</span><span class="n">ts_lib_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TSensor module does not have register_sensor_callback method: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to initialize TS sensor callback: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+    
+<div class="viewcode-block" id="TSSensorManager.__init__">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mj_wrapper</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the TS sensor manager.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            mj_wrapper: MJControlWrapper instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mj</span> <span class="o">=</span> <span class="n">mj_wrapper</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verify_ts_sensors</span><span class="p">()</span></div>
+
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">_verify_ts_sensors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify that TS sensors are properly initialized in the model.&quot;&quot;&quot;</span>
+        <span class="c1"># Count TS sensors in the model</span>
+        <span class="n">ts_sensor_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">nsensor</span><span class="p">):</span>
+            <span class="n">sensor_name</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_id2name</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtObj</span><span class="o">.</span><span class="n">mjOBJ_SENSOR</span><span class="p">,</span>
+                <span class="n">i</span>
+            <span class="p">)</span>
+            
+            <span class="c1"># Check if it&#39;s a TS sensor (TS-F-A-1, TS-F-A-2, etc.)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">sensor_name</span> <span class="ow">and</span> 
+                <span class="n">sensor_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;TS-F-A-&#39;</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sensor_type</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtSensor</span><span class="o">.</span><span class="n">mjSENS_USER</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sensor_dim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">11</span><span class="p">):</span>
+                <span class="n">ts_sensor_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sensor_name</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found TS sensor: </span><span class="si">{</span><span class="n">sensor_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">ts_sensor_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="c1"># Sort sensor names for consistent ordering</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">ts_sensor_count</span><span class="si">}</span><span class="s2"> TS sensors in the model: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No TS sensors found in the model&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="TSSensorManager.get_raw_sensor_data_by_id">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_raw_sensor_data_by_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_raw_sensor_data_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get raw TS sensor data by ID as bytes.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            sensor_id: Sensor ID (i &gt;= 1)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bytes: Raw 88-byte sensor data (11 * 8 bytes)</span>
+<span class="sd">                   Dimensions 0-3 are doubles: proximity, normal force, </span>
+<span class="sd">                   tangential force magnitude, tangential direction</span>
+<span class="sd">                   Dimensions 4-10 are raw capacitance values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sensor_id</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sensor ID must be &gt;= 1, got </span><span class="si">{</span><span class="n">sensor_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;TS sensor not available&quot;</span><span class="p">)</span>
+            
+        <span class="n">sensor_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;TS-F-A-</span><span class="si">{</span><span class="n">sensor_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        <span class="c1"># Get sensor ID</span>
+        <span class="n">mj_sensor_id</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_name2id</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> 
+            <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtObj</span><span class="o">.</span><span class="n">mjOBJ_SENSOR</span><span class="p">,</span> 
+            <span class="n">sensor_name</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">mj_sensor_id</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TS sensor </span><span class="si">{</span><span class="n">sensor_name</span><span class="si">}</span><span class="s2"> not found in model&quot;</span><span class="p">)</span>
+            
+        <span class="c1"># Get sensor data as raw bytes (11 * 8 bytes = 88 bytes)</span>
+        <span class="n">sensor_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sensor_adr</span><span class="p">[</span><span class="n">mj_sensor_id</span><span class="p">]</span>
+        <span class="n">sensor_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sensordata</span><span class="p">[</span><span class="n">sensor_addr</span><span class="p">:</span><span class="n">sensor_addr</span><span class="o">+</span><span class="mi">11</span><span class="p">]</span>
+        <span class="n">raw_bytes</span> <span class="o">=</span> <span class="n">sensor_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        
+        <span class="c1"># Debug: Log raw data for troubleshooting</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TS sensor </span><span class="si">{</span><span class="n">sensor_name</span><span class="si">}</span><span class="s2"> raw bytes: </span><span class="si">{</span><span class="n">raw_bytes</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">raw_bytes</span></div>
+
+    
+<div class="viewcode-block" id="TSSensorManager.get_all_raw_sensor_data">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_all_raw_sensor_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_raw_sensor_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get raw data from all available TS sensors.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Dictionary mapping sensor IDs to their raw 88-byte data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;TS sensor not available&quot;</span><span class="p">)</span>
+            
+        <span class="n">sensor_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">sensor_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span><span class="p">:</span>
+            <span class="c1"># Extract sensor ID from name (TS-F-A-1 -&gt; 1)</span>
+            <span class="n">sensor_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">sensor_data</span><span class="p">[</span><span class="n">sensor_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_raw_sensor_data_by_id</span><span class="p">(</span><span class="n">sensor_id</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">sensor_data</span></div>
+
+    
+<div class="viewcode-block" id="TSSensorManager.get_force_data_by_id">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_force_data_by_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_force_data_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get force data from TS sensor by ID.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            sensor_id: Sensor ID (i &gt;= 1)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            TSForceData: Named tuple with fields:</span>
+<span class="sd">                - normal: Normal force (N)</span>
+<span class="sd">                - tangential_magnitude: Tangential force magnitude (N)</span>
+<span class="sd">                - tangential_direction: Tangential force direction (degrees)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sensor_id</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sensor ID must be &gt;= 1, got </span><span class="si">{</span><span class="n">sensor_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;TS sensor not available&quot;</span><span class="p">)</span>
+            
+        <span class="n">sensor_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;TS-F-A-</span><span class="si">{</span><span class="n">sensor_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        <span class="c1"># Get sensor ID</span>
+        <span class="n">mj_sensor_id</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_name2id</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> 
+            <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtObj</span><span class="o">.</span><span class="n">mjOBJ_SENSOR</span><span class="p">,</span> 
+            <span class="n">sensor_name</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">mj_sensor_id</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TS sensor </span><span class="si">{</span><span class="n">sensor_name</span><span class="si">}</span><span class="s2"> not found in model&quot;</span><span class="p">)</span>
+            
+        <span class="c1"># Get sensor address and extract force data (indices 1, 2, 3)</span>
+        <span class="n">sensor_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">sensor_adr</span><span class="p">[</span><span class="n">mj_sensor_id</span><span class="p">]</span>
+        <span class="n">force_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sensordata</span><span class="p">[</span><span class="n">sensor_addr</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">sensor_addr</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>
+        
+        <span class="c1"># Return as named tuple for semantic access</span>
+        <span class="k">return</span> <span class="n">TSForceData</span><span class="p">(</span>
+            <span class="n">normal</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">force_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">tangential_magnitude</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">force_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">tangential_direction</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">force_values</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TSSensorManager.get_all_force_data">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_all_force_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_force_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get force data from all available TS sensors.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Dictionary mapping sensor IDs to TSForceData named tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_available</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;TS sensor not available&quot;</span><span class="p">)</span>
+            
+        <span class="n">force_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">sensor_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts_sensor_names</span><span class="p">:</span>
+            <span class="c1"># Extract sensor ID from name (TS-F-A-1 -&gt; 1)</span>
+            <span class="n">sensor_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">force_data</span><span class="p">[</span><span class="n">sensor_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_force_data_by_id</span><span class="p">(</span><span class="n">sensor_id</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">force_data</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

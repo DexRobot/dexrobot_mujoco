@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MuJoCo Control Wrapper &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hand Models" href="../hand_models/index.html" />
+    <link rel="prev" title="Touch Sensors" href="../touch_sensors.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MuJoCo Control Wrapper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MuJoCo Control Wrapper</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/wrapper/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mujoco-control-wrapper">
+<h1>MuJoCo Control Wrapper<a class="headerlink" href="#mujoco-control-wrapper" title="Link to this heading"></a></h1>
+<p>The MuJoCo Control Wrapper (<code class="docutils literal notranslate"><span class="pre">MJSimWrapper</span></code>) provides a high-level interface for controlling MuJoCo simulations with real-time visualization, reset-safe operations, and modular sensor/VR support.</p>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
+<section id="real-time-physics-stepping">
+<h3>Real-time Physics Stepping<a class="headerlink" href="#real-time-physics-stepping" title="Link to this heading"></a></h3>
+<p>The wrapper implements a sophisticated physics stepping system to ensure real-time visualization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dexrobot_mujoco.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">MJSimWrapper</span>
+
+<span class="c1"># Initialize wrapper</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">MJSimWrapper</span><span class="p">(</span><span class="s2">&quot;model.xml&quot;</span><span class="p">)</span>
+
+<span class="c1"># Step simulation in real-time</span>
+<span class="k">while</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">is_running</span><span class="p">():</span>
+    <span class="c1"># Physics step synchronized with wall clock</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Automatically maintains real-time</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">step()</span></code> method:</p>
+<ul class="simple">
+<li><p>Advances physics simulation by one timestep</p></li>
+<li><p>Synchronizes with the viewer automatically</p></li>
+<li><p>Maintains real-time execution by sleeping when needed</p></li>
+<li><p>Can step to a specific simulation time: <code class="docutils literal notranslate"><span class="pre">wrapper.step(until=5.0)</span></code></p></li>
+</ul>
+</section>
+<section id="reset-safe-operations">
+<h3>Reset-Safe Operations<a class="headerlink" href="#reset-safe-operations" title="Link to this heading"></a></h3>
+<p>All control operations are protected against race conditions during reset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@reset_safe</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_qpos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Safe position reading during reset.&quot;&quot;&quot;</span>
+    <span class="n">qpos_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qpos_addr</span><span class="p">(</span><span class="n">joint_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[</span><span class="n">qpos_addr</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&#64;reset_safe</span></code> decorator ensures operations are skipped during simulation reset, preventing crashes and data corruption.</p>
+</section>
+<section id="modular-architecture">
+<h3>Modular Architecture<a class="headerlink" href="#modular-architecture" title="Link to this heading"></a></h3>
+<p>The wrapper supports optional managers for specialized functionality:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dexrobot_mujoco.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">MJSimWrapper</span><span class="p">,</span> <span class="n">TSSensorManager</span><span class="p">,</span> <span class="n">VRManager</span>
+
+<span class="c1"># Create wrapper</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">MJSimWrapper</span><span class="p">(</span><span class="s2">&quot;scene.xml&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add optional managers</span>
+<span class="n">ts_manager</span> <span class="o">=</span> <span class="n">TSSensorManager</span><span class="p">(</span><span class="n">wrapper</span><span class="p">)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_sensor_manager</span><span class="p">(</span><span class="n">ts_manager</span><span class="p">)</span>
+
+<span class="n">vr_manager</span> <span class="o">=</span> <span class="n">VRManager</span><span class="p">(</span><span class="n">wrapper</span><span class="p">)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_vr_manager</span><span class="p">(</span><span class="n">vr_manager</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="core-api">
+<h2>Core API<a class="headerlink" href="#core-api" title="Link to this heading"></a></h2>
+<section id="initialization">
+<h3>Initialization<a class="headerlink" href="#initialization" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">wrapper</span> <span class="o">=</span> <span class="n">MJSimWrapper</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="o">=</span><span class="s2">&quot;path/to/model.xml&quot;</span><span class="p">,</span>
+    <span class="n">mesh_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Optional custom mesh directory</span>
+    <span class="n">renderer_dimension</span><span class="o">=</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span>  <span class="c1"># Optional for image rendering</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span>  <span class="c1"># Random seed for reproducibility</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="joint-control">
+<h3>Joint Control<a class="headerlink" href="#joint-control" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Send control signal (with automatic wrapping for revolute joints)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">send_control</span><span class="p">(</span><span class="s2">&quot;act_r_f_joint1_1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Get joint position</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_qpos</span><span class="p">(</span><span class="s2">&quot;r_f_joint1_1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set joint position directly</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_qpos</span><span class="p">(</span><span class="s2">&quot;r_f_joint1_1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Get joint velocity</span>
+<span class="n">vel</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_qvel</span><span class="p">(</span><span class="s2">&quot;r_f_joint1_1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="free-joint-control">
+<h3>Free Joint Control<a class="headerlink" href="#free-joint-control" title="Link to this heading"></a></h3>
+<p>For floating base or free joints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get free joint state (7 DOF position, 6 DOF velocity)</span>
+<span class="n">qpos</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_qpos_freejoint</span><span class="p">(</span><span class="s2">&quot;base_joint&quot;</span><span class="p">)</span>  <span class="c1"># [x,y,z,qw,qx,qy,qz]</span>
+<span class="n">qvel</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_qvel_freejoint</span><span class="p">(</span><span class="s2">&quot;base_joint&quot;</span><span class="p">)</span>  <span class="c1"># [vx,vy,vz,wx,wy,wz]</span>
+
+<span class="c1"># Set free joint state</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_qpos_freejoint</span><span class="p">(</span><span class="s2">&quot;base_joint&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_qvel_freejoint</span><span class="p">(</span><span class="s2">&quot;base_joint&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="camera-control">
+<h3>Camera Control<a class="headerlink" href="#camera-control" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set camera view</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">set_view_angle</span><span class="p">(</span>
+    <span class="n">lookat</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>  <span class="c1"># Look-at point</span>
+    <span class="n">distance</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>         <span class="c1"># Distance from look-at</span>
+    <span class="n">elevation</span><span class="o">=-</span><span class="mi">20</span><span class="p">,</span>        <span class="c1"># Elevation angle (degrees)</span>
+    <span class="n">azimuth</span><span class="o">=</span><span class="mi">45</span>           <span class="c1"># Azimuth angle (degrees)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-loading">
+<h3>Configuration Loading<a class="headerlink" href="#configuration-loading" title="Link to this heading"></a></h3>
+<p>Load initial configurations from YAML:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">wrapper</span><span class="o">.</span><span class="n">parse_yaml</span><span class="p">(</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example YAML configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">camera</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">lookat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
+<span class="w">  </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-20</span>
+<span class="w">  </span><span class="nt">azimuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="nt">initial_ctrl</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">act_r_f_joint1_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="w">  </span><span class="nt">act_r_f_joint2_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span>
+
+<span class="nt">initial_qpos_freejoint</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">base_joint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="viewer-integration">
+<h2>Viewer Integration<a class="headerlink" href="#viewer-integration" title="Link to this heading"></a></h2>
+<p>The wrapper provides seamless integration with MuJoCo’s viewer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Launch passive viewer (recommended)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">launch_viewer</span><span class="p">(</span><span class="s2">&quot;passive&quot;</span><span class="p">,</span> <span class="n">show_ui</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Key callbacks are automatically registered:</span>
+<span class="c1"># - &#39;R&#39;: Reset simulation</span>
+<span class="c1"># - &#39;Q&#39;: Quit viewer</span>
+<span class="c1"># - &#39;S&#39;: Toggle shadows/reflections</span>
+<span class="c1"># - &#39;C&#39;: Print camera position</span>
+<span class="c1"># - &#39;D&#39;: Enter debug mode</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-features">
+<h2>Advanced Features<a class="headerlink" href="#advanced-features" title="Link to this heading"></a></h2>
+<section id="infinite-rotation">
+<h3>Infinite Rotation<a class="headerlink" href="#infinite-rotation" title="Link to this heading"></a></h3>
+<p>Enable infinite rotation for continuous joints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Allow infinite rotation for all finger joints</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">enable_infinite_rotation</span><span class="p">(</span><span class="s2">&quot;act_.*_f_joint.*&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="image-rendering">
+<h3>Image Rendering<a class="headerlink" href="#image-rendering" title="Link to this heading"></a></h3>
+<p>Render frames for video recording or computer vision:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize with renderer</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">MJSimWrapper</span><span class="p">(</span><span class="s2">&quot;model.xml&quot;</span><span class="p">,</span> <span class="n">renderer_dimension</span><span class="o">=</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+
+<span class="c1"># Render frame</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">render_frame</span><span class="p">()</span>  <span class="c1"># Returns RGB numpy array</span>
+</pre></div>
+</div>
+</section>
+<section id="reset-handling">
+<h3>Reset Handling<a class="headerlink" href="#reset-handling" title="Link to this heading"></a></h3>
+<p>Safe simulation reset with state preservation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reset simulation (thread-safe)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">reset_simulation</span><span class="p">()</span>
+
+<span class="c1"># All configurations from YAML are automatically restored</span>
+<span class="c1"># Reset-safe decorators prevent operations during reset</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="example-complete-control-loop">
+<h2>Example: Complete Control Loop<a class="headerlink" href="#example-complete-control-loop" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dexrobot_mujoco.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">MJSimWrapper</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Load model with configuration</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">MJSimWrapper</span><span class="p">(</span><span class="s2">&quot;dexrobot_mujoco/scenes/box.xml&quot;</span><span class="p">)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">parse_yaml</span><span class="p">(</span><span class="s2">&quot;config/scene_default.yaml&quot;</span><span class="p">)</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="n">launch_viewer</span><span class="p">(</span><span class="s2">&quot;passive&quot;</span><span class="p">)</span>
+
+<span class="c1"># Control loop</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">is_running</span><span class="p">():</span>
+    <span class="c1"># Apply control</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">send_control</span><span class="p">(</span><span class="s2">&quot;act_r_f_joint1_1&quot;</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+
+    <span class="c1"># Step physics in real-time</span>
+    <span class="n">wrapper</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="../touch_sensors.html"><span class="doc">Touch Sensors</span></a> - Touch sensor integration</p></li>
+<li><p><a class="reference internal" href="../ros_integration/index.html"><span class="doc">ROS Integration</span></a> - ROS integration details</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../touch_sensors.html" class="btn btn-neutral float-left" title="Touch Sensors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../hand_models/index.html" class="btn btn-neutral float-right" title="Hand Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

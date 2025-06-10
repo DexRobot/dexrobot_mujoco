@@ -42,9 +42,12 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -83,22 +86,27 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.__init__">__init__() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.__init__">__init__() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 
       <ul>
-        <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.__init__">(dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+        <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.__init__">(dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager method)</a>
+</li>
+        <li><a href="api/index.html#dexrobot_mujoco.wrapper.vr_manager.VRManager.__init__">(dexrobot_mujoco.wrapper.vr_manager.VRManager method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -113,6 +121,8 @@
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_position_actuators">add_position_actuators() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
+      <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_rangefinder_sensors">add_rangefinder_sensors() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
+</li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_sites">add_sites() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
   </ul></td>
@@ -120,6 +130,10 @@
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_touch_sensors">add_touch_sensors() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_trunk_body">add_trunk_body() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_user_sensors">add_user_sensors() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.utils.angle_utils.adjust_angles">adjust_angles() (in module dexrobot_mujoco.utils.angle_utils)</a>
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.apply_defaults">apply_defaults() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
@@ -130,6 +144,15 @@
 
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    dexrobot_mujoco.utils.angle_utils
+
+      <ul>
+        <li><a href="api/index.html#module-dexrobot_mujoco.utils.angle_utils">module</a>
+</li>
+      </ul></li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     dexrobot_mujoco.utils.mjcf_utils
@@ -144,7 +167,7 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.enable_infinite_rotation">enable_infinite_rotation() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.enable_infinite_rotation">enable_infinite_rotation() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -158,33 +181,49 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.generate_encoded_frames">generate_encoded_frames() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.vr_manager.VRManager.generate_encoded_frames">generate_encoded_frames() (dexrobot_mujoco.wrapper.vr_manager.VRManager method)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_all_force_data">get_all_force_data() (dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager method)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_all_raw_sensor_data">get_all_raw_sensor_data() (dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager method)</a>
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.get_body_names">get_body_names() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_joint_id">get_joint_id() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_force_data_by_id">get_force_data_by_id() (dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager method)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_joint_id">get_joint_id() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.get_joint_names">get_joint_names() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_link_id">get_link_id() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
-</li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_link_pose">get_link_pose() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_link_id">get_link_id() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos">get_qpos() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_link_pose">get_link_pose() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos_addr">get_qpos_addr() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos">get_qpos() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos_freejoint">get_qpos_freejoint() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos_addr">get_qpos_addr() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel">get_qvel() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos_freejoint">get_qpos_freejoint() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel_addr">get_qvel_addr() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel">get_qvel() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel_freejoint">get_qvel_freejoint() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel_addr">get_qvel_addr() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_site_xpos">get_site_xpos() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel_freejoint">get_qvel_freejoint() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.get_raw_sensor_data_by_id">get_raw_sensor_data_by_id() (dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager method)</a>
+</li>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_site_xpos">get_site_xpos() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager.initialize_before_model_load">initialize_before_model_load() (dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager static method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -192,7 +231,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.key_callback">key_callback() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.key_callback">key_callback() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -200,7 +239,7 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.launch_viewer">launch_viewer() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.launch_viewer">launch_viewer() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -214,16 +253,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.merge_xml_files">merge_xml_files() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper">MJControlVRWrapper (class in dexrobot_mujoco.utils.mj_control_vr_utils)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper">MJSimWrapper (class in dexrobot_mujoco.wrapper.simulation)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper">MJControlWrapper (class in dexrobot_mujoco.utils.mj_control_utils)</a>
-</li>
       <li>
     module
 
       <ul>
+        <li><a href="api/index.html#module-dexrobot_mujoco.utils.angle_utils">dexrobot_mujoco.utils.angle_utils</a>
+</li>
         <li><a href="api/index.html#module-dexrobot_mujoco.utils.mjcf_utils">dexrobot_mujoco.utils.mjcf_utils</a>
 </li>
       </ul></li>
@@ -233,7 +272,7 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.parse_yaml">parse_yaml() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.parse_yaml">parse_yaml() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -241,15 +280,13 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.render_frame">render_frame() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
-</li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.reset_safe">reset_safe() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.render_frame">render_frame() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.reset_simulation">reset_simulation() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.reset_safe">reset_safe() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.run_simulation">run_simulation() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.reset_simulation">reset_simulation() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -257,31 +294,39 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.send_control">send_control() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.send_control">send_control() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_control">set_control() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_control">set_control() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_initial_values">set_initial_values() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_initial_values">set_initial_values() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qpos">set_qpos() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qpos">set_qpos() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qpos_freejoint">set_qpos_freejoint() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qpos_freejoint">set_qpos_freejoint() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qvel_freejoint">set_qvel_freejoint() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qvel_freejoint">set_qvel_freejoint() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_site_xpos">set_site_xpos() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_sensor_manager">set_sensor_manager() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_view_angle">set_view_angle() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_site_xpos">set_site_xpos() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.start_simulation">start_simulation() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_view_angle">set_view_angle() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.step">step() (dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_vr_manager">set_vr_manager() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.stop_simulation">stop_simulation() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.step">step() (dexrobot_mujoco.wrapper.simulation.MJSimWrapper method)</a>
 </li>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.sync_camera_pose_for_vr">sync_camera_pose_for_vr() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.vr_manager.VRManager.sync_camera_pose_for_vr">sync_camera_pose_for_vr() (dexrobot_mujoco.wrapper.vr_manager.VRManager method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.ts_sensor_manager.TSSensorManager">TSSensorManager (class in dexrobot_mujoco.wrapper.ts_sensor_manager)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -293,9 +338,17 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/index.html#dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper.update_vr_images">update_vr_images() (dexrobot_mujoco.utils.mj_control_vr_utils.MJControlVRWrapper method)</a>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.vr_manager.VRManager.update_vr_images">update_vr_images() (dexrobot_mujoco.wrapper.vr_manager.VRManager method)</a>
 </li>
       <li><a href="api/index.html#dexrobot_mujoco.utils.mjcf_utils.urdf2mjcf">urdf2mjcf() (in module dexrobot_mujoco.utils.mjcf_utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/index.html#dexrobot_mujoco.wrapper.vr_manager.VRManager">VRManager (class in dexrobot_mujoco.wrapper.vr_manager)</a>
 </li>
   </ul></td>
 </tr></table>

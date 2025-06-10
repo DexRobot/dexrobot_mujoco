@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dexrobot_mujoco.utils.mj_control_utils &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+  <title>dexrobot_mujoco.wrapper.simulation &mdash; dexrobot_mujoco 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
@@ -42,9 +42,12 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -66,7 +69,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">dexrobot_mujoco.utils.mj_control_utils</li>
+      <li class="breadcrumb-item active">dexrobot_mujoco.wrapper.simulation</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,7 +78,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for dexrobot_mujoco.utils.mj_control_utils</h1><div class="highlight"><pre>
+  <h1>Source code for dexrobot_mujoco.wrapper.simulation</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
@@ -88,16 +91,16 @@
 <span class="n">logger</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.mjcf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_meshes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.mjcf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_meshes</span>
 
 
-<div class="viewcode-block" id="MJControlWrapper">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MJControlWrapper</span><span class="p">:</span>
+<div class="viewcode-block" id="MJSimWrapper">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MJSimWrapper</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for communicating with Mujoco simulator.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MJControlWrapper.__init__">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.__init__">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.__init__">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">mesh_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">renderer_dimension</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Mujoco control wrapper.</span>
 
@@ -115,6 +118,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_manager</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Optional sensor manager (e.g., TSSensorManager)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vr_manager</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Optional VR manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjvCamera</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shadow</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># whether to reflect</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">renderer_dimension</span> <span class="o">=</span> <span class="n">renderer_dimension</span>
@@ -132,12 +137,34 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_resetting</span> <span class="o">=</span> <span class="kc">False</span></div>
 
+    
+<div class="viewcode-block" id="MJSimWrapper.set_sensor_manager">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_sensor_manager">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_sensor_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor_manager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set an optional sensor manager for handling specialized sensors.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            sensor_manager: Sensor manager instance (e.g., TSSensorManager)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensor_manager</span> <span class="o">=</span> <span class="n">sensor_manager</span></div>
 
-<div class="viewcode-block" id="MJControlWrapper.reset_safe">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.reset_safe">[docs]</a>
+    
+<div class="viewcode-block" id="MJSimWrapper.set_vr_manager">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_vr_manager">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_vr_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vr_manager</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set an optional VR manager for VR functionality.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            vr_manager: VR manager instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vr_manager</span> <span class="o">=</span> <span class="n">vr_manager</span></div>
+
+    
+
+<div class="viewcode-block" id="MJSimWrapper.reset_safe">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.reset_safe">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_safe</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resetting</span><span class="p">:</span>
@@ -146,8 +173,8 @@
         <span class="k">return</span> <span class="n">wrapper</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.enable_infinite_rotation">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.enable_infinite_rotation">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.enable_infinite_rotation">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.enable_infinite_rotation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">enable_infinite_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">act_name_re</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify the model to allow infinite rotation for the specified joint actuators.</span>
 
@@ -160,8 +187,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">actuator_ctrlrange</span><span class="p">[</span><span class="n">actuator_index</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.launch_viewer">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.launch_viewer">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.launch_viewer">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.launch_viewer">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">launch_viewer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viewer_type</span><span class="p">,</span> <span class="n">show_ui</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Launch the Mujoco viewer.</span>
 
@@ -191,8 +218,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid viewer type: </span><span class="si">{</span><span class="n">viewer_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.step">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.step">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.step">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.step">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Step the simulation.</span>
@@ -209,8 +236,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">viewer</span><span class="o">.</span><span class="n">sync</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.send_control">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.send_control">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.send_control">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.send_control">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">send_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">act_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send control signal to the specified actuator.</span>
@@ -239,8 +266,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actuator </span><span class="si">{</span><span class="n">act_name</span><span class="si">}</span><span class="s2"> not found in model.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_control">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_control">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_control">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_control">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">act_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the control signal to the specified actuator. Used for initialization.</span>
 
@@ -251,8 +278,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ctrl</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">actuator_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">act_name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_joint_id">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_joint_id">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_joint_id">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_joint_id">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_joint_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ID of the specified joint.</span>
 
@@ -265,8 +292,8 @@
         <span class="k">return</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_name2id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtObj</span><span class="o">.</span><span class="n">mjOBJ_JOINT</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_link_id">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_link_id">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_link_id">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_link_id">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_link_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ID of the specified link.</span>
 
@@ -279,8 +306,8 @@
         <span class="k">return</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mj_name2id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtObj</span><span class="o">.</span><span class="n">mjOBJ_BODY</span><span class="p">,</span> <span class="n">link_name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qpos_addr">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos_addr">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qpos_addr">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos_addr">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qpos_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the address of the specified joint position.</span>
 
@@ -294,8 +321,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">jnt_qposadr</span><span class="p">[</span><span class="n">joint_id</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qvel_addr">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel_addr">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qvel_addr">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel_addr">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qvel_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the address of the specified joint velocity.</span>
 
@@ -309,8 +336,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">jnt_dofadr</span><span class="p">[</span><span class="n">joint_id</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_qpos">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qpos">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_qpos">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qpos">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_qpos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the position of the specified joint.</span>
 
@@ -322,8 +349,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[</span><span class="n">qpos_addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qpos">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qpos">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qpos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the position of the specified joint.</span>
@@ -334,12 +361,12 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            float: The position value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">qpos_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pos_addr</span><span class="p">(</span><span class="n">joint_name</span><span class="p">)</span>
+        <span class="n">qpos_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_qpos_addr</span><span class="p">(</span><span class="n">joint_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[</span><span class="n">qpos_addr</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qvel">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qvel">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qvel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the velocity of the specified joint.</span>
@@ -354,8 +381,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qvel</span><span class="p">[</span><span class="n">qvel_addr</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qpos_freejoint">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qpos_freejoint">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qpos_freejoint">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qpos_freejoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qpos_freejoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the position of the specified free joint.</span>
 
@@ -366,8 +393,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[</span><span class="n">qpos_addr</span> <span class="p">:</span> <span class="n">qpos_addr</span> <span class="o">+</span> <span class="mi">7</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_qvel_freejoint">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_qvel_freejoint">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_qvel_freejoint">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_qvel_freejoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_qvel_freejoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the velocity of the specified free joint.</span>
 
@@ -378,8 +405,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qvel</span><span class="p">[</span><span class="n">qvel_addr</span> <span class="p">:</span> <span class="n">qvel_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_qpos_freejoint">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qpos_freejoint">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_qpos_freejoint">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qpos_freejoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_qpos_freejoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the position of the specified free joint.</span>
 
@@ -391,8 +418,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qpos</span><span class="p">[</span><span class="n">qpos_addr</span> <span class="p">:</span> <span class="n">qpos_addr</span> <span class="o">+</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_qvel_freejoint">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_qvel_freejoint">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_qvel_freejoint">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_qvel_freejoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_qvel_freejoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the velocity of the specified free joint.</span>
 
@@ -403,8 +430,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">qvel</span><span class="p">[</span><span class="n">qvel_addr</span> <span class="p">:</span> <span class="n">qvel_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_site_xpos">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_site_xpos">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_site_xpos">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_site_xpos">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_site_xpos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the position of the specified site.</span>
 
@@ -416,8 +443,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">site_pos</span><span class="p">[</span><span class="n">site_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_site_xpos">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_site_xpos">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_site_xpos">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_site_xpos">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_site_xpos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the position of the specified site.</span>
@@ -429,8 +456,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">site_pos</span><span class="p">[</span><span class="n">site_id</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.get_link_pose">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.get_link_pose">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.get_link_pose">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.get_link_pose">[docs]</a>
     <span class="nd">@reset_safe</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_link_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the position and rotation of the specified link.</span>
@@ -447,8 +474,8 @@
         <span class="k">return</span> <span class="n">pos</span><span class="p">,</span> <span class="n">quat</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.parse_yaml">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.parse_yaml">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.parse_yaml">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.parse_yaml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml_path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse the YAML file containing the configuration.</span>
 
@@ -461,8 +488,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_values</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_initial_values">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_initial_values">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_initial_values">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_initial_values">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the initial values of the simulation.&quot;&quot;&quot;</span>
 
@@ -516,8 +543,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">set_qpos</span><span class="p">(</span><span class="n">joint_name</span><span class="p">,</span> <span class="n">desired_pos</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.set_view_angle">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.set_view_angle">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.set_view_angle">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.set_view_angle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_view_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lookat</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the view angle of the camera.</span>
 
@@ -533,8 +560,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">azimuth</span> <span class="o">=</span> <span class="n">azimuth</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.render_frame">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.render_frame">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.render_frame">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.render_frame">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">render_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Render a frame using the camera.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_renderer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -544,8 +571,8 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.key_callback">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.key_callback">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.key_callback">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.key_callback">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">key_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keycode</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Callback function for handling key presses in the viewer.</span>
 
@@ -575,8 +602,8 @@
             <span class="kn">import</span><span class="w"> </span><span class="nn">ipdb</span><span class="p">;</span> <span class="n">ipdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="MJControlWrapper.reset_simulation">
-<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mj_control_utils.MJControlWrapper.reset_simulation">[docs]</a>
+<div class="viewcode-block" id="MJSimWrapper.reset_simulation">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.wrapper.simulation.MJSimWrapper.reset_simulation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the simulation.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resetting</span> <span class="o">=</span> <span class="kc">True</span>

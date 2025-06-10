@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Components &mdash; dexrobot_mujoco 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Articulation" href="articulation.html" />
+    <link rel="prev" title="Collision Models" href="collision_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dexrobot_mujoco
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hand Models</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dexrobot_mujoco</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Hand Models</a></li>
+      <li class="breadcrumb-item active">Components</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/hand_models/components.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="components">
+<h1>Components<a class="headerlink" href="#components" title="Link to this heading"></a></h1>
+<p>This section covers the actuator and sensor systems in DexRobot MuJoCo hand models.</p>
+<section id="actuator-system">
+<h2>Actuator System<a class="headerlink" href="#actuator-system" title="Link to this heading"></a></h2>
+<p>The DexHand uses position-controlled actuators with PD control:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bend joints (2-4)</span>
+<span class="sa">r</span><span class="s2">&quot;[lr]_f_joint[1-5]_[2-4]&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;kp&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>           <span class="c1"># Position gain</span>
+    <span class="s2">&quot;kv&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1&quot;</span><span class="p">,</span>         <span class="c1"># Velocity gain</span>
+    <span class="s2">&quot;ctrlrange&quot;</span><span class="p">:</span> <span class="s2">&quot;0 1.3&quot;</span><span class="p">,</span> <span class="c1"># Control limits (rad)</span>
+    <span class="s2">&quot;forcerange&quot;</span><span class="p">:</span> <span class="s2">&quot;-20 20&quot;</span> <span class="c1"># Force limits (N)</span>
+<span class="p">}</span>
+
+<span class="c1"># Base rotation joints</span>
+<span class="sa">r</span><span class="s2">&quot;[lr]_f_joint1_1&quot;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># Thumb</span>
+    <span class="s2">&quot;kp&quot;</span><span class="p">:</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kv&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ctrlrange&quot;</span><span class="p">:</span> <span class="s2">&quot;0 2.2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;forcerange&quot;</span><span class="p">:</span> <span class="s2">&quot;-20 20&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="control-parameters">
+<h3>Control Parameters<a class="headerlink" href="#control-parameters" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>kp</strong>: Position tracking stiffness (default: 20.0)</p></li>
+<li><p><strong>kv</strong>: Damping behavior (default: 0.1 for bend, 1.0 for base)</p></li>
+<li><p><strong>ctrlrange</strong>: Position limits in radians</p></li>
+<li><p><strong>forcerange</strong>: Force limits in Newtons</p></li>
+</ul>
+</section>
+<section id="control-interface">
+<h3>Control Interface<a class="headerlink" href="#control-interface" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROS control</span>
+<span class="n">joint_msg</span> <span class="o">=</span> <span class="n">JointState</span><span class="p">()</span>
+<span class="n">joint_msg</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_f_joint1_1&#39;</span><span class="p">]</span>
+<span class="n">joint_msg</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="n">publisher</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">joint_msg</span><span class="p">)</span>
+
+<span class="c1"># Direct control</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">send_control</span><span class="p">(</span><span class="s2">&quot;act_r_f_joint1_1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sensor-system">
+<h2>Sensor System<a class="headerlink" href="#sensor-system" title="Link to this heading"></a></h2>
+<section id="touch-sensors">
+<h3>Touch Sensors<a class="headerlink" href="#touch-sensors" title="Link to this heading"></a></h3>
+<p>MuJoCo native touch sensors are automatically created at fingertip sites:</p>
+<ul class="simple">
+<li><p>Sites created from URDF fixed links with “pad” in name</p></li>
+<li><p>Touch sensors attached to these sites</p></li>
+<li><p>Real-time force feedback in Newtons</p></li>
+</ul>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- Generated structure --&gt;</span>
+<span class="nt">&lt;site</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;site_finger_pad&quot;</span><span class="w"> </span><span class="na">pos=</span><span class="s">&quot;0.025 0.003 0&quot;</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.01&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;sphere&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;sensor&gt;</span>
+<span class="w">    </span><span class="nt">&lt;touch</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;touch_finger_pad&quot;</span><span class="w"> </span><span class="na">site=</span><span class="s">&quot;site_finger_pad&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/sensor&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="tashan-sensors">
+<h3>TaShan Sensors<a class="headerlink" href="#tashan-sensors" title="Link to this heading"></a></h3>
+<p>When using <code class="docutils literal notranslate"><span class="pre">--enable-ts-sensor</span></code>, the system provides 11-dimensional tactile data:</p>
+<ul class="simple">
+<li><p><strong>Force bodies</strong>: <code class="docutils literal notranslate"><span class="pre">force1_f1</span></code> through <code class="docutils literal notranslate"><span class="pre">force5_f7</span></code> on distal links</p></li>
+<li><p><strong>Rangefinders</strong>: <code class="docutils literal notranslate"><span class="pre">rf1</span></code> through <code class="docutils literal notranslate"><span class="pre">rf5</span></code> for proximity</p></li>
+<li><p><strong>User sensors</strong>: <code class="docutils literal notranslate"><span class="pre">TS-F-A-1</span></code> through <code class="docutils literal notranslate"><span class="pre">TS-F-A-5</span></code> for output</p></li>
+</ul>
+<p>See <a class="reference internal" href="../touch_sensors.html"><span class="doc">Touch Sensors</span></a> for detailed TaShan sensor information.</p>
+</section>
+<section id="data-access">
+<h3>Data Access<a class="headerlink" href="#data-access" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ROS topic (Float32MultiArray)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">touch_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">sensor_values</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># Force values in Newtons</span>
+
+<span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;touch_sensors&quot;</span><span class="p">,</span> <span class="n">Float32MultiArray</span><span class="p">,</span> <span class="n">touch_callback</span><span class="p">)</span>
+
+<span class="c1"># Direct API</span>
+<span class="n">sensor_data</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sensor</span><span class="p">(</span><span class="s2">&quot;touch_r_f_link1_4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="customization">
+<h2>Customization<a class="headerlink" href="#customization" title="Link to this heading"></a></h2>
+<section id="custom-actuators">
+<h3>Custom Actuators<a class="headerlink" href="#custom-actuators" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">actuator_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;joint_pattern&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;kp&quot;</span><span class="p">:</span> <span class="s2">&quot;30&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kv&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ctrlrange&quot;</span><span class="p">:</span> <span class="s2">&quot;0 1.5&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;forcerange&quot;</span><span class="p">:</span> <span class="s2">&quot;-25 25&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">add_position_actuators</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">actuator_config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-sensors">
+<h3>Custom Sensors<a class="headerlink" href="#custom-sensors" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_sites</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;link_name&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="s2">&quot;x y z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;radius&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;sphere&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">add_sites</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">custom_sites</span><span class="p">)</span>
+<span class="n">add_touch_sensors</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">sensor_info</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Configure <a class="reference internal" href="collision_models.html"><span class="doc">Collision Models</span></a></p></li>
+<li><p>Review <a class="reference internal" href="conversion.html"><span class="doc">URDF to MJCF Conversion</span></a> process</p></li>
+<li><p>Test with <a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="collision_models.html" class="btn btn-neutral float-left" title="Collision Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="articulation.html" class="btn btn-neutral float-right" title="Articulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, DexRobot.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

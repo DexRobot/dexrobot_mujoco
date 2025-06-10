@@ -45,15 +45,16 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../hand_models/index.html">Hand Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">ROS Integration</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Node Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="topics_and_services.html">Topics and Services</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_recording.html">Data Recording</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vr_visualization.html">VR Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -128,12 +129,79 @@
 <h3>Visualization<a class="headerlink" href="#visualization" title="Link to this heading"></a></h3>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--enable-vr              Enable VR visualization
 --renderer-dimension W,H  Renderer dimensions (e.g., 640,480)
+--enable-ts-sensor       Use TaShan sensors instead of MuJoCo touch sensors
 </pre></div>
 </div>
 </section>
 </section>
 <section id="yaml-configuration">
 <h2>YAML Configuration<a class="headerlink" href="#yaml-configuration" title="Link to this heading"></a></h2>
+<p>The configuration file specifies initial states, camera settings, and tracked objects:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Camera configuration</span>
+<span class="nt">camera</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">azimuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.2</span>
+<span class="w">  </span><span class="nt">elevation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-20</span>
+<span class="w">  </span><span class="nt">lookat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># Initial joint positions</span>
+<span class="nt">initial_ctrl</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">act_r_f_joint1_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="w">  </span><span class="nt">act_r_f_joint2_1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span>
+
+<span class="c1"># Tracked objects for output</span>
+<span class="nt">tracked_joints</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">r_f_joint1_1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">r_f_joint1_2</span><span class="p p-Indicator">]</span>
+<span class="nt">tracked_bodies</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">right_hand_base</span><span class="p p-Indicator">]</span>
+<span class="nt">tracked_sensors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">touch_r_f_link1_pad</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="data-recording">
+<h2>Data Recording<a class="headerlink" href="#data-recording" title="Link to this heading"></a></h2>
+<p>The node supports three recording formats that can be used simultaneously:</p>
+<section id="csv-recording">
+<h3>CSV Recording<a class="headerlink" href="#csv-recording" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-csv-path<span class="w"> </span>data.csv
+</pre></div>
+</div>
+<p><strong>Data includes:</strong> Timestamps, joint positions/velocities, body poses, sensor readings</p>
+</section>
+<section id="ros-bag-recording">
+<h3>ROS Bag Recording<a class="headerlink" href="#ros-bag-recording" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>ros<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-bag-path<span class="w"> </span>recording.bag
+</pre></div>
+</div>
+<p><strong>Recorded topics:</strong> <code class="docutils literal notranslate"><span class="pre">joint_commands</span></code>, <code class="docutils literal notranslate"><span class="pre">joint_states</span></code>, <code class="docutils literal notranslate"><span class="pre">body_poses</span></code>, <code class="docutils literal notranslate"><span class="pre">touch_sensors</span></code></p>
+</section>
+<section id="mp4-video-recording">
+<h3>MP4 Video Recording<a class="headerlink" href="#mp4-video-recording" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-formats<span class="w"> </span>mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-mp4-path<span class="w"> </span>video.mp4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--renderer-dimension<span class="w"> </span><span class="m">1920</span>,1080
+</pre></div>
+</div>
+<p><strong>Parameters:</strong> 20 FPS fixed rate, mp4v codec</p>
+</section>
+</section>
+<section id="vr-visualization">
+<h2>VR Visualization<a class="headerlink" href="#vr-visualization" title="Link to this heading"></a></h2>
+<p>Enable stereoscopic web streaming:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span>--enable-vr
+</pre></div>
+</div>
+<p><strong>Access:</strong> Open browser to <code class="docutils literal notranslate"><span class="pre">http://localhost:5000/video</span></code></p>
+<p><strong>Features:</strong>
+- Stereoscopic rendering with 0.1m eye separation
+- 20 FPS streaming
+- Synchronized with MuJoCo viewer camera</p>
 <section id="camera-settings">
 <h3>Camera Settings<a class="headerlink" href="#camera-settings" title="Link to this heading"></a></h3>
 <p>Configure viewer camera:</p>
@@ -231,8 +299,8 @@
 </pre></div>
 </div>
 </section>
-<section id="data-recording">
-<h3>Data Recording<a class="headerlink" href="#data-recording" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>Data Recording<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>Configuration with all outputs enabled:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml<span class="w"> </span><span class="se">\</span>
@@ -244,8 +312,8 @@
 </pre></div>
 </div>
 </section>
-<section id="vr-visualization">
-<h3>VR Visualization<a class="headerlink" href="#vr-visualization" title="Link to this heading"></a></h3>
+<section id="id2">
+<h3>VR Visualization<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <p>Configuration for VR control:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>nodes/dexrobot_mujoco_ros.py<span class="w"> </span>model.xml<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config<span class="w"> </span>config/scene_default.yaml<span class="w"> </span><span class="se">\</span>
@@ -260,8 +328,8 @@
 <h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Learn about available <a class="reference internal" href="topics_and_services.html"><span class="doc">Topics and Services</span></a></p></li>
-<li><p>Configure <a class="reference internal" href="data_recording.html"><span class="doc">Data Recording</span></a></p></li>
-<li><p>Set up <a class="reference internal" href="vr_visualization.html"><span class="doc">VR Visualization</span></a></p></li>
+<li><p>Configure <span class="xref std std-doc">data_recording</span></p></li>
+<li><p>Set up <span class="xref std std-doc">vr_visualization</span></p></li>
 </ul>
 </section>
 </section>

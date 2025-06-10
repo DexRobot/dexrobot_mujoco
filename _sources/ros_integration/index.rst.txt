@@ -2,7 +2,7 @@
 ROS Integration
 ===================
 
-This section covers the ROS integration capabilities of DexRobot MuJoCo, which provides seamless control and monitoring through ROS topics and services.
+This section covers the ROS integration capabilities of DexRobot MuJoCo for control and monitoring through ROS topics and services.
 
 .. toctree::
    :maxdepth: 2
@@ -10,8 +10,6 @@ This section covers the ROS integration capabilities of DexRobot MuJoCo, which p
 
    node_configuration
    topics_and_services
-   data_recording
-   vr_visualization
 
 Overview
 --------
@@ -114,5 +112,3 @@ Continue reading:
 
 - :doc:`node_configuration` - Detailed node setup and configuration
 - :doc:`topics_and_services` - Available ROS interfaces
-- :doc:`data_recording` - Data recording capabilities
-- :doc:`vr_visualization` - VR visualization features

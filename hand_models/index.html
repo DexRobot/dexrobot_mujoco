@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="URDF to MJCF Conversion" href="conversion.html" />
-    <link rel="prev" title="Getting Started" href="../getting-started.html" /> 
+    <link rel="prev" title="MuJoCo Control Wrapper" href="../wrapper/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,17 +45,19 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../touch_sensors.html">Touch Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../wrapper/index.html">MuJoCo Control Wrapper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Hand Models</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="conversion.html">URDF to MJCF Conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="collision_models.html">Collision Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html">Actuators</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html">Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="articulation.html">Articulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Hand Model Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../scenes/index.html">Scene Creation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ros_integration/index.html">ROS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tashan_python38_setup.html">TaShan Sensor Setup with Python 3.8</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -121,26 +123,11 @@
 <li class="toctree-l2"><a class="reference internal" href="collision_models.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="actuators.html">Actuators</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#actuator-system">Actuator System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#default-configuration">Default Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#configuration-parameters">Configuration Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#implementation">Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#custom-configuration">Custom Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="actuators.html#next-steps">Next Steps</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#sensor-system-overview">Sensor System Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#implementation">Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#site-parameters">Site Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#advanced-usage">Advanced Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sensors.html#next-steps">Next Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="components.html#actuator-system">Actuator System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#sensor-system">Sensor System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#customization">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="components.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="articulation.html">Articulation</a><ul>
@@ -187,6 +174,7 @@
 <li><p><strong>Actuators</strong>: Position-controlled joints with configurable parameters</p></li>
 <li><p><strong>Sensors</strong>: Touch sensors at fingertips</p></li>
 <li><p><strong>Collision Geometries</strong>: Simplified or full mesh-based</p></li>
+<li><p><strong>Touch Sensors</strong>: MuJoCo native or TaShan 11-dimensional sensors</p></li>
 </ul>
 </section>
 <section id="available-models">
@@ -199,6 +187,7 @@
 <li><p><strong>dexhand021_right_floating.xml</strong>: Right hand with 6-DoF floating base</p></li>
 <li><p><strong>dexhand021_right_jaka_zu7.xml</strong>: Right hand mounted on JAKA Zu7 arm</p></li>
 </ul>
+<p>For details on touch sensors, see <a class="reference internal" href="../touch_sensors.html"><span class="doc">Touch Sensors</span></a>.</p>
 <p>You can also check out <a class="reference internal" href="articulation.html"><span class="doc">Articulation</span></a> for more details on creating custom models by articulating the hand with your own robot arm.</p>
 </section>
 </section>
@@ -240,8 +229,7 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="conversion.html"><span class="doc">URDF to MJCF Conversion</span></a> - Converting URDF models to MJCF</p></li>
 <li><p><a class="reference internal" href="collision_models.html"><span class="doc">Collision Models</span></a> - Working with collision geometries</p></li>
-<li><p><a class="reference internal" href="actuators.html"><span class="doc">Actuators</span></a> - Configuring joint actuators</p></li>
-<li><p><a class="reference internal" href="sensors.html"><span class="doc">Sensors</span></a> - Setting up touch sensors</p></li>
+<li><p><a class="reference internal" href="components.html"><span class="doc">Components</span></a> - Actuators and sensors configuration</p></li>
 <li><p><a class="reference internal" href="articulation.html"><span class="doc">Articulation</span></a> - Attaching hands to other models</p></li>
 <li><p><a class="reference internal" href="examples.html"><span class="doc">Hand Model Examples</span></a> - Example configurations and use cases</p></li>
 </ul>
@@ -279,7 +267,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../getting-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../wrapper/index.html" class="btn btn-neutral float-left" title="MuJoCo Control Wrapper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="conversion.html" class="btn btn-neutral float-right" title="URDF to MJCF Conversion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
