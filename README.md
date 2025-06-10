@@ -15,9 +15,7 @@ Tactile simulation for DexRobot hands in MuJoCo with ROS integration.
 
 ## Demo Video
 
-<video src="assets/ts_touch_demo.mp4" width="100%" controls>
-  View the tactile sensor demo: <a href="assets/ts_touch_demo.mp4">ts_touch_demo.mp4</a>
-</video>
+https://github.com/user-attachments/assets/5d51bcc1-133a-4675-80da-6b9ec1d85e5c
 
 The video demonstrates real-time TaShan sensor visualization during a pinch gesture, showing force magnitude and direction feedback from thumb and index finger sensors.
 

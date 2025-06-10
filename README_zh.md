@@ -15,9 +15,7 @@ DexRobot 灵巧手的触觉仿真环境，基于 MuJoCo 并集成 ROS 支持。
 
 ## 演示视频
 
-<video src="assets/ts_touch_demo.mp4" width="100%" controls>
-  查看触觉传感器演示：<a href="assets/ts_touch_demo.mp4">ts_touch_demo.mp4</a>
-</video>
+https://github.com/user-attachments/assets/5d51bcc1-133a-4675-80da-6b9ec1d85e5c
 
 视频展示了捏取手势过程中他山传感器的实时可视化，显示拇指和食指传感器的力大小和方向反馈。
 
