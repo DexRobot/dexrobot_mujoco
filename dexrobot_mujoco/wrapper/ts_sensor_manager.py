@@ -13,7 +13,18 @@ TSForceData = namedtuple('TSForceData', ['normal', 'tangential_magnitude', 'tang
 
 
 class TSSensorManager:
-    """Manager for TaShan touch sensors in MuJoCo simulations."""
+    """Manager for TaShan touch sensors in MuJoCo simulations.
+    
+    The TaShan sensors provide 11-dimensional tactile data:
+    - Dimension 0: Proximity sensing
+    - Dimension 1: Normal force magnitude (N)
+    - Dimension 2: Tangential force magnitude (N)
+    - Dimension 3: Tangential force direction (rad)
+    - Dimensions 4-10: Raw capacitance values (7 channels)
+    
+    The manager provides both raw data access and semantic APIs that
+    extract the force-related dimensions (1-3) for easier use.
+    """
     
     @staticmethod
     def initialize_before_model_load():
@@ -109,6 +120,9 @@ class TSSensorManager:
             
         Returns:
             bytes: Raw 88-byte sensor data (11 * 8 bytes)
+                   Dimensions 0-3 are doubles: proximity, normal force, 
+                   tangential force magnitude, tangential direction
+                   Dimensions 4-10 are raw capacitance values
         """
         if sensor_id < 1:
             raise ValueError(f"Sensor ID must be >= 1, got {sensor_id}")
