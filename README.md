@@ -160,12 +160,14 @@ The TaShan force data provides semantic information (normal force, tangential fo
 
 ## Documentation
 
-For more details, see the full documentation in `docs/`:
+Full documentation is available at: https://dexrobot.github.io/dexrobot_mujoco
 
-- Getting Started
+Topics covered:
+- Getting Started Guide
+- Touch Sensor Integration
 - Hand Models and Configuration
-- Scene Creation
-- ROS Integration
+- Scene Creation and Composition
+- ROS Integration and Control
 - API Reference
 
 ## License

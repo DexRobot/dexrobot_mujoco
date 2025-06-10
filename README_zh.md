@@ -160,12 +160,14 @@ python examples/tashan_standalone_demo.py
 
 ## 文档
 
-详细信息请参阅 `docs/` 目录下的完整文档：
+完整文档请访问：https://dexrobot.github.io/dexrobot_mujoco
 
+涵盖主题：
 - 入门指南
+- 触觉传感器集成
 - 灵巧手模型与配置
-- 场景创建
-- ROS 集成
+- 场景创建与组合
+- ROS 集成与控制
 - API 参考
 
 ## 许可证
