@@ -45,7 +45,9 @@ def urdf2mjcf(urdf_path, mjcf_dir, mesh_dir=None, fixed_to_body_pattern=None, fi
     else:
         m = mujoco.MjModel.from_xml_path(urdf_path, load_meshes(mesh_dir))
 
-    output_path = f"{mjcf_dir}/{os.path.splitext(os.path.basename(urdf_path))[0]}.xml"
+    # Generate output filename
+    base_name = os.path.splitext(os.path.basename(urdf_path))[0]
+    output_path = f"{mjcf_dir}/{base_name}.xml"
     mujoco.mj_saveLastXML(output_path, m)
 
     # If no patterns specified, we're done
@@ -342,6 +344,96 @@ def add_touch_sensors(xml_path, sensor_info):
     subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
 
 
+def add_rangefinder_sensors(xml_path, sensor_info):
+    """
+    Add rangefinder sensors to the given MJCF XML file.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+        sensor_info (dict): Dictionary containing the sensor information.
+            key (str): The sensor name.
+            value (dict): A set of properties to add to the <rangefinder> element.
+                Must include 'site' property for rangefinder sensors.
+
+    Example:
+        sensor_info = {
+            "rf1": {"site": "site_r_f_link1_4", "cutoff": "0.1"},
+            "rf2": {"site": "site_r_f_link2_4", "cutoff": "0.1"},
+        }
+    """
+    # Load the MJCF XML file
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    # Find or create the sensor element
+    sensor_element = root.find("sensor")
+    if sensor_element is None:
+        sensor_element = ET.SubElement(root, "sensor")
+
+    # Process each sensor and its properties
+    for name, properties in sensor_info.items():
+        # Create the rangefinder sensor element
+        rangefinder_attrs = {
+            "name": name,
+        }
+        # Update with provided properties
+        for prop_name, prop_value in properties.items():
+            rangefinder_attrs[prop_name] = str(prop_value)
+        
+        rangefinder_sensor = ET.SubElement(sensor_element, "rangefinder", **rangefinder_attrs)
+
+    # Save the modified MJCF XML back to the file
+    tree.write(xml_path, encoding="utf-8", xml_declaration=True)
+
+    # Call xmllint to prettify the XML file
+    subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
+
+
+def add_user_sensors(xml_path, sensor_info):
+    """
+    Add user-defined sensors to the given MJCF XML file.
+
+    Args:
+        xml_path (str): The path to the MJCF XML file.
+        sensor_info (dict): Dictionary containing the sensor information.
+            key (str): The sensor name.
+            value (dict): A set of properties to add to the <user> element.
+                Must include 'dim' property for user sensors.
+
+    Example:
+        sensor_info = {
+            "TS-F-A-1": {"dim": "11", "noise": "0.0"},
+            "TS-F-A-2": {"dim": "11", "noise": "0.0"},
+        }
+    """
+    # Load the MJCF XML file
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+
+    # Find or create the sensor element
+    sensor_element = root.find("sensor")
+    if sensor_element is None:
+        sensor_element = ET.SubElement(root, "sensor")
+
+    # Process each sensor and its properties
+    for name, properties in sensor_info.items():
+        # Create the user sensor element with required attributes
+        user_attrs = {
+            "name": name,
+        }
+        # Update with provided properties
+        for prop_name, prop_value in properties.items():
+            user_attrs[prop_name] = str(prop_value)
+        
+        user_sensor = ET.SubElement(sensor_element, "user", **user_attrs)
+
+    # Save the modified MJCF XML back to the file
+    tree.write(xml_path, encoding="utf-8", xml_declaration=True)
+
+    # Call xmllint to prettify the XML file
+    subprocess.run(["xmllint", "--format", xml_path, "--output", xml_path])
+
+
 def add_sites(xml_file_path, site_info):
     """
     Add sites to specific bodies in the MJCF XML file.
@@ -397,7 +489,8 @@ def apply_defaults(mjcf_xml_path, defaults_xml_path):
     defaults_tree = ET.parse(defaults_xml_path)
     defaults_root = defaults_tree.getroot()
 
-    # Apply defaults_root as a child to root
+    # Apply defaults_root elements as children to root
+    # Works with both <mujoco> and <mujocoinclude> root elements
     for i, element in enumerate(defaults_root):
         root.insert(i, element)
 

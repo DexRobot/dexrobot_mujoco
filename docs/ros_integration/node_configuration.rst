@@ -45,9 +45,89 @@ Visualization
 
     --enable-vr              Enable VR visualization
     --renderer-dimension W,H  Renderer dimensions (e.g., 640,480)
+    --enable-ts-sensor       Use TaShan sensors instead of MuJoCo touch sensors
 
 YAML Configuration
 ----------------
+
+The configuration file specifies initial states, camera settings, and tracked objects:
+
+.. code-block:: yaml
+
+    # Camera configuration
+    camera:
+      azimuth: 0
+      distance: 1.2
+      elevation: -20
+      lookat: [0.0, 0.0, 1.2]
+    
+    # Initial joint positions
+    initial_ctrl:
+      act_r_f_joint1_1: 0.5
+      act_r_f_joint2_1: 0.3
+    
+    # Tracked objects for output
+    tracked_joints:
+      - [r_f_joint1_1, r_f_joint1_2]
+    tracked_bodies:
+      - [right_hand_base]
+    tracked_sensors:
+      - [touch_r_f_link1_pad]
+
+Data Recording
+--------------
+
+The node supports three recording formats that can be used simultaneously:
+
+CSV Recording
+^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    python nodes/dexrobot_mujoco_ros.py model.xml \
+        --output-formats csv \
+        --output-csv-path data.csv
+
+**Data includes:** Timestamps, joint positions/velocities, body poses, sensor readings
+
+ROS Bag Recording
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    python nodes/dexrobot_mujoco_ros.py model.xml \
+        --output-formats ros \
+        --output-bag-path recording.bag
+
+**Recorded topics:** ``joint_commands``, ``joint_states``, ``body_poses``, ``touch_sensors``
+
+MP4 Video Recording
+^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+    python nodes/dexrobot_mujoco_ros.py model.xml \
+        --output-formats mp4 \
+        --output-mp4-path video.mp4 \
+        --renderer-dimension 1920,1080
+
+**Parameters:** 20 FPS fixed rate, mp4v codec
+
+VR Visualization
+----------------
+
+Enable stereoscopic web streaming:
+
+.. code-block:: bash
+
+    python nodes/dexrobot_mujoco_ros.py model.xml --enable-vr
+
+**Access:** Open browser to ``http://localhost:5000/video``
+
+**Features:**
+- Stereoscopic rendering with 0.1m eye separation
+- 20 FPS streaming
+- Synchronized with MuJoCo viewer camera
 
 Camera Settings
 ^^^^^^^^^^^^

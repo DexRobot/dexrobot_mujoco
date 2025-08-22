@@ -56,13 +56,37 @@
                               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 -0.001" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                              <body name="r_f_link1_tip" pos="0.035 -0.004 0">
+                              <body name="r_f_link1_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                                 <geom name="geom_r_f_link1_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <body name="r_f_link1_pad" pos="0.026 0.0025 -0.001">
+                              <body name="r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
                                 <geom name="geom_r_f_link1_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <site name="site_r_f_link1_pad" pos="0.026 0.0025 -0.001" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link1_pad" pos="0.026 0.0025 -0.001" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link1_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                              <body name="ts_wrapper_r_f_link1_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                                <body name="force1_f1" pos="0 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f2" pos="0 0 0.0192">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f3" pos="0.00545 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f4" pos="0 0 0.02465">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f5" pos="-0.0001 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f6" pos="0.0055 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force1_f7" pos="0 0 0.01362">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                              </body>
                               <geom name="col_r_f_link1_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 -0.001 0.027 -0.007 -0.001"/>
                             </body>
                             <geom name="col_r_f_link1_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.0125 0.003 -0.0045 0.0125 0.003 0.0023"/>
@@ -94,13 +118,37 @@
                               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                              <body name="r_f_link2_tip" pos="0.035 -0.004 0">
+                              <body name="r_f_link2_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                                 <geom name="geom_r_f_link2_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <body name="r_f_link2_pad" pos="0.026 0.0025 0.000">
+                              <body name="r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
                                 <geom name="geom_r_f_link2_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <site name="site_r_f_link2_pad" pos="0.026 0.0025 0.000" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link2_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link2_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                              <body name="ts_wrapper_r_f_link2_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                                <body name="force2_f1" pos="0 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f2" pos="0 0 0.0192">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f3" pos="0.00545 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f4" pos="0 0 0.02465">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f5" pos="-0.0001 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f6" pos="0.0055 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force2_f7" pos="0 0 0.01362">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                              </body>
                               <geom name="col_r_f_link2_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                             </body>
                             <geom name="col_r_f_link2_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -132,13 +180,37 @@
                               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                              <body name="r_f_link3_tip" pos="0.035 -0.004 0">
+                              <body name="r_f_link3_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                                 <geom name="geom_r_f_link3_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <body name="r_f_link3_pad" pos="0.026 0.0025 0.000">
+                              <body name="r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
                                 <geom name="geom_r_f_link3_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <site name="site_r_f_link3_pad" pos="0.026 0.0025 0.000" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link3_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link3_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                              <body name="ts_wrapper_r_f_link3_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                                <body name="force3_f1" pos="0 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f2" pos="0 0 0.0192">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f3" pos="0.00545 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f4" pos="0 0 0.02465">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f5" pos="-0.0001 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f6" pos="0.0055 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force3_f7" pos="0 0 0.01362">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                              </body>
                               <geom name="col_r_f_link3_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                             </body>
                             <geom name="col_r_f_link3_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -170,13 +242,37 @@
                               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                              <body name="r_f_link4_tip" pos="0.035 -0.004 0">
+                              <body name="r_f_link4_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                                 <geom name="geom_r_f_link4_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <body name="r_f_link4_pad" pos="0.026 0.0025 0.000">
+                              <body name="r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
                                 <geom name="geom_r_f_link4_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <site name="site_r_f_link4_pad" pos="0.026 0.0025 0.000" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link4_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link4_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                              <body name="ts_wrapper_r_f_link4_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                                <body name="force4_f1" pos="0 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f2" pos="0 0 0.0192">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f3" pos="0.00545 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f4" pos="0 0 0.02465">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f5" pos="-0.0001 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f6" pos="0.0055 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force4_f7" pos="0 0 0.01362">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                              </body>
                               <geom name="col_r_f_link4_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                             </body>
                             <geom name="col_r_f_link4_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>
@@ -208,13 +304,37 @@
                               <geom size="0.002" pos="0.035 -0.004 0" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" contype="0" conaffinity="0" group="1" density="0" rgba="0 1 0 1"/>
                               <geom size="0.006 0.0005 0.003" pos="0.026 0.0025 0" quat="0.974794 0 0 -0.223106" type="box" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
-                              <body name="r_f_link5_tip" pos="0.035 -0.004 0">
+                              <body name="r_f_link5_tip" pos="0.035 -0.004 0" quat="1.0 0.0 0.0 0.0">
                                 <geom name="geom_r_f_link5_tip" type="sphere" size="0.002" rgba="1 0 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <body name="r_f_link5_pad" pos="0.026 0.0025 0.000">
+                              <body name="r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545">
                                 <geom name="geom_r_f_link5_pad" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1" contype="0" conaffinity="0" group="1" density="0"/>
                               </body>
-                              <site name="site_r_f_link5_pad" pos="0.026 0.0025 0.000" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link5_pad" pos="0.026 0.0025 0.000" quat="0.9747941070689433 0.0 0.0 -0.22310636213174545" type="box" size="0.006 0.0005 0.003" rgba="0 1 0 1"/>
+                              <site name="site_r_f_link5_4" pos="0.0143 0.006 0" size="0.0001" type="sphere" rgba="1 0 0 1" zaxis="0.46 1 0"/>
+                              <body name="ts_wrapper_r_f_link5_pad" pos="0.0425 -0.0188 -0.0055" quat="0.69101 -0.15003 -0.69101 -0.15003">
+                                <body name="force5_f1" pos="0 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f1" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f2" pos="0 0 0.0192">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f2" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f3" pos="0.00545 0 0.02">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f3" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f4" pos="0 0 0.02465">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f4" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f5" pos="-0.0001 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f5" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f6" pos="0.0055 0 0.0285">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f6" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                                <body name="force5_f7" pos="0 0 0.01362">
+                                  <geom type="mesh" rgba="1 0.3 0.3 1" mesh="f7" contype="0" conaffinity="0" group="1" density="0"/>
+                                </body>
+                              </body>
                               <geom name="col_r_f_link5_4" type="capsule" contype="1" conaffinity="1" group="3" size="0.0095" fromto="0.0 0 0 0.026 -0.007 0"/>
                             </body>
                             <geom name="col_r_f_link5_3" type="capsule" contype="1" conaffinity="1" group="3" size="0.007" fromto="0.012 0.003 -0.0035 0.012 0.003 0.0035"/>

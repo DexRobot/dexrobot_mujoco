@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mujocoinclude>
   <actuator>
-    <position name="act_ARTx" joint="ARTx" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500"/>
-    <position name="act_ARTy" joint="ARTy" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500"/>
-    <position name="act_ARTz" joint="ARTz" kp="10000" kv="500" ctrlrange="-1 1" forcelimited="true" forcerange="-500 500"/>
-    <position name="act_ARRx" joint="ARRx" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
-    <position name="act_ARRy" joint="ARRy" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
-    <position name="act_ARRz" joint="ARRz" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcelimited="true" forcerange="-100 100"/>
-    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="1000" kv="50" ctrlrange="0 2.2" forcerange="-200 200"/>
-    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="1000" kv="50" ctrlrange="-0.0001 0.0001" forcerange="-200 200"/>
-    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200"/>
-    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="1000" kv="50" ctrlrange="0 0.6" forcerange="-200 200"/>
+    <position name="act_ARTx" joint="ARTx" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true"/>
+    <position name="act_ARTy" joint="ARTy" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true"/>
+    <position name="act_ARTz" joint="ARTz" kp="10000" kv="500" ctrlrange="-1 1" forcerange="-500 500" forcelimited="true"/>
+    <position name="act_ARRx" joint="ARRx" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true"/>
+    <position name="act_ARRy" joint="ARRy" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true"/>
+    <position name="act_ARRz" joint="ARRz" kp="10000" kv="500" ctrlrange="-3.14 3.14" forcerange="-100 100" forcelimited="true"/>
+    <position name="act_r_f_joint1_2" joint="r_f_joint1_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint1_3" joint="r_f_joint1_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint1_4" joint="r_f_joint1_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint2_2" joint="r_f_joint2_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint2_3" joint="r_f_joint2_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint2_4" joint="r_f_joint2_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint3_2" joint="r_f_joint3_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint3_3" joint="r_f_joint3_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint3_4" joint="r_f_joint3_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint4_2" joint="r_f_joint4_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint4_3" joint="r_f_joint4_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint4_4" joint="r_f_joint4_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint5_2" joint="r_f_joint5_2" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint5_3" joint="r_f_joint5_3" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint5_4" joint="r_f_joint5_4" kp="1000" kv="50" ctrlrange="0 1.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint1_1" joint="r_f_joint1_1" kp="1000" kv="50" ctrlrange="0 2.2" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint2_1" joint="r_f_joint2_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint3_1" joint="r_f_joint3_1" kp="1000" kv="50" ctrlrange="-0.0001 0.0001" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint4_1" joint="r_f_joint4_1" kp="1000" kv="50" ctrlrange="0 0.3" forcerange="-200 200" forcelimited="true"/>
+    <position name="act_r_f_joint5_1" joint="r_f_joint5_1" kp="1000" kv="50" ctrlrange="0 0.6" forcerange="-200 200" forcelimited="true"/>
   </actuator>
 </mujocoinclude>

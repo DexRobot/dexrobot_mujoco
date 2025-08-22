@@ -1,9 +1,10 @@
 from ros_compat import ROSNode
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Pose, PoseArray
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float32MultiArray, MultiArrayDimension
 from std_srvs.srv import Trigger
 import cv2
+import mujoco
 
 import time, os
 import argparse
@@ -18,7 +19,7 @@ import requests
 import signal
 from threading import Thread
 import cv2
-from dexrobot_mujoco.utils.mj_control_vr_utils import MJControlVRWrapper
+from dexrobot_mujoco.wrapper import MJSimWrapper, TSSensorManager, VRManager
 from dexrobot_mujoco.utils.angle_utils import adjust_angles
 
 def float_list(x):
@@ -41,6 +42,7 @@ class MujocoJointController(ROSNode):
         enable_vr=False,
         renderer_dimension=None,
         seed=0,
+        enable_ts_sensor=False,
     ):
         """
         Node for controlling the joints of a Mujoco model using ROS2 messages.
@@ -64,6 +66,9 @@ class MujocoJointController(ROSNode):
             enable_vr (bool): Whether to enable VR mode. When enabled, VR control images will be updated, and the Flask
                 server will run to provide a video stream.
             renderer_dimension (tuple): Renderer dimension as width,height (e.g. 640,480).
+            enable_ts_sensor (bool): Whether to substitute touch sensor data with TS sensor data.
+                When True, touch_* sensor readings will be replaced with corresponding touch_*_ts 
+                sensor data (11 dimensions per sensor). Requires TS sensor hardware to be available.
         """
         super().__init__("mujoco_joint_controller")
         self.logger.info("Mujoco Joint Controller Node has been started.")
@@ -79,14 +84,38 @@ class MujocoJointController(ROSNode):
         self.output_mp4_path = output_mp4_path
         self.output_bag_path = output_bag_path
         self.enable_vr = enable_vr
+        self.enable_ts_sensor = enable_ts_sensor
 
+        # Initialize TS sensor callback before loading model if needed
+        if self.enable_ts_sensor:
+            if not TSSensorManager.initialize_before_model_load():
+                self.logger.error("Failed to initialize TS sensor callback")
+                self.logger.error("Make sure you have Python 3.8 and MuJoCo 3.2.3 installed.")
+                raise RuntimeError("TS sensor initialization failed")
+        
         # Load Mujoco model
-        self.mj = MJControlVRWrapper(
+        self.mj = MJSimWrapper(
             os.path.join(os.getcwd(), self.model_path),
-            enable_vr=self.enable_vr,
             renderer_dimension=renderer_dimension if renderer_dimension else ((640, 480) if "mp4" in self.output_formats else None),
             seed=seed,
         )
+
+        # Initialize TS sensor manager if requested
+        if self.enable_ts_sensor:
+            try:
+                ts_manager = TSSensorManager(self.mj)
+                self.mj.set_sensor_manager(ts_manager)
+                self.logger.info("TS sensor support enabled and library loaded successfully")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize TS sensor support: {e}")
+                self.logger.error("Make sure you have Python 3.8 and MuJoCo 3.2.3 installed.")
+                raise
+        
+        # Initialize VR manager if requested
+        if self.enable_vr:
+            vr_manager = VRManager(self.mj)
+            self.mj.set_vr_manager(vr_manager)
+            self.logger.info("VR support enabled")
 
         # adjust initial pos and camera pose
         if self.config_yaml is not None:
@@ -98,7 +127,7 @@ class MujocoJointController(ROSNode):
 
         # timer for VR images
         if self.enable_vr:
-            self.vr_timer = self.create_timer(0.05, self.mj.update_vr_images)
+            self.vr_timer = self.create_timer(0.05, self.mj.vr_manager.update_vr_images)
             # Start Flask server thread
             self.flask_thread = Thread(target=self.run_flask)
             self.flask_thread.start()
@@ -171,6 +200,7 @@ class MujocoJointController(ROSNode):
         ]
         self.tracked_joint_states_ref = {name: 0.0 for name in self.tracked_joint_names}
 
+
         # timer, publisher and buffer for publishing / logging data
         if self.output_formats:
             self.output_timer = self.create_timer(0.01, self.output_data)
@@ -186,10 +216,15 @@ class MujocoJointController(ROSNode):
             self.touch_sensor_publisher = self.create_publisher(
                 Float32MultiArray, "touch_sensors", 10
             )
+            if self.enable_ts_sensor:
+                self.ts_force_publisher = self.create_publisher(
+                    Float32MultiArray, "ts_forces", 10
+                )
         else:
             self.joint_state_publisher = None
             self.body_pose_publisher = None
             self.touch_sensor_publisher = None
+            self.ts_force_publisher = None
         if "csv" in self.output_formats:
             if self.output_csv_path is not None:
                 self.csv_columns = [
@@ -200,6 +235,16 @@ class MujocoJointController(ROSNode):
                     *[f'{name}_quat' for name in self.tracked_body_names],
                     *[f'{name}' for name in self.tracked_sensor_names],
                 ]
+                
+                # Add TS force columns if enabled
+                if self.enable_ts_sensor:
+                    # Add columns for each TS sensor (3 force dimensions each)
+                    for i in range(1, 6):  # Assuming 5 TS sensors (TS-F-A-1 through TS-F-A-5)
+                        self.csv_columns.extend([
+                            f'TS-F-A-{i}_normal_force',
+                            f'TS-F-A-{i}_tangential_magnitude',
+                            f'TS-F-A-{i}_tangential_direction_deg'
+                        ])
                 self.csv_data_count = 0
                 self.csv_buffer = pd.DataFrame(columns=self.csv_columns)
                 self.csv_path = self.output_csv_path
@@ -326,10 +371,30 @@ class MujocoJointController(ROSNode):
         joint_vel = self.mj.data.qvel[self.tracked_joint_qvel_idx]
         body_pos = self.mj.data.xpos[self.tracked_body_ids]
         body_quat = self.mj.data.xquat[self.tracked_body_ids]
+        
+        # Collect regular sensor data
         all_sensor_data = []
         for sensor_name in self.tracked_sensor_names:
             sensor_data = self.mj.data.sensor(sensor_name).data.astype(np.double)
             all_sensor_data.extend(sensor_data)
+        
+        # Collect TS force data if enabled
+        ts_force_data_flat = []
+        if self.enable_ts_sensor:
+            try:
+                # Get all TS force data as a dict
+                force_dict = self.mj.sensor_manager.get_all_force_data()
+                # Sort by sensor ID and flatten into a single array
+                for sensor_id in sorted(force_dict.keys()):
+                    force_data = force_dict[sensor_id]
+                    ts_force_data_flat.extend([
+                        force_data.normal,
+                        force_data.tangential_magnitude,
+                        force_data.tangential_direction
+                    ])
+            except Exception as e:
+                self.logger.error(f"Failed to read TS force data: {e}")
+                # Continue without TS data rather than crashing
 
         if "ros" in self.output_formats:
             joint_state_msg = JointState()
@@ -356,9 +421,32 @@ class MujocoJointController(ROSNode):
             touch_data_array = Float32MultiArray()
             touch_data_array.data = all_sensor_data
             self.touch_sensor_publisher.publish(touch_data_array)
+            
+            # Publish TS force data if enabled
+            if self.enable_ts_sensor and ts_force_data_flat:
+                force_msg = Float32MultiArray()
+                
+                # Set up 2D array layout: 5 sensors x 3 force components
+                force_msg.layout.dim.append(MultiArrayDimension())
+                force_msg.layout.dim[0].label = "sensor"
+                force_msg.layout.dim[0].size = 5
+                force_msg.layout.dim[0].stride = 15  # Total elements
+                
+                force_msg.layout.dim.append(MultiArrayDimension())
+                force_msg.layout.dim[1].label = "force_component"
+                force_msg.layout.dim[1].size = 3
+                force_msg.layout.dim[1].stride = 3
+                
+                # Data is already in the right order from ts_force_data_flat
+                force_msg.data = ts_force_data_flat
+                
+                self.ts_force_publisher.publish(force_msg)
 
         if 'csv' in self.output_formats:
-            self.csv_buffer.loc[self.csv_data_count] = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
+            csv_row_data = [self.get_clock().now().nanoseconds, *joint_pos, *joint_vel, *body_pos, *body_quat, *all_sensor_data]
+            if self.enable_ts_sensor:
+                csv_row_data.extend(ts_force_data_flat)
+            self.csv_buffer.loc[self.csv_data_count] = csv_row_data
             self.csv_data_count += 1
 
         if "mp4" in self.output_formats:
@@ -390,7 +478,7 @@ class MujocoJointController(ROSNode):
         @self.app.route("/video")
         def video():
             return Response(
-                self.mj.generate_encoded_frames(),
+                self.mj.vr_manager.generate_encoded_frames(),
                 mimetype="multipart/x-mixed-replace; boundary=frame",
             )
 
@@ -419,6 +507,8 @@ class MujocoJointController(ROSNode):
             requests.post("http://127.0.0.1:5000/shutdown")
             self.logger.info("Stopped the Flask server.")
         self.logger.info('Simulation stopped.')
+
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -470,6 +560,9 @@ def main():
         help="Renderer dimension as width,height (e.g. 640,480)",
     )
     parser.add_argument("--seed", type=int, default=0, help="Seed for the simulation")
+    parser.add_argument("--enable-ts-sensor", action="store_true", 
+                        help="Replace touch sensor data with TS sensor data (11 dims per sensor). "
+                             "Requires TS sensor hardware and Python 3.8 + MuJoCo 3.2.3")
     args = parser.parse_args()
 
     # Convert renderer dimension string to tuple or None
@@ -489,6 +582,7 @@ def main():
         enable_vr=args.enable_vr,
         renderer_dimension=renderer_dim,
         seed=args.seed,
+        enable_ts_sensor=args.enable_ts_sensor,
     )
 
     try:
