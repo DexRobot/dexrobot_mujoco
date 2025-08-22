@@ -15,22 +15,22 @@
       <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01"/>
       <body name="floating_base" pos="0 0 0">
         <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.01 0.01 0.01"/>
-        <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-500 500" forcelimited="true"/>
+        <joint name="ARTx" pos="0 0 0" axis="1 0 0" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
         <body name="ARTx_child" pos="0 0 0">
           <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-          <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-500 500" forcelimited="true"/>
+          <joint name="ARTy" pos="0 0 0" axis="0 1 0" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
           <body name="ARTy_child" pos="0 0 0">
             <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-            <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-500 500" forcelimited="true"/>
+            <joint name="ARTz" pos="0 0 0" axis="0 0 1" type="slide" range="-1 1" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
             <body name="ARTz_child" pos="0 0 0">
               <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-              <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-100 100" forcelimited="true"/>
+              <joint name="ARRx" pos="0 0 0" axis="1 0 0" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
               <body name="ARRx_child" pos="0 0 0">
                 <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-                <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-100 100" forcelimited="true"/>
+                <joint name="ARRy" pos="0 0 0" axis="0 1 0" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
                 <body name="ARRy_child" pos="0 0 0">
                   <inertial pos="0 0 0" quat="1 0 0 0" mass="0.001" diaginertia="0.001 0.001 0.001"/>
-                  <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1" forcerange="-100 100" forcelimited="true"/>
+                  <joint name="ARRz" pos="0 0 0" axis="0 0 1" type="hinge" range="-3.14 3.14" limited="true" damping="20" armature="0.01" frictionloss="0.1"/>
                   <body name="hand_base">
                     <body name="right_hand_base" pos="0 0 0" quat="0.7071067811865476 0.0 0.7071067811865475 0.0">
                       <geom pos="0 0 -0.17" quat="0.707388 0 0 -0.706825" type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.3 0.3 0.3 1" mesh="r_p_link0"/>
