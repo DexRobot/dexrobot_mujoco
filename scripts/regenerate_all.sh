@@ -22,4 +22,5 @@ python articulate_hand.py --base ../dexrobot_mujoco/models/jaka_zu7_right.xml --
 
 # Extract parts for the use of scenes (all models now have TS sensor support)
 python extract_parts.py ../dexrobot_mujoco/models/dexhand021_right_floating.xml -o ../dexrobot_mujoco/parts/
+python extract_parts.py ../dexrobot_mujoco/models/dexhand021_right_simplified_floating.xml -o ../dexrobot_mujoco/parts/
 python extract_parts.py ../dexrobot_mujoco/models/dexhand021_right_jaka_zu7.xml -o ../dexrobot_mujoco/parts/
