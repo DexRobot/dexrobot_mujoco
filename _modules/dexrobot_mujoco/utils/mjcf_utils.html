@@ -767,6 +767,29 @@
 
     <span class="n">child_tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">child_xml_path</span><span class="p">)</span>
     <span class="n">child_root</span> <span class="o">=</span> <span class="n">child_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    
+    <span class="c1"># Validate angle unit consistency between parent and child files</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_angle_unit</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract angle unit from compiler tag, require explicit specification&quot;&quot;&quot;</span>
+        <span class="n">compiler</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">compiler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;angle&quot;</span> <span class="ow">in</span> <span class="n">compiler</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No angle unit specified in compiler tag for </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Add &lt;compiler angle=</span><span class="se">\&quot;</span><span class="s2">radian</span><span class="se">\&quot;</span><span class="s2">/&gt; or &lt;compiler angle=</span><span class="se">\&quot;</span><span class="s2">degree</span><span class="se">\&quot;</span><span class="s2">/&gt; to avoid ambiguity.&quot;</span>
+            <span class="p">)</span>
+    
+    <span class="n">parent_angle_unit</span> <span class="o">=</span> <span class="n">get_angle_unit</span><span class="p">(</span><span class="n">parent_root</span><span class="p">,</span> <span class="n">parent_xml_path</span><span class="p">)</span>
+    <span class="n">child_angle_unit</span> <span class="o">=</span> <span class="n">get_angle_unit</span><span class="p">(</span><span class="n">child_root</span><span class="p">,</span> <span class="n">child_xml_path</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">parent_angle_unit</span> <span class="o">!=</span> <span class="n">child_angle_unit</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Angle unit mismatch between files:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;  Parent (</span><span class="si">{</span><span class="n">parent_xml_path</span><span class="si">}</span><span class="s2">): angle=&#39;</span><span class="si">{</span><span class="n">parent_angle_unit</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;  Child (</span><span class="si">{</span><span class="n">child_xml_path</span><span class="si">}</span><span class="s2">): angle=&#39;</span><span class="si">{</span><span class="n">child_angle_unit</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Both files must use the same angle unit specification.&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># Get model names and set combined name</span>
     <span class="n">parent_name</span> <span class="o">=</span> <span class="n">parent_root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;parent&quot;</span><span class="p">)</span>
@@ -1190,6 +1213,75 @@
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xmllint&#39;</span><span class="p">,</span> <span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updated collision properties in </span><span class="si">{</span><span class="n">xml_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="add_joint_limits">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_joint_limits">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_joint_limits</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add limited=&quot;true&quot; attribute to all joints that have range specified.</span>
+<span class="sd">    </span>
+<span class="sd">    This is required for Isaac Gym to properly recognize joint limits.</span>
+<span class="sd">    MuJoCo&#39;s native URDF converter doesn&#39;t add the limited attribute even when </span>
+<span class="sd">    range is specified.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the MJCF XML file to modify</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    
+    <span class="n">joints_modified</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1"># Find all joints with range attribute and add limited=&quot;true&quot;</span>
+    <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;.//joint&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;limited&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">joint</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;limited&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span>
+            <span class="n">joints_modified</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">joint_name</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;unnamed&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Added limited=&#39;true&#39; to joint: </span><span class="si">{</span><span class="n">joint_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Save the modified XML</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Format the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xmllint&#39;</span><span class="p">,</span> <span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="add_compiler_angle_radian">
+<a class="viewcode-back" href="../../../api/index.html#dexrobot_mujoco.utils.mjcf_utils.add_compiler_angle_radian">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_compiler_angle_radian</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or update compiler element to specify angle=&quot;radian&quot; for consistent angle interpretation.</span>
+<span class="sd">    </span>
+<span class="sd">    This ensures that all angle specifications in the MJCF file are interpreted as radians,</span>
+<span class="sd">    which is required for proper Isaac Gym compatibility and to avoid undefined behavior.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        xml_file_path (str): Path to the MJCF XML file to modify</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Parse the XML file</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    
+    <span class="c1"># Find or create compiler element</span>
+    <span class="n">compiler</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">compiler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Create new compiler element and insert at beginning</span>
+        <span class="n">compiler</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;compiler&quot;</span><span class="p">)</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">compiler</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created compiler element in </span><span class="si">{</span><span class="n">xml_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Set angle=&quot;radian&quot; attribute</span>
+    <span class="n">compiler</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">,</span> <span class="s2">&quot;radian&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Set angle=&#39;radian&#39; in compiler element for </span><span class="si">{</span><span class="n">xml_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Save the modified XML</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Format the XML file</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xmllint&#39;</span><span class="p">,</span> <span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">xml_file_path</span><span class="p">])</span></div>
 
 </pre></div>
 

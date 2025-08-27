@@ -93,6 +93,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#dexrobot_mujoco.utils.mjcf_utils.extract_part"><code class="docutils literal notranslate"><span class="pre">extract_part()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dexrobot_mujoco.utils.mjcf_utils.add_mesh_prefix"><code class="docutils literal notranslate"><span class="pre">add_mesh_prefix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dexrobot_mujoco.utils.mjcf_utils.update_geom_collisions"><code class="docutils literal notranslate"><span class="pre">update_geom_collisions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dexrobot_mujoco.utils.mjcf_utils.add_joint_limits"><code class="docutils literal notranslate"><span class="pre">add_joint_limits()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dexrobot_mujoco.utils.mjcf_utils.add_compiler_angle_radian"><code class="docutils literal notranslate"><span class="pre">add_compiler_angle_radian()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-dexrobot_mujoco.utils.angle_utils">Angle Utilities</a><ul>
@@ -1017,6 +1019,33 @@ level body will be read from this additional XML file.</p></li>
 <li><p><strong>xml_file_path</strong> (<em>str</em>) – Path to the MJCF XML file</p></li>
 <li><p><strong>collision_yaml_path</strong> (<em>str</em>) – Path to YAML file containing collidable geom specifications</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dexrobot_mujoco.utils.mjcf_utils.add_joint_limits">
+<span class="sig-prename descclassname"><span class="pre">dexrobot_mujoco.utils.mjcf_utils.</span></span><span class="sig-name descname"><span class="pre">add_joint_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xml_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dexrobot_mujoco/utils/mjcf_utils.html#add_joint_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dexrobot_mujoco.utils.mjcf_utils.add_joint_limits" title="Link to this definition"></a></dt>
+<dd><p>Add limited=”true” attribute to all joints that have range specified.</p>
+<p>This is required for Isaac Gym to properly recognize joint limits.
+MuJoCo’s native URDF converter doesn’t add the limited attribute even when
+range is specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xml_file_path</strong> (<em>str</em>) – Path to the MJCF XML file to modify</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dexrobot_mujoco.utils.mjcf_utils.add_compiler_angle_radian">
+<span class="sig-prename descclassname"><span class="pre">dexrobot_mujoco.utils.mjcf_utils.</span></span><span class="sig-name descname"><span class="pre">add_compiler_angle_radian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xml_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dexrobot_mujoco/utils/mjcf_utils.html#add_compiler_angle_radian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dexrobot_mujoco.utils.mjcf_utils.add_compiler_angle_radian" title="Link to this definition"></a></dt>
+<dd><p>Add or update compiler element to specify angle=”radian” for consistent angle interpretation.</p>
+<p>This ensures that all angle specifications in the MJCF file are interpreted as radians,
+which is required for proper Isaac Gym compatibility and to avoid undefined behavior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>xml_file_path</strong> (<em>str</em>) – Path to the MJCF XML file to modify</p>
 </dd>
 </dl>
 </dd></dl>
