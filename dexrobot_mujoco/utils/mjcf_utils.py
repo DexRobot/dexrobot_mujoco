@@ -651,6 +651,29 @@ def articulate(parent_xml_path, child_xml_path, link_name, output_xml_path, pos=
 
     child_tree = ET.parse(child_xml_path)
     child_root = child_tree.getroot()
+    
+    # Validate angle unit consistency between parent and child files
+    def get_angle_unit(root, file_path):
+        """Extract angle unit from compiler tag, require explicit specification"""
+        compiler = root.find("compiler")
+        if compiler is not None and "angle" in compiler.attrib:
+            return compiler.get("angle")
+        else:
+            raise ValueError(
+                f"No angle unit specified in compiler tag for {file_path}.\n"
+                f"Add <compiler angle=\"radian\"/> or <compiler angle=\"degree\"/> to avoid ambiguity."
+            )
+    
+    parent_angle_unit = get_angle_unit(parent_root, parent_xml_path)
+    child_angle_unit = get_angle_unit(child_root, child_xml_path)
+    
+    if parent_angle_unit != child_angle_unit:
+        raise ValueError(
+            f"Angle unit mismatch between files:\n"
+            f"  Parent ({parent_xml_path}): angle='{parent_angle_unit}'\n"
+            f"  Child ({child_xml_path}): angle='{child_angle_unit}'\n"
+            f"Both files must use the same angle unit specification."
+        )
 
     # Get model names and set combined name
     parent_name = parent_root.get("model", "parent")
@@ -1056,3 +1079,66 @@ def update_geom_collisions(xml_file_path, collision_yaml_path):
     subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
 
     logger.info(f"Updated collision properties in {xml_file_path}")
+
+
+def add_joint_limits(xml_file_path):
+    """Add limited="true" attribute to all joints that have range specified.
+    
+    This is required for Isaac Gym to properly recognize joint limits.
+    MuJoCo's native URDF converter doesn't add the limited attribute even when 
+    range is specified.
+    
+    Args:
+        xml_file_path (str): Path to the MJCF XML file to modify
+    """
+    # Parse the XML file
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+    
+    joints_modified = 0
+    
+    # Find all joints with range attribute and add limited="true"
+    for joint in root.findall(".//joint"):
+        if joint.get("range") is not None and joint.get("limited") is None:
+            joint.set("limited", "true")
+            joints_modified += 1
+            joint_name = joint.get("name", "unnamed")
+            logger.info(f"Added limited='true' to joint: {joint_name}")
+    
+    # Save the modified XML
+    tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
+    
+    # Format the XML file
+    subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])
+
+
+def add_compiler_angle_radian(xml_file_path):
+    """Add or update compiler element to specify angle="radian" for consistent angle interpretation.
+    
+    This ensures that all angle specifications in the MJCF file are interpreted as radians,
+    which is required for proper Isaac Gym compatibility and to avoid undefined behavior.
+    
+    Args:
+        xml_file_path (str): Path to the MJCF XML file to modify
+    """
+    # Parse the XML file
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+    
+    # Find or create compiler element
+    compiler = root.find("compiler")
+    if compiler is None:
+        # Create new compiler element and insert at beginning
+        compiler = ET.Element("compiler")
+        root.insert(0, compiler)
+        logger.info(f"Created compiler element in {xml_file_path}")
+    
+    # Set angle="radian" attribute
+    compiler.set("angle", "radian")
+    logger.info(f"Set angle='radian' in compiler element for {xml_file_path}")
+    
+    # Save the modified XML
+    tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
+    
+    # Format the XML file
+    subprocess.run(['xmllint', '--format', xml_file_path, '--output', xml_file_path])

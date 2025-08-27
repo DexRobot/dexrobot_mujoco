@@ -17,6 +17,8 @@ from dexrobot_mujoco.utils.mjcf_utils import (
     apply_defaults,
     exclude_self_collisions,
     update_geom_collisions,
+    add_joint_limits,
+    add_compiler_angle_radian,
 )
 
 
@@ -173,6 +175,12 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
               fixed_to_body_pattern=r".*(pad|tip).*", 
               fixed_to_site_pattern=r".*pad.*")
 
+    # Add limited="true" to all joints with range (required for Isaac Gym)
+    add_joint_limits(str(output_path))
+    
+    # Add angle="radian" to compiler for consistent angle interpretation
+    add_compiler_angle_radian(str(output_path))
+
     # Add options and defaults
     apply_defaults(
         str(output_path), str(current_dir / "../dexrobot_mujoco/models/defaults.xml")
@@ -182,46 +190,46 @@ def convert_hand_urdf(urdf_path=None, output_dir=None, simplified_collision_yaml
     actuator_config = {
         # Bend joints
         r"[lr]_f_joint[1-5]_[2-4]": {
-            "kp": "20",
-            "kv": "0.1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 1.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
         # Rotation/spread joints
         r"[lr]_f_joint1_1": {  # thumb
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 2.2",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
         r"[lr]_f_joint2_1": {  # index
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
         r"[lr]_f_joint3_1": {  # middle
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "-0.0001 0.0001",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
         r"[lr]_f_joint4_1": {  # ring
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.3",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
         r"[lr]_f_joint5_1": {  # pinky
-            "kp": "20",
-            "kv": "1",
+            "kp": "1000",
+            "kv": "50",
             "ctrlrange": "0 0.6",
-            "forcerange": "-20 20",
+            "forcerange": "-200 200",
             "forcelimited": "true",
         },
     }
